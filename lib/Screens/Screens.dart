@@ -4,3 +4,4 @@ export './Community.dart';
 export './RecomendedFood.dart';
 export './Search.dart';
 export 'Welcome.dart';
+export './Introduction.dart';

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:nutrisalud/Routes/AppRoutes.dart';
 import 'package:nutrisalud/Widgets/GeneralWidgets/NutriSaludBtBar.dart';
 import './Screens/Screens.dart';
@@ -13,9 +14,12 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle.dark.copyWith(statusBarColor: Colors.transparent),
+    );
     return MaterialApp(
       title: 'NutriSalud',
-      initialRoute: AppRoutes.welcome,
+      initialRoute: AppRoutes.introduction,
       onGenerateRoute: (routes) {
         switch(routes.name) {
           case AppRoutes.home:
@@ -26,6 +30,8 @@ class MyApp extends StatelessWidget {
             return MaterialPageRoute(builder: (context) => const Search());
           case AppRoutes.welcome:
             return MaterialPageRoute(builder: (context) => const WelcomeScreen());
+          case AppRoutes.introduction:
+            return MaterialPageRoute(builder: (context) => const Introduction());
         }
       },
       debugShowCheckedModeBanner: false,

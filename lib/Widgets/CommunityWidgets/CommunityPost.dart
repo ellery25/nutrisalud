@@ -30,39 +30,42 @@ class CommunityPost extends StatelessWidget {
         child: Center(
           child: Column(
             children: [
-              Row(
-                children: <Widget>[
-                  Text(
-                    nombre,
-                    style: TextStyle(
-                      fontFamily: 'Inter',
-                      fontSize: 19,
-                      fontWeight: FontWeight.w600,
-                      color: Color(0xff527450),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 8.0),
+                child: Row(
+                  children: <Widget>[
+                    Text(
+                      nombre,
+                      style: TextStyle(
+                        fontFamily: 'Inter',
+                        fontSize: 19,
+                        fontWeight: FontWeight.w600,
+                        color: Color(0xff527450),
+                      ),
                     ),
-                  ),
-                  Spacer(),
-                  Text(
-                    '@$username',
-                    style: TextStyle(
-                      fontFamily: 'Inter',
-                      fontSize: 19,
-                      fontWeight: FontWeight.w400,
-                      color: Color(0xff527450),
+                    Spacer(),
+                    Text(
+                      '@$username',
+                      style: TextStyle(
+                        fontFamily: 'Inter',
+                        fontSize: 19,
+                        fontWeight: FontWeight.w400,
+                        color: Color(0xff527450),
+                      ),
                     ),
-                  ),
-                  Spacer(),
-                  Spacer(),
-                  Text(
-                    horas.toString() + 'h',
-                    style: TextStyle(
-                      fontFamily: 'Inter',
-                      fontSize: 19,
-                      fontWeight: FontWeight.w400,
-                      color: Color(0xff527450),
+                    Spacer(),
+                    Spacer(),
+                    Text(
+                      horas.toString() + 'h',
+                      style: TextStyle(
+                        fontFamily: 'Inter',
+                        fontSize: 19,
+                        fontWeight: FontWeight.w400,
+                        color: Color(0xff527450),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
               Text(
                 contenido,
@@ -73,25 +76,23 @@ class CommunityPost extends StatelessWidget {
                   color: Color(0xff527450),
                 ),
               ),
-
-              if (foto != null)...[
-              Padding(
-                padding: const EdgeInsets.only(top: 10.0),
-                child: Container(
-                  width: screenWidth * 0.80,
-                  height: 150,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5.0),
-                    color: Colors.white,
-                    border: Border.all(color: Color(0xff527450)),
-                  ),
-                  child: Center(
-                    child: Image.asset(foto!),
+              if (foto != null) ...[
+                Padding(
+                  padding: const EdgeInsets.only(top: 10.0),
+                  child: Container(
+                    width: screenWidth * 0.80,
+                    height: 150,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5.0),
+                      color: Colors.white,
+                      border: Border.all(color: Color(0xff527450)),
+                    ),
+                    child: Center(
+                      child: Image.asset(foto!),
+                    ),
                   ),
                 ),
-              ),]
-
-
+              ]
             ],
           ),
         ),

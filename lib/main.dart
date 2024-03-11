@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
       SystemUiOverlayStyle.dark.copyWith(statusBarColor: ColorsConstants.whiteColor),
     );
     return MaterialApp(
-      title: 'NutriSalud',
+      title: 'NutriSalud ',
       initialRoute: AppRoutes.chooseAcount,
       onGenerateRoute: (routes) {
         switch(routes.name) {

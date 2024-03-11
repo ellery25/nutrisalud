@@ -24,6 +24,7 @@ class _ChooseAcountState extends State<ChooseAcount> {
               horizontal: MediaQuery.of(context).size.width * 0.07,
               vertical: MediaQuery.of(context).size.height * 0.07),
           child: Column(
+
             children: [
               //Are you a:
               Container(
@@ -33,6 +34,7 @@ class _ChooseAcountState extends State<ChooseAcount> {
                         color: ColorsConstants.whiteColor,
                         fontSize: 32,
                         fontWeight: FontWeight.bold)),
+
               ),
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.03,

@@ -2,7 +2,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:url_launcher/url_launcher.dart';
-import '../../Helpers/Colors.dart';
+import '../Helpers/Colors.dart';
 
 class NutriCard extends StatelessWidget {
   final String foto;

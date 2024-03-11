@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nutrisalud/Widgets/GeneralWidgets/GeneralBlocks.dart';
 import 'package:page_view_dot_indicator/page_view_dot_indicator.dart';
-import '../Widgets/NutricionistWidgets/NutriCard.dart';
+import 'NutriCard.dart';
 import '../Helpers/Colors.dart';
 
 // Peticion de JSON de los nutricionistas

@@ -6,4 +6,5 @@ export './Search.dart';
 export 'Welcome.dart';
 export './Introduction.dart';
 export './ChooseAcount.dart';
-
+export './Register.dart';
+export './Login.dart';

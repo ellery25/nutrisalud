@@ -40,6 +40,10 @@ class MyApp extends StatelessWidget {
           case AppRoutes.chooseAcount:
             return MaterialPageRoute(
                 builder: (context) => const ChooseAcount());
+          case AppRoutes.register:
+            return MaterialPageRoute(builder: (context) => Register());
+          case AppRoutes.login:
+            return MaterialPageRoute(builder: (context) => Login());
         }
         return null;
       },

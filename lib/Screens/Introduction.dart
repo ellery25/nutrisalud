@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:nutrisalud/Helpers/HelpersExport.dart';
+import 'package:nutrisalud/Routes/AppRoutes.dart';
 
 class Introduction extends StatefulWidget {
   const Introduction({super.key});
@@ -74,6 +75,10 @@ class _IntroductionState extends State<Introduction> {
       done: const Text('Next',
           style: TextStyle(color: ColorsConstants.darkGreen)),
       onDone: () {
+
+        //Este button manda a la pestaña principal
+
+        Navigator.pushReplacementNamed(context, AppRoutes.home);
 
       },
 

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:nutrisalud/Helpers/HelpersExport.dart';
 import 'package:flutter/services.dart';
+import 'package:nutrisalud/Routes/AppRoutes.dart';
 
 class ChooseAcount extends StatefulWidget {
   const ChooseAcount({super.key});
@@ -19,10 +20,11 @@ class _ChooseAcountState extends State<ChooseAcount> {
     );
     return Scaffold(
         backgroundColor: ColorsConstants.lightGreen,
+        appBar: AppBar(backgroundColor: ColorsConstants.lightGreen, foregroundColor: ColorsConstants.whiteColor,),
         body: Padding(
           padding: EdgeInsets.symmetric(
               horizontal: MediaQuery.of(context).size.width * 0.07,
-              vertical: MediaQuery.of(context).size.height * 0.07),
+              vertical: MediaQuery.of(context).size.height * 0.001),
           child: Column(
             children: [
               //Are you a:
@@ -40,7 +42,12 @@ class _ChooseAcountState extends State<ChooseAcount> {
 
               // Nutricionist
               InkWell(
-                onTap: () {},
+                onTap: () {
+
+                  //Definir tipo de cuenta
+                  Navigator.popAndPushNamed(context, AppRoutes.register);
+
+                },
                 splashColor: MaterialStateColor.resolveWith(
                     (states) => ColorsConstants.darkGreen),
                 customBorder: const BeveledRectangleBorder(
@@ -81,7 +88,12 @@ class _ChooseAcountState extends State<ChooseAcount> {
 
               // Client
               InkWell(
-                onTap: () {},
+                onTap: () {
+
+                  //Definir tipo de cuenta
+                  Navigator.popAndPushNamed(context, AppRoutes.register);
+
+                },
                 child: Container(
                   height: MediaQuery.of(context).size.height * 0.35,
                   width: MediaQuery.of(context).size.width * 0.85,

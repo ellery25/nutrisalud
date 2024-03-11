@@ -1,11 +1,19 @@
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/material.dart';
+import 'package:nutrisalud/Routes/AppRoutes.dart';
 import '../Helpers/HelpersExport.dart';
+import 'package:flutter/services.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
   @override
   Widget build(BuildContext context) {
+
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle.light
+          .copyWith(statusBarColor: ColorsConstants.lightGreen),
+    );
+
     return Scaffold(
       backgroundColor: ColorsConstants.lightGreen,
       body: SafeArea(
@@ -60,7 +68,11 @@ class WelcomeScreen extends StatelessWidget {
 
                 //Login
                 InkWell(
-                  onTap: () {},
+                  onTap: () {
+
+                    Navigator.pushNamed(context, AppRoutes.login);
+
+                  },
                   child: Container(
                     decoration: const BoxDecoration(
                         color: ColorsConstants.darkGreen,
@@ -78,7 +90,11 @@ class WelcomeScreen extends StatelessWidget {
                 SizedBox(height: MediaQuery.of(context).size.height * 0.06),
                 //Register
                 InkWell(
-                  onTap: () {},
+                  onTap: () {
+
+                    Navigator.pushNamed(context, AppRoutes.chooseAcount);
+
+                  },
                   child: Container(
                     decoration: const BoxDecoration(
                         color: ColorsConstants.darkGreen,

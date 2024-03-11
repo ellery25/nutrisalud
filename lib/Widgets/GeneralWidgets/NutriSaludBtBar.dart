@@ -43,8 +43,8 @@ class _NutriSaludBtBarState extends State<NutriSaludBtBar> {
         backgroundColor: ColorsConstants.whiteColor,
         selectedIconTheme:
             const IconThemeData(color: ColorsConstants.darkGreen),
-        unselectedIconTheme: const IconThemeData(color: Color(0xffA9A9A9)),
-        unselectedItemColor: const Color(0xffD9D9D9),
+        unselectedIconTheme: const IconThemeData(color: Color(0xff6F6C6C)),
+        unselectedItemColor: const Color(0xff6F6C6C),
         showUnselectedLabels: true,
         fixedColor: ColorsConstants.darkGreen,
         currentIndex: _selectedIndex,

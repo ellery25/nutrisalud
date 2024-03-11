@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nutrisalud/Helpers/HelpersExport.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:nutrisalud/Routes/AppRoutes.dart';
 import '../Helpers/HelpersExport.dart';
 
 class Register extends StatefulWidget {
@@ -26,14 +27,14 @@ class _RegisterState extends State<Register> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
+    return Scaffold(
         backgroundColor: ColorsConstants.lightGreen,
         body: SingleChildScrollView(
           child: Form(
             key: _formKey,
             child: Column(
               children: <Widget>[
+                AppBar(backgroundColor: ColorsConstants.lightGreen, foregroundColor: ColorsConstants.whiteColor,),
                 Container(
                   height: 200,
                   decoration: const BoxDecoration(
@@ -126,7 +127,13 @@ class _RegisterState extends State<Register> {
                         const SizedBox(height: 24),
                         ElevatedButton(
                           onPressed: () {
-                            if (_formKey.currentState!.validate()) {}
+                            if (_formKey.currentState!.validate()) {
+
+                              //Crear post de registro de usuario
+                              //Si todo está bien mandará a screen Introduction
+                              Navigator.pushReplacementNamed(context, AppRoutes.introduction);
+
+                            }
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: ColorsConstants.darkGreen,
@@ -170,7 +177,6 @@ class _RegisterState extends State<Register> {
             ),
           ),
         ),
-      ),
     );
   }
 }

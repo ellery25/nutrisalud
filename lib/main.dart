@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
     );
     return MaterialApp(
       title: 'NutriSalud ',
-      initialRoute: AppRoutes.home,
+      initialRoute: AppRoutes.welcome,
       onGenerateRoute: (routes) {
         switch (routes.name) {
           case AppRoutes.home:

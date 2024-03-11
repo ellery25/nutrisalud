@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nutrisalud/Routes/AppRoutes.dart';
 import '../Helpers/HelpersExport.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -23,14 +24,14 @@ class _Login extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
+    return Scaffold(
         backgroundColor: ColorsConstants.lightGreen,
         body: SingleChildScrollView(
           child: Form(
             key: _formKey,
             child: Column(
               children: <Widget>[
+                AppBar(backgroundColor: ColorsConstants.lightGreen, foregroundColor: ColorsConstants.whiteColor,),
                 Container(
                   height: 200,
                   decoration: const BoxDecoration(
@@ -110,7 +111,11 @@ class _Login extends State<Login> {
                         const SizedBox(height: 24),
                         ElevatedButton(
                           onPressed: () {
-                            if (_formKey.currentState!.validate()) {}
+                            if (_formKey.currentState!.validate()) {
+                              //Falta Añadir condicional para validar si el usuario existe
+                              //Mientras pasamos al home directamente
+                              Navigator.pushReplacementNamed(context, AppRoutes.home);
+                            }
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: ColorsConstants.darkGreen,
@@ -154,7 +159,6 @@ class _Login extends State<Login> {
             ),
           ),
         ),
-      ),
     );
   }
 }

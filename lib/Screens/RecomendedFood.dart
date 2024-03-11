@@ -2,7 +2,7 @@ import 'package:nutrisalud/Routes/AppRoutes.dart';
 import '../Widgets/GeneralWidgets/GeneralBlocks.dart';
 import 'package:flutter/material.dart';
 import 'package:nutrisalud/Widgets/RecommendedFoodWidgets/FoodRecomendation.dart';
-import '../Helpers/Colors.dart';
+import '../Helpers/HelpersExport.dart';
 
 class RecomendedFood extends StatelessWidget {
   const RecomendedFood({super.key});

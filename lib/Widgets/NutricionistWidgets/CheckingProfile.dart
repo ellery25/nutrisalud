@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import '../../Helpers/HelpersExport.dart';
 
 class CheckingProfile extends StatelessWidget {
-  const CheckingProfile({Key? key}) : super(key: key);
+  const CheckingProfile({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -9,7 +10,7 @@ class CheckingProfile extends StatelessWidget {
 
     return MaterialApp(
       home: Scaffold(
-        backgroundColor: Color(0xffF5F5F5),
+        backgroundColor: ColorsConstants.whiteColor,
         body: SafeArea(
           child: Padding(
             padding: EdgeInsets.all(screenWidth * 0.05),
@@ -21,50 +22,49 @@ class CheckingProfile extends StatelessWidget {
                     radius: 100,
                     backgroundColor: Colors.grey[300],
                     backgroundImage:
-                        NetworkImage('https://via.placeholder.com/150'),
+                        const NetworkImage('https://via.placeholder.com/150'),
                   ),
-                  SizedBox(height: 20),
-                  Text(
+                  const SizedBox(height: 20),
+                  const Text(
                     'Yassed Matta',
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
-                      color: Color(0xff527450),
+                      color: ColorsConstants.darkGreen,
                     ),
                   ),
-                  Text(
+                  const Text(
                     'Deportist Specialist',
                     style: TextStyle(fontSize: 15, color: Color(0xff747474)),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   Container(
-                    margin: EdgeInsets.all(5),
+                    margin: const EdgeInsets.all(5),
                     decoration: BoxDecoration(
-                      color: Color(0xff6BA368),
+                      color: ColorsConstants.lightGreen,
                       borderRadius: BorderRadius.circular(25),
                     ),
-                    child: Column(
+                    child: const Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Padding(
-                          padding:
-                              const EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 0),
+                          padding: EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 0),
                           child: Text(
                             'About You',
                             style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
-                              color: Color(0xffF5F5F5),
+                              color: ColorsConstants.whiteColor,
                             ),
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.all(15.0),
+                          padding: EdgeInsets.all(15.0),
                           child: Text(
                             'Lorem ipsum dolor sit amet consectetur adipiscing elit, faucibus magnis natoque magna diam nisl fringilla, suspendisse cubilia senectus sociis donec nisi viverra, vulputate bibendum.',
                             style: TextStyle(
                               fontSize: 18,
-                              color: Color(0xffF5F5F5),
+                              color: ColorsConstants.whiteColor,
                             ),
                           ),
                         ),
@@ -72,23 +72,22 @@ class CheckingProfile extends StatelessWidget {
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.all(5),
+                    margin: const EdgeInsets.all(5),
                     decoration: BoxDecoration(
-                      color: Color(0xffF5F5F5),
+                      color: ColorsConstants.whiteColor,
                       borderRadius: BorderRadius.circular(25),
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Padding(
-                          padding:
-                              const EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 0),
+                        const Padding(
+                          padding: EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 0),
                           child: Text(
                             'Your Skills:',
                             style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
-                              color: Color(0xff527450),
+                              color: ColorsConstants.darkGreen,
                             ),
                           ),
                         ),
@@ -96,18 +95,19 @@ class CheckingProfile extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(horizontal: 15.0),
                           child: ListView(
                             shrinkWrap: true,
-                            children: [
+                            children: const [
                               Row(
                                 children: [
                                   Icon(Icons.check,
-                                      color: Color(0xff527450), size: 20),
+                                      color: ColorsConstants.darkGreen,
+                                      size: 20),
                                   SizedBox(width: 10),
                                   Expanded(
                                     child: Text(
                                       'Lorem ipsum dolor sit amet consectetur adipiscing elit.',
                                       style: TextStyle(
                                           fontSize: 18,
-                                          color: Color(0xff527450)),
+                                          color: ColorsConstants.darkGreen),
                                     ),
                                   ),
                                 ],
@@ -116,14 +116,15 @@ class CheckingProfile extends StatelessWidget {
                               Row(
                                 children: [
                                   Icon(Icons.check,
-                                      color: Color(0xff527450), size: 20),
+                                      color: ColorsConstants.darkGreen,
+                                      size: 20),
                                   SizedBox(width: 10),
                                   Expanded(
                                     child: Text(
                                       'Lorem ipsum dolor sit amet consectetur adipiscing elit.',
                                       style: TextStyle(
                                           fontSize: 18,
-                                          color: Color(0xff527450)),
+                                          color: ColorsConstants.darkGreen),
                                     ),
                                   ),
                                 ],
@@ -136,7 +137,7 @@ class CheckingProfile extends StatelessWidget {
                       ],
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 200,
                   ), // Espacio adicional al final para hacer scroll
                 ],

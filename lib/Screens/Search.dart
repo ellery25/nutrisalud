@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:nutrisalud/Routes/AppRoutes.dart';
 import '../Widgets/GeneralWidgets/NavBar.dart';
 import '../Widgets/SearchWidgets/RecipePreview.dart';
-import '../Helpers/Colors.dart';
+import '../Helpers/HelpersExport.dart';
 
 // Peticion de JSON de los nutricionistas
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../Widgets/MainPageWidgets/MainPageBlocks.dart';
-import '../Helpers/Colors.dart';
+import '../Helpers/HelpersExport.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});

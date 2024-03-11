@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../Helpers/HelpersExport.dart';
 
 class SetPageNutricionist extends StatefulWidget {
   const SetPageNutricionist({Key? key}) : super(key: key);
@@ -27,11 +28,10 @@ class _SetPageNutricionist extends State<SetPageNutricionist> {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
 
     return MaterialApp(
       home: Scaffold(
-        backgroundColor: Color(0xffF5F5F5),
+        backgroundColor: ColorsConstants.whiteColor,
         body: SafeArea(
           child: Padding(
             padding: EdgeInsets.all(screenWidth * 0.05),
@@ -44,7 +44,7 @@ class _SetPageNutricionist extends State<SetPageNutricionist> {
                     style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
-                        color: Color(0xff527450)),
+                        color: ColorsConstants.darkGreen),
                   ),
                   SizedBox(height: 20),
                   Text('Profile URL:'),
@@ -143,7 +143,8 @@ class _SetPageNutricionist extends State<SetPageNutricionist> {
                       },
                       child: Text('Next'),
                       style: ElevatedButton.styleFrom(
-                        primary: Color(0xff6BA368), // Color de fondo blanco
+                        primary:
+                            ColorsConstants.lightGreen, // Color de fondo blanco
                       ),
                     ),
                   ),

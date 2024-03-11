@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../Widgets/CommunityWidgets/CommunityPost.dart';
 import '../Widgets/GeneralWidgets/NavBar.dart';
 import '../Providers/CommentsProviders.dart';
-import '../Helpers/Colors.dart';
+import '../Helpers/HelpersExport.dart';
 
 class Community extends StatefulWidget {
   const Community({super.key});
@@ -249,7 +249,7 @@ class _CommunityState extends State<Community> {
               ),
               Expanded(
                 child: isLoading
-                    ? Center(
+                    ? const Center(
                         child: CircularProgressIndicator(
                             valueColor: AlwaysStoppedAnimation<Color>(
                                 ColorsConstants.darkGreen)),

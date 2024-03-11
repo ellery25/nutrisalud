@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:nutrisalud/Helpers/Colors.dart';
+import '../Helpers/HelpersExport.dart';
 import 'package:nutrisalud/Routes/AppRoutes.dart';
 import 'package:nutrisalud/Widgets/GeneralWidgets/NutriSaludBtBar.dart';
 import './Screens/Screens.dart';
@@ -41,9 +41,9 @@ class MyApp extends StatelessWidget {
             return MaterialPageRoute(
                 builder: (context) => const ChooseAcount());
           case AppRoutes.register:
-            return MaterialPageRoute(builder: (context) => Register());
+            return MaterialPageRoute(builder: (context) => const Register());
           case AppRoutes.login:
-            return MaterialPageRoute(builder: (context) => Login());
+            return MaterialPageRoute(builder: (context) => const Login());
         }
         return null;
       },

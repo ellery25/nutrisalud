@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:nutrisalud/Helpers/HelpersExport.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import '../Helpers/HelpersExport.dart';
 
 class Register extends StatefulWidget {
+  const Register({super.key});
+
   @override
   _RegisterState createState() => _RegisterState();
 }
@@ -25,7 +28,7 @@ class _RegisterState extends State<Register> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        backgroundColor: Color(0xff6BA368),
+        backgroundColor: ColorsConstants.lightGreen,
         body: SingleChildScrollView(
           child: Form(
             key: _formKey,
@@ -33,8 +36,8 @@ class _RegisterState extends State<Register> {
               children: <Widget>[
                 Container(
                   height: 200,
-                  decoration: BoxDecoration(
-                    color: Color(0xff6BA368),
+                  decoration: const BoxDecoration(
+                    color: ColorsConstants.lightGreen,
                   ),
                   child: Center(
                     child: SvgPicture.asset(AssetsRoute.logoSvg,
@@ -43,38 +46,38 @@ class _RegisterState extends State<Register> {
                   ),
                 ),
                 Container(
-                  decoration: BoxDecoration(
-                    color: Color(0xffF5F5F5),
+                  decoration: const BoxDecoration(
+                    color: ColorsConstants.whiteColor,
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(30),
                       topRight: Radius.circular(30),
                     ),
                   ),
                   child: Padding(
-                    padding: EdgeInsets.all(32.0),
+                    padding: const EdgeInsets.all(32.0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: <Widget>[
-                        SizedBox(height: 30),
-                        Text(
+                        const SizedBox(height: 30),
+                        const Text(
                           'Register',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 28,
                             fontWeight: FontWeight.bold,
-                            color: Color(0xff527450),
+                            color: ColorsConstants.darkGreen,
                           ),
                         ),
-                        SizedBox(height: 40),
+                        const SizedBox(height: 40),
                         TextFormField(
                           controller: _nameController,
                           decoration: InputDecoration(
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(15.0),
-                              borderSide: BorderSide(color: Colors.green),
+                              borderSide: const BorderSide(color: Colors.green),
                             ),
                             labelText: 'Name:',
-                            labelStyle: TextStyle(color: Colors.green),
+                            labelStyle: const TextStyle(color: Colors.green),
                           ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
@@ -83,16 +86,16 @@ class _RegisterState extends State<Register> {
                             return null;
                           },
                         ),
-                        SizedBox(height: 16),
+                        const SizedBox(height: 16),
                         TextFormField(
                           controller: _emailController,
                           decoration: InputDecoration(
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(15.0),
-                              borderSide: BorderSide(color: Colors.green),
+                              borderSide: const BorderSide(color: Colors.green),
                             ),
                             labelText: 'Email:',
-                            labelStyle: TextStyle(color: Colors.green),
+                            labelStyle: const TextStyle(color: Colors.green),
                           ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
@@ -101,17 +104,17 @@ class _RegisterState extends State<Register> {
                             return null;
                           },
                         ),
-                        SizedBox(height: 16),
+                        const SizedBox(height: 16),
                         TextFormField(
                           controller: _passwordController,
                           obscureText: true,
                           decoration: InputDecoration(
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(15.0),
-                              borderSide: BorderSide(color: Colors.green),
+                              borderSide: const BorderSide(color: Colors.green),
                             ),
                             labelText: 'Password:',
-                            labelStyle: TextStyle(color: Colors.green),
+                            labelStyle: const TextStyle(color: Colors.green),
                           ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
@@ -120,44 +123,45 @@ class _RegisterState extends State<Register> {
                             return null;
                           },
                         ),
-                        SizedBox(height: 24),
+                        const SizedBox(height: 24),
                         ElevatedButton(
                           onPressed: () {
                             if (_formKey.currentState!.validate()) {}
                           },
-                          child: Text(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: ColorsConstants.darkGreen,
+                          ),
+                          child: const Text(
                             'Register',
                             style: TextStyle(color: ColorsConstants.whiteColor),
                           ),
-                          style: ElevatedButton.styleFrom(
-                            primary: ColorsConstants.darkGreen,
-                          ),
                         ),
-                        SizedBox(height: 20),
+                        const SizedBox(height: 20),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             IconButton(
-                              icon: Icon(Icons.mail_outline),
+                              icon: const Icon(Icons.mail_outline),
                               onPressed: () {
                                 // Acción para mail
                               },
                             ),
                             IconButton(
-                              icon: Icon(Icons.loop),
+                              icon: const Icon(Icons.loop),
                               onPressed: () {
                                 // Acción para loop
                               },
                             ),
                             IconButton(
-                              icon: Icon(Icons.biotech_rounded),
+                              icon: const Icon(Icons.biotech_rounded),
                               onPressed: () {
                                 // Acción para Twitter
                               },
                             ),
                           ],
                         ),
-                        SizedBox(height: 20), // Espacio adicional en el fondo
+                        const SizedBox(
+                            height: 20), // Espacio adicional en el fondo
                       ],
                     ),
                   ),

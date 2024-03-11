@@ -17,6 +17,7 @@ class _CommunityState extends State<Community> {
   final TextEditingController _contenidoController = TextEditingController();
   final TextEditingController _horasController = TextEditingController();
   final TextEditingController _fotoController = TextEditingController();
+  bool isLoading = true; // Nuevo estado para indicar si se está cargando
 
   @override
   void initState() {
@@ -27,6 +28,9 @@ class _CommunityState extends State<Community> {
   }
 
   Future<void> llenarCommunityPostsList() async {
+    setState(() {
+      isLoading = true;
+    });
     print('Llenando la lista de community posts');
     final List<Comentario> comentarios = await Comentario.getComentarios();
     setState(() {
@@ -38,7 +42,7 @@ class _CommunityState extends State<Community> {
           nombre: comentario.nombre,
         );
       }));
-      print('Lista comunityPostsList: $comunityPostsList');
+      isLoading = false;
     });
   }
 
@@ -116,12 +120,15 @@ class _CommunityState extends State<Community> {
                       // Hacer el post
                       try {
                         Map<String, dynamic> nuevoComentario = {
-                          'contenido': _contenidoController.text ?? (throw Exception('Error en contenido')),
+                          'contenido': _contenidoController.text ??
+                              (throw Exception('Error en contenido')),
                           'foto': _fotoController.text == ''
                               ? null
                               : _fotoController.text,
-                          'horas': int.parse(_horasController.text) ?? (throw Exception('Error en horas')),
-                          'usuario': _userIDController.text ?? (throw Exception('Error en usuario')),
+                          'horas': int.parse(_horasController.text) ??
+                              (throw Exception('Error en horas')),
+                          'usuario': _userIDController.text ??
+                              (throw Exception('Error en usuario')),
                         };
 
                         await Comentario.postComentario(nuevoComentario);
@@ -225,7 +232,7 @@ class _CommunityState extends State<Community> {
           );
         },
         backgroundColor: ColorsConstants.darkGreen,
-        child: const Icon(Icons.add),
+        child: const Icon(Icons.add, color: ColorsConstants.whiteColor),
       ),
       backgroundColor: ColorsConstants.whiteColor,
       body: SafeArea(
@@ -241,13 +248,19 @@ class _CommunityState extends State<Community> {
                 },
               ),
               Expanded(
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      ...comunityPostsList,
-                    ],
-                  ),
-                ),
+                child: isLoading
+                    ? Center(
+                        child: CircularProgressIndicator(
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                                ColorsConstants.darkGreen)),
+                      )
+                    : SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            ...comunityPostsList,
+                          ],
+                        ),
+                      ),
               ),
             ],
           ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../Helpers/Colors.dart';
 
 class CommunityPost extends StatelessWidget {
   final String contenido;
@@ -7,8 +8,9 @@ class CommunityPost extends StatelessWidget {
   final String nombre;
   final String username;
 
-  CommunityPost(
-      {this.foto,
+  const CommunityPost(
+      {super.key,
+      this.foto,
       required this.horas,
       required this.contenido,
       required this.username,
@@ -17,10 +19,9 @@ class CommunityPost extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
 
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         border: Border(
           top: BorderSide(width: 2.0, color: Color(0xffE3E3E3)),
         ),
@@ -36,32 +37,32 @@ class CommunityPost extends StatelessWidget {
                   children: <Widget>[
                     Text(
                       nombre,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontFamily: 'Inter',
                         fontSize: 19,
                         fontWeight: FontWeight.w600,
-                        color: Color(0xff527450),
+                        color: ColorsConstants.darkGreen,
                       ),
                     ),
-                    Spacer(),
+                    const Spacer(),
                     Text(
                       '@$username',
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontFamily: 'Inter',
                         fontSize: 19,
                         fontWeight: FontWeight.w400,
-                        color: Color(0xff527450),
+                        color: ColorsConstants.darkGreen,
                       ),
                     ),
-                    Spacer(),
-                    Spacer(),
+                    const Spacer(),
+                    const Spacer(),
                     Text(
-                      horas.toString() + 'h',
-                      style: TextStyle(
+                      '${horas}h',
+                      style: const TextStyle(
                         fontFamily: 'Inter',
                         fontSize: 19,
                         fontWeight: FontWeight.w400,
-                        color: Color(0xff527450),
+                        color: ColorsConstants.darkGreen,
                       ),
                     ),
                   ],
@@ -69,11 +70,11 @@ class CommunityPost extends StatelessWidget {
               ),
               Text(
                 contenido,
-                style: TextStyle(
+                style: const TextStyle(
                   fontFamily: 'Inter',
                   fontSize: 15,
                   fontWeight: FontWeight.w400,
-                  color: Color(0xff527450),
+                  color: ColorsConstants.darkGreen,
                 ),
               ),
               if (foto != null) ...[
@@ -85,7 +86,7 @@ class CommunityPost extends StatelessWidget {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(5.0),
                       color: Colors.white,
-                      border: Border.all(color: Color(0xff527450)),
+                      border: Border.all(color: ColorsConstants.darkGreen),
                     ),
                     child: Center(
                       child: Image.asset(foto!),

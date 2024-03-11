@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:nutrisalud/Routes/AppRoutes.dart';
-import 'package:nutrisalud/Widgets/GeneralWidgets/NutriSaludBtBar.dart';
 import '../Widgets/GeneralWidgets/NavBar.dart';
 import '../Widgets/SearchWidgets/RecipePreview.dart';
+import '../Helpers/Colors.dart';
 
 // Peticion de JSON de los nutricionistas
 
 // Renderizado de la pagina
 class Search extends StatefulWidget {
   const Search({super.key});
+  @override
   _SearchState createState() => _SearchState();
 }
 
@@ -16,7 +17,6 @@ class _SearchState extends State<Search> {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
       body: SafeArea(
@@ -31,11 +31,11 @@ class _SearchState extends State<Search> {
                   Navigator.popAndPushNamed(context, AppRoutes.home);
                 },
               ),
-              Expanded(
+              const Expanded(
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      const Padding(
+                      Padding(
                         padding: EdgeInsets.only(bottom: 40.0),
                         child: Row(children: [
                           Column(
@@ -48,7 +48,7 @@ class _SearchState extends State<Search> {
                                     fontFamily: 'Inter',
                                     fontSize: 19,
                                     fontWeight: FontWeight.w600,
-                                    color: Color(0xff527450),
+                                    color: ColorsConstants.darkGreen,
                                   ),
                                 ),
                               ),
@@ -63,7 +63,7 @@ class _SearchState extends State<Search> {
                                         fontFamily: 'Inter',
                                         fontSize: 19,
                                         fontWeight: FontWeight.w600,
-                                        color: Color(0xff527450),
+                                        color: ColorsConstants.darkGreen,
                                       ),
                                     ),
                                   ),
@@ -75,7 +75,7 @@ class _SearchState extends State<Search> {
                                         fontFamily: 'Inter',
                                         fontSize: 19,
                                         fontWeight: FontWeight.w600,
-                                        color: Color(0xff527450),
+                                        color: ColorsConstants.darkGreen,
                                       ),
                                     ),
                                   ),
@@ -85,7 +85,7 @@ class _SearchState extends State<Search> {
                                       fontFamily: 'Inter',
                                       fontSize: 19,
                                       fontWeight: FontWeight.w600,
-                                      color: Color(0xff527450),
+                                      color: ColorsConstants.darkGreen,
                                     ),
                                   ),
                                 ]),
@@ -94,7 +94,7 @@ class _SearchState extends State<Search> {
                           ),
                         ]),
                       ),
-                      const Padding(
+                      Padding(
                         padding: EdgeInsets.only(bottom: 10.0),
                         child: Row(children: [
                           Text(
@@ -103,13 +103,13 @@ class _SearchState extends State<Search> {
                               fontFamily: 'Inter',
                               fontSize: 25,
                               fontWeight: FontWeight.w600,
-                              color: Color(0xff527450),
+                              color: ColorsConstants.darkGreen,
                             ),
                           ),
                         ]),
                       ),
                       Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: EdgeInsets.all(8.0),
                         child: RecipePreview(
                             foto: 'assets/imgs/PP_Example.jpg',
                             nombre: "Salmon filet",
@@ -120,7 +120,7 @@ class _SearchState extends State<Search> {
                             peso: 13),
                       ),
                       Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: EdgeInsets.all(8.0),
                         child: RecipePreview(
                             foto: 'assets/imgs/PP_Example.jpg',
                             nombre: "Salmon filet",

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:nutrisalud/Screens/Community.dart';
-import 'package:nutrisalud/Screens/MainPage.dart';
-import 'package:nutrisalud/Screens/Nutricionists.dart';
 import 'package:nutrisalud/Screens/Screens.dart';
+import '../../Helpers/Colors.dart';
 
 class NutriSaludBtBar extends StatefulWidget {
   const NutriSaludBtBar({super.key});
@@ -42,12 +40,13 @@ class _NutriSaludBtBarState extends State<NutriSaludBtBar> {
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: const Color(0xffF5F5F5),
-        selectedIconTheme: const IconThemeData(color: Color(0xff527450)),
+        backgroundColor: ColorsConstants.whiteColor,
+        selectedIconTheme:
+            const IconThemeData(color: ColorsConstants.darkGreen),
         unselectedIconTheme: const IconThemeData(color: Color(0xffA9A9A9)),
         unselectedItemColor: const Color(0xffD9D9D9),
         showUnselectedLabels: true,
-        fixedColor: const Color(0xff527450),
+        fixedColor: ColorsConstants.darkGreen,
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
         items: const [

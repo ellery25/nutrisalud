@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import '../Widgets/CommunityWidgets/CommunityPost.dart';
 import '../Widgets/GeneralWidgets/NavBar.dart';
 import '../Providers/CommentsProviders.dart';
+import '../Helpers/Colors.dart';
 
 class Community extends StatefulWidget {
-  const Community({Key? key}) : super(key: key);
+  const Community({super.key});
 
   @override
   _CommunityState createState() => _CommunityState();
@@ -12,10 +13,10 @@ class Community extends StatefulWidget {
 
 class _CommunityState extends State<Community> {
   List<Widget> comunityPostsList = [];
-  TextEditingController _userIDController = TextEditingController();
-  TextEditingController _contenidoController = TextEditingController();
-  TextEditingController _horasController = TextEditingController();
-  TextEditingController _fotoController = TextEditingController();
+  final TextEditingController _userIDController = TextEditingController();
+  final TextEditingController _contenidoController = TextEditingController();
+  final TextEditingController _horasController = TextEditingController();
+  final TextEditingController _fotoController = TextEditingController();
 
   @override
   void initState() {
@@ -56,13 +57,13 @@ class _CommunityState extends State<Community> {
                   borderRadius: BorderRadius.circular(20.0),
                 ),
                 scrollable: true,
-                title: Text(
+                title: const Text(
                   "Nuevo comentario",
                   style: TextStyle(
                     fontFamily: 'Inter',
                     fontSize: 19,
                     fontWeight: FontWeight.w600,
-                    color: Color(0xff527450),
+                    color: ColorsConstants.darkGreen,
                   ),
                 ),
                 content: Padding(
@@ -71,35 +72,35 @@ class _CommunityState extends State<Community> {
                     children: <Widget>[
                       TextFormField(
                         controller: _userIDController,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'UserID',
                           icon: Icon(Icons.account_box),
                         ),
                       ),
                       TextFormField(
                         controller: _contenidoController,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'Contenido',
                           icon: Icon(Icons.message),
-                          focusColor: Color(0xff527450),
+                          focusColor: ColorsConstants.darkGreen,
                         ),
                         maxLines: 3,
                       ),
                       TextFormField(
                         controller: _horasController,
                         keyboardType: TextInputType.number,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'Horas',
                           icon: Icon(Icons.lock_clock),
-                          focusColor: Color(0xff527450),
+                          focusColor: ColorsConstants.darkGreen,
                         ),
                       ),
                       TextFormField(
                         controller: _fotoController,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'Foto (Opcional)',
                           icon: Icon(Icons.message),
-                          focusColor: Color(0xff527450),
+                          focusColor: ColorsConstants.darkGreen,
                         ),
                       ),
                     ],
@@ -108,25 +109,19 @@ class _CommunityState extends State<Community> {
                 actions: [
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      primary: Color(0xff527450),
+                      backgroundColor: ColorsConstants.darkGreen,
                     ),
-                    child: Text("Añadir"),
+                    child: const Text("Añadir"),
                     onPressed: () async {
                       // Hacer el post
                       try {
                         Map<String, dynamic> nuevoComentario = {
-                          'contenido': _contenidoController.text == null
-                              ? throw Exception('Error en contenido')
-                              : _contenidoController.text,
+                          'contenido': _contenidoController.text ?? (throw Exception('Error en contenido')),
                           'foto': _fotoController.text == ''
                               ? null
                               : _fotoController.text,
-                          'horas': int.parse(_horasController.text) == null
-                              ? throw Exception('Error en horas')
-                              : int.parse(_horasController.text),
-                          'usuario': _userIDController.text == null
-                              ? throw Exception('Error en usuario')
-                              : _userIDController.text,
+                          'horas': int.parse(_horasController.text) ?? (throw Exception('Error en horas')),
+                          'usuario': _userIDController.text ?? (throw Exception('Error en usuario')),
                         };
 
                         await Comentario.postComentario(nuevoComentario);
@@ -146,21 +141,21 @@ class _CommunityState extends State<Community> {
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(20.0),
                               ),
-                              title: Text(
+                              title: const Text(
                                 "Comentario añadido",
                                 style: TextStyle(
                                   fontFamily: 'Inter',
                                   fontSize: 19,
                                   fontWeight: FontWeight.w600,
-                                  color: Color(0xff527450),
+                                  color: ColorsConstants.darkGreen,
                                 ),
                               ),
                               actions: [
                                 ElevatedButton(
                                   style: ElevatedButton.styleFrom(
-                                    primary: Color(0xff527450),
+                                    backgroundColor: ColorsConstants.darkGreen,
                                   ),
-                                  child: Text("Continuar"),
+                                  child: const Text("Continuar"),
                                   onPressed: () {
                                     Navigator.pop(context);
                                   },
@@ -198,21 +193,21 @@ class _CommunityState extends State<Community> {
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(20.0),
                               ),
-                              title: Text(
+                              title: const Text(
                                 "Error al añadir comentario",
                                 style: TextStyle(
                                   fontFamily: 'Inter',
                                   fontSize: 19,
                                   fontWeight: FontWeight.w600,
-                                  color: Color(0xff527450),
+                                  color: ColorsConstants.darkGreen,
                                 ),
                               ),
                               actions: [
                                 ElevatedButton(
                                   style: ElevatedButton.styleFrom(
-                                    primary: Color(0xff527450),
+                                    backgroundColor: ColorsConstants.darkGreen,
                                   ),
-                                  child: Text("Continuar"),
+                                  child: const Text("Continuar"),
                                   onPressed: () {
                                     Navigator.pop(context);
                                   },
@@ -229,10 +224,10 @@ class _CommunityState extends State<Community> {
             },
           );
         },
-        backgroundColor: Color(0xff527450),
+        backgroundColor: ColorsConstants.darkGreen,
         child: const Icon(Icons.add),
       ),
-      backgroundColor: const Color(0xffF5F5F5),
+      backgroundColor: ColorsConstants.whiteColor,
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.all(screenWidth * 0.05),

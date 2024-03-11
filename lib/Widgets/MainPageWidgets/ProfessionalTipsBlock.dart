@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import '../../Helpers/Colors.dart';
 
 class ProfessionalTipsBlock extends StatelessWidget {
   final String title;
   final String tip;
   final String nutricionistAvatar;
 
-  ProfessionalTipsBlock(
-      {required this.title,
+  const ProfessionalTipsBlock(
+      {super.key,
+      required this.title,
       required this.tip,
       required this.nutricionistAvatar});
 
@@ -17,7 +19,7 @@ class ProfessionalTipsBlock extends StatelessWidget {
       padding: const EdgeInsets.all(20),
       width: MediaQuery.of(context).size.width * 0.9,
       decoration: BoxDecoration(
-        border: Border.all(color: const Color(0xff527450)),
+        border: Border.all(color: ColorsConstants.darkGreen),
         borderRadius: BorderRadius.circular(15),
       ),
       child: Column(
@@ -26,7 +28,7 @@ class ProfessionalTipsBlock extends StatelessWidget {
           Text(
             title,
             style: const TextStyle(
-              color: Color(0xff527450),
+              color: ColorsConstants.darkGreen,
               fontSize: 18,
               fontWeight: FontWeight.w600,
             ),
@@ -41,7 +43,7 @@ class ProfessionalTipsBlock extends StatelessWidget {
                     tip,
                     softWrap: true,
                     style: const TextStyle(
-                      color: Color(0xff527450),
+                      color: ColorsConstants.darkGreen,
                       fontSize: 16,
                       fontWeight: FontWeight.w300,
                     ),

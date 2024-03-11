@@ -2,16 +2,16 @@ import 'package:nutrisalud/Routes/AppRoutes.dart';
 import '../Widgets/GeneralWidgets/GeneralBlocks.dart';
 import 'package:flutter/material.dart';
 import 'package:nutrisalud/Widgets/RecommendedFoodWidgets/FoodRecomendation.dart';
+import '../Helpers/Colors.dart';
 
 class RecomendedFood extends StatelessWidget {
   const RecomendedFood({super.key});
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      backgroundColor: const Color(0xffF5F5F5),
+      backgroundColor: ColorsConstants.whiteColor,
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.all(screenWidth * 0.05),
@@ -25,7 +25,7 @@ class RecomendedFood extends StatelessWidget {
                   Navigator.popAndPushNamed(context, AppRoutes.home);
                 },
               ),
-              Expanded(
+              const Expanded(
                 child: SingleChildScrollView(
                   child: Column(
                     children: [

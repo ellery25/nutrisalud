@@ -1,5 +1,5 @@
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/material.dart';
+import '../../Helpers/Colors.dart';
 
 class RecipePreview extends StatelessWidget {
   final String foto;
@@ -9,7 +9,8 @@ class RecipePreview extends StatelessWidget {
   final double proteinas;
   final double peso;
 
-  RecipePreview({
+  const RecipePreview({
+    super.key,
     required this.foto,
     required this.nombre,
     required this.descripcion,
@@ -26,7 +27,7 @@ class RecipePreview extends StatelessWidget {
     return Container(
       decoration: const BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(10.0)),
-        color: Color(0xff6BA368),
+        color: ColorsConstants.lightGreen,
       ),
       height: screenHeight * 0.45,
       width: screenWidth * 0.80,
@@ -66,7 +67,7 @@ class RecipePreview extends StatelessWidget {
                   color: Colors.white,
                 ),
               ),
-              Spacer(),
+              const Spacer(),
               Row(
                 children: [
                   Column(

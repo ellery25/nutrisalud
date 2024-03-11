@@ -27,7 +27,7 @@ dev_dependencies:
 
 flutter_native_splash:
   android: true
-  color: "#6BA368"
+  color: "#F5F5F5"
   image: "assets/imgs/splashNutrisalud.png"
 
 flutter_launcher_icons:

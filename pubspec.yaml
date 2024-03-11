@@ -40,3 +40,6 @@ flutter:
 
   assets:
     - assets/
+    - assets/imgs/
+    - assets/imgs/IntroductionImages/
+    - assets/svgs/

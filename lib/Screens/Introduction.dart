@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
-import 'package:nutrisalud/Helpers/AssetsRoute.dart';
-import 'package:nutrisalud/Helpers/Colors.dart';
+import 'package:nutrisalud/Helpers/HelpersExport.dart';
 
 class Introduction extends StatefulWidget {
   const Introduction({super.key});
@@ -69,16 +68,14 @@ class _IntroductionState extends State<Introduction> {
       bodyPadding:
           EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.2),
       pages: pages,
-      dotsDecorator: const DotsDecorator(activeColor: ColorsConstants.darkGreen),
-
+      dotsDecorator:
+          const DotsDecorator(activeColor: ColorsConstants.darkGreen),
       showNextButton: false,
-      done: const Text('Next', style: TextStyle(color: ColorsConstants.darkGreen)),
+      done: const Text('Next',
+          style: TextStyle(color: ColorsConstants.darkGreen)),
       onDone: () {
 
       },
-
-
-
 
     );
   }

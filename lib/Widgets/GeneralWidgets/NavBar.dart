@@ -5,7 +5,8 @@ class NavBar extends StatelessWidget {
   final String? title;
   final VoidCallback backRoute;
 
-  const NavBar({super.key, 
+  const NavBar({
+    super.key,
     required this.backButton,
     this.title,
     required this.backRoute,
@@ -13,8 +14,6 @@ class NavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double screenHeight = MediaQuery.of(context).size.height;
-
     return Padding(
       padding: const EdgeInsets.only(bottom: 10.0),
       child: Row(
@@ -23,9 +22,9 @@ class NavBar extends StatelessWidget {
             GestureDetector(
               onTap: () {
                 backRoute();
-                            },
+              },
               child: const Padding(
-                padding:  EdgeInsets.only(right: 10.0),
+                padding: EdgeInsets.only(right: 10.0),
                 child: Icon(
                   Icons.arrow_back_ios_new_rounded,
                   size: 24,

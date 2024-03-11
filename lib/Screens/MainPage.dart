@@ -45,8 +45,6 @@ class _MainPageState extends State<MainPage> {
       ),
     ];
 
-    double screenWidth = MediaQuery.of(context).size.width;
-
     return Scaffold(
       backgroundColor: ColorsConstants.whiteColor,
       body: SafeArea(

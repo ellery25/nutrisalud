@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import '../Widgets/MainPageWidgets/MainPageBlocks.dart';
-import '../Widgets/GeneralWidgets/NutriSaludBtBar.dart';
+import '../Helpers/Colors.dart';
 
 class MainPage extends StatefulWidget {
-  const MainPage({Key? key}) : super(key: key);
+  const MainPage({super.key});
 
   @override
   State<MainPage> createState() => _MainPageState();
@@ -13,31 +13,31 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     List<Widget> professionalTipsList = [
-      ProfessionalTipsBlock(
+      const ProfessionalTipsBlock(
         title: 'Consume Omega-3',
         tip:
             'Incorpora alimentos ricos en ácidos grasos omega-3, como salmón, chía y nueces. Estos son beneficiosos para la salud cardiovascular y cerebral.',
         nutricionistAvatar: "assets/imgs/dr_1.jpg",
       ),
-      ProfessionalTipsBlock(
+      const ProfessionalTipsBlock(
         title: 'Mantén una Hidratación Optima',
         tip:
             'Bebe suficiente agua a lo largo del día. Una hidratación adecuada es esencial para el funcionamiento óptimo del cuerpo y puede ayudar en la pérdida de peso.',
         nutricionistAvatar: "assets/imgs/dr_4.jpg",
       ),
-      ProfessionalTipsBlock(
+      const ProfessionalTipsBlock(
         title: 'Incluye Variedad en tu Dieta',
         tip:
             'Asegúrate de incluir una amplia variedad de alimentos en tu dieta diaria. Esto garantiza la obtención de diferentes nutrientes esenciales para el cuerpo.',
         nutricionistAvatar: "assets/imgs/dr_1.jpg",
       ),
-      ProfessionalTipsBlock(
+      const ProfessionalTipsBlock(
         title: 'Controla las Porciones',
         tip:
             'Mantén un control adecuado de las porciones para evitar el exceso de calorías. Utiliza platos más pequeños y presta atención a las señales de hambre y saciedad.',
         nutricionistAvatar: "assets/imgs/dr_3.jpg",
       ),
-      ProfessionalTipsBlock(
+      const ProfessionalTipsBlock(
         title: 'Cocina en Casa',
         tip:
             'Prepara tus comidas en casa siempre que sea posible. Esto te permite tener un mayor control sobre los ingredientes y la calidad de tu alimentación.',
@@ -48,82 +48,81 @@ class _MainPageState extends State<MainPage> {
     double screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      backgroundColor: const Color(0xffF5F5F5),
+      backgroundColor: ColorsConstants.whiteColor,
       body: SafeArea(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              MainPageBar(userAvatar: ''),
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        margin: const EdgeInsets.symmetric(horizontal: 20),
-                        child: const Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Recommended eating times',
-                              style: TextStyle(
-                                fontSize: 24,
-                                fontWeight: FontWeight.bold,
-                                color: Color(0xff527450),
-                              ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const MainPageBar(userAvatar: ''),
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 20),
+                      child: const Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Recommended eating times',
+                            style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                              color: ColorsConstants.darkGreen,
                             ),
-                            Text(
-                              'Based on your eating habits',
-                              style: TextStyle(
-                                fontSize: 20,
-                                color: Color(0xff527450),
-                              ),
+                          ),
+                          Text(
+                            'Based on your eating habits',
+                            style: TextStyle(
+                              fontSize: 20,
+                              color: ColorsConstants.darkGreen,
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
-                      //Eating times
-                      EatingTimeBlock(
-                        type: 'Breakfast',
-                        food: 'Caesar Salad',
-                        time: '7:00 - 9:00 AM',
-                      ),
-                      EatingTimeBlock(
-                        type: 'Lunch',
-                        food: 'Chicken Soup',
-                        time: '11:00 - 1:00 PM',
-                      ),
-                      EatingTimeBlock(
-                        type: 'Dinner',
-                        food: 'Sancocho de mondongo',
-                        time: '5:00 - 7:00 PM',
-                      ),
-                      //Professional Tips
-                      Container(
-                        margin: const EdgeInsets.symmetric(
-                            horizontal: 20, vertical: 7),
-                        child: const Row(
-                          children: [
-                             Text(
-                              'Professional Tips',
-                              style: TextStyle(
-                                fontSize: 24,
-                                fontWeight: FontWeight.bold,
-                                color: Color(0xff527450),
-                              ),
+                    ),
+                    //Eating times
+                    const EatingTimeBlock(
+                      type: 'Breakfast',
+                      food: 'Caesar Salad',
+                      time: '7:00 - 9:00 AM',
+                    ),
+                    const EatingTimeBlock(
+                      type: 'Lunch',
+                      food: 'Chicken Soup',
+                      time: '11:00 - 1:00 PM',
+                    ),
+                    const EatingTimeBlock(
+                      type: 'Dinner',
+                      food: 'Sancocho de mondongo',
+                      time: '5:00 - 7:00 PM',
+                    ),
+                    //Professional Tips
+                    Container(
+                      margin: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 7),
+                      child: const Row(
+                        children: [
+                          Text(
+                            'Professional Tips',
+                            style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                              color: ColorsConstants.darkGreen,
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
-                      ...professionalTipsList,
-                    ],
-                  ),
+                    ),
+                    ...professionalTipsList,
+                  ],
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
-
+      ),
     );
   }
 }

@@ -5,7 +5,7 @@ class NavBar extends StatelessWidget {
   final String? title;
   final VoidCallback backRoute;
 
-  NavBar({
+  const NavBar({super.key, 
     required this.backButton,
     this.title,
     required this.backRoute,
@@ -22,10 +22,8 @@ class NavBar extends StatelessWidget {
           if (backButton == true) ...[
             GestureDetector(
               onTap: () {
-                if (backRoute != null) {
-                  backRoute();
-                }
-              },
+                backRoute();
+                            },
               child: const Padding(
                 padding:  EdgeInsets.only(right: 10.0),
                 child: Icon(

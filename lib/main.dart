@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:nutrisalud/Helpers/Colors.dart';
 import 'package:nutrisalud/Routes/AppRoutes.dart';
 import 'package:nutrisalud/Widgets/GeneralWidgets/NutriSaludBtBar.dart';
@@ -13,30 +12,36 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle.dark.copyWith(statusBarColor: ColorsConstants.whiteColor),
+      SystemUiOverlayStyle.dark
+          .copyWith(statusBarColor: ColorsConstants.whiteColor),
     );
     return MaterialApp(
       title: 'NutriSalud ',
-      initialRoute: AppRoutes.chooseAcount,
+      initialRoute: AppRoutes.home,
       onGenerateRoute: (routes) {
-        switch(routes.name) {
+        switch (routes.name) {
           case AppRoutes.home:
-            return MaterialPageRoute(builder: (context) => const NutriSaludBtBar());
+            return MaterialPageRoute(
+                builder: (context) => const NutriSaludBtBar());
           case AppRoutes.nutricionist:
-            return MaterialPageRoute(builder: (context) => const Nutricionists());
+            return MaterialPageRoute(
+                builder: (context) => const Nutricionists());
           case AppRoutes.Search:
             return MaterialPageRoute(builder: (context) => const Search());
           case AppRoutes.welcome:
-            return MaterialPageRoute(builder: (context) => const WelcomeScreen());
+            return MaterialPageRoute(
+                builder: (context) => const WelcomeScreen());
           case AppRoutes.introduction:
-            return MaterialPageRoute(builder: (context) => const Introduction());
+            return MaterialPageRoute(
+                builder: (context) => const Introduction());
           case AppRoutes.chooseAcount:
-            return MaterialPageRoute(builder: (context) => const ChooseAcount());
+            return MaterialPageRoute(
+                builder: (context) => const ChooseAcount());
         }
+        return null;
       },
       debugShowCheckedModeBanner: false,
     );

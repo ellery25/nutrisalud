@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import '../../Helpers/Colors.dart';
 
 class FoodRecomendation extends StatelessWidget {
   final String titulo;
   final String timeToEat;
   final String descripcion;
 
-  FoodRecomendation(
-      {required this.titulo,
+  const FoodRecomendation(
+      {super.key,
+      required this.titulo,
       required this.timeToEat,
       required this.descripcion});
 
@@ -21,9 +23,8 @@ class FoodRecomendation extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5.0),
           color: Colors.white,
-          border: Border.all(color: Color(0xff527450)),
+          border: Border.all(color: ColorsConstants.darkGreen),
         ),
-
         child: Padding(
           padding: EdgeInsets.all(screenWidth * 0.05),
           child: Center(
@@ -38,7 +39,7 @@ class FoodRecomendation extends StatelessWidget {
                       fontFamily: 'Inter',
                       fontSize: 19,
                       fontWeight: FontWeight.w600,
-                      color: Color(0xff527450),
+                      color: ColorsConstants.darkGreen,
                     ),
                   ),
                 ),
@@ -50,7 +51,7 @@ class FoodRecomendation extends StatelessWidget {
                       fontFamily: 'Inter',
                       fontSize: 19,
                       fontWeight: FontWeight.w600,
-                      color: Color(0xff527450),
+                      color: ColorsConstants.darkGreen,
                     ),
                   ),
                 ),
@@ -60,7 +61,7 @@ class FoodRecomendation extends StatelessWidget {
                     fontFamily: 'Inter',
                     fontSize: 15,
                     fontWeight: FontWeight.w400,
-                    color: Color(0xff527450),
+                    color: ColorsConstants.darkGreen,
                   ),
                 ),
               ],

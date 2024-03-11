@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import '../../Helpers/Colors.dart';
 
 class EatingTimeBlock extends StatelessWidget {
   final String type;
   final String food;
   final String time;
 
-  EatingTimeBlock({required this.type, required this.food, required this.time});
+  const EatingTimeBlock(
+      {super.key, required this.type, required this.food, required this.time});
 
   @override
   Widget build(BuildContext context) {
@@ -14,17 +16,18 @@ class EatingTimeBlock extends StatelessWidget {
       padding: const EdgeInsets.all(20),
       width: MediaQuery.of(context).size.width * 0.9,
       decoration: BoxDecoration(
-        color: const Color(0xff6BA368),
+        color: ColorsConstants.lightGreen,
         borderRadius: BorderRadius.circular(15),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(type,
+          Text(
+            type,
             style: const TextStyle(
               fontWeight: FontWeight.w500,
               fontSize: 18,
-              color: Color(0xffF5F5F5),
+              color: ColorsConstants.whiteColor,
             ),
           ),
           Row(
@@ -37,7 +40,7 @@ class EatingTimeBlock extends StatelessWidget {
                     food,
                     softWrap: true,
                     style: const TextStyle(
-                      color: Color(0xffF5F5F5),
+                      color: ColorsConstants.whiteColor,
                       fontSize: 16,
                       fontWeight: FontWeight.w300,
                     ),
@@ -51,7 +54,7 @@ class EatingTimeBlock extends StatelessWidget {
                   child: Text(
                     time,
                     style: const TextStyle(
-                      color: Color(0xffF5F5F5),
+                      color: ColorsConstants.whiteColor,
                       fontWeight: FontWeight.w400,
                       fontSize: 16,
                     ),
@@ -63,6 +66,5 @@ class EatingTimeBlock extends StatelessWidget {
         ],
       ),
     );
-
   }
 }

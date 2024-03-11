@@ -7,7 +7,7 @@ class WelcomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xff6BA368),
+      backgroundColor: ColorsConstants.lightGreen,
       body: SafeArea(
           child: Column(
         children: [
@@ -63,7 +63,7 @@ class WelcomeScreen extends StatelessWidget {
                   onTap: () {},
                   child: Container(
                     decoration: const BoxDecoration(
-                        color: Color(0xff527450),
+                        color: ColorsConstants.darkGreen,
                         borderRadius: BorderRadius.all(Radius.circular(20))),
                     width: MediaQuery.of(context).size.width * 0.65,
                     height: MediaQuery.of(context).size.height * 0.07,
@@ -88,7 +88,7 @@ class WelcomeScreen extends StatelessWidget {
                     alignment: Alignment.center,
                     child: const Text('Register',
                         style: TextStyle(
-                            color: Color(0xffF5F5F5),
+                            color: ColorsConstants.whiteColor,
                             fontSize: 24,
                             fontWeight: FontWeight.w700)),
                   ),
@@ -100,7 +100,7 @@ class WelcomeScreen extends StatelessWidget {
                 Row(
                   children: [
                     Container(
-                      color: const Color(0xff527450),
+                      color: ColorsConstants.darkGreen,
                       margin: EdgeInsets.only(
                           right: MediaQuery.of(context).size.width * 0.03),
                       width: MediaQuery.of(context).size.width * 0.32,
@@ -110,13 +110,13 @@ class WelcomeScreen extends StatelessWidget {
                       alignment: Alignment.center,
                       child: const Text(
                         'Or continue with',
-                        style:
-                            TextStyle(color: Color(0xff527450), fontSize: 16),
+                        style: TextStyle(
+                            color: ColorsConstants.darkGreen, fontSize: 16),
                       ),
                     ),
                     Expanded(
                       child: Container(
-                        color: const Color(0xff527450),
+                        color: ColorsConstants.darkGreen,
                         margin: EdgeInsets.only(
                             left: MediaQuery.of(context).size.width * 0.03),
                         width: MediaQuery.of(context).size.width * 0.3,

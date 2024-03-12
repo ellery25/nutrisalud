@@ -28,7 +28,6 @@ class UsuarioPreferences {
   // Convertir un usuario a JSON
   static String usuarioToJson(Usuario usuario) {
     return jsonEncode({
-      'id': usuario.id,
       'nombre': usuario.nombre,
       'usuario': usuario.usuario,
       'contrasena': usuario.contrasena,
@@ -40,7 +39,6 @@ class UsuarioPreferences {
   static Usuario usuarioFromJson(String usuarioJson) {
     final Map<String, dynamic> data = jsonDecode(usuarioJson);
     return Usuario(
-      id: data['id'],
       nombre: data['nombre'],
       usuario: data['usuario'],
       contrasena: data['contrasena'],

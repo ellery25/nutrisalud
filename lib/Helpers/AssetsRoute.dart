@@ -6,4 +6,7 @@ class AssetsRoute {
   static const String foodPng = 'assets/imgs/IntroductionImages/foods.png';
   static const String communityPng = 'assets/imgs/IntroductionImages/Community.png';
   static const String doctorPng = 'assets/imgs/IntroductionImages/doctor.png';
+  static const String bulbSvg = 'assets/svgs/bulb.svg';
+  static const String commentSvg = 'assets/svgs/comment.svg';
+  static const String editSvg = 'assets/svgs/edit.svg';
 }

@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
     );
     return MaterialApp(
       title: 'NutriSalud ',
-      initialRoute: AppRoutes.welcome,
+      initialRoute: AppRoutes.introductionDoctor,
       onGenerateRoute: (routes) {
         switch (routes.name) {
           case AppRoutes.home:
@@ -44,6 +44,8 @@ class MyApp extends StatelessWidget {
             return MaterialPageRoute(builder: (context) => const Register());
           case AppRoutes.login:
             return MaterialPageRoute(builder: (context) => const Login());
+          case AppRoutes.introductionDoctor:
+            return MaterialPageRoute(builder: (context) => const IntroductionDoctor());
         }
         return null;
       },

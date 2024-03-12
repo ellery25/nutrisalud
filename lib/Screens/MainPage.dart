@@ -48,6 +48,13 @@ class _MainPageState extends State<MainPage> {
     ];
 
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // Acciones para añadir un profesional tip
+        },
+        backgroundColor: ColorsConstants.darkGreen,
+        child: const Icon(Icons.add, color: ColorsConstants.whiteColor),
+      ),
       drawer: const DrawerWidget(),
       backgroundColor: ColorsConstants.whiteColor,
       body: SafeArea(

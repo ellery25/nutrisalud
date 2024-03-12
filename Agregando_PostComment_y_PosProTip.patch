@@ -1,0 +1,670 @@
+Subject: [PATCH] Agregando PostComment y PosProTip
+---
+Index: lib/Routes/AppRoutes.dart
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/lib/Routes/AppRoutes.dart b/lib/Routes/AppRoutes.dart
+--- a/lib/Routes/AppRoutes.dart	(revision fddf4443f4b0221972e7fa5afdcfcbed40fb6a79)
++++ b/lib/Routes/AppRoutes.dart	(revision a15669b2251559e8341ed949fa52b1f0595e2de2)
+@@ -11,4 +11,6 @@
+   static const String register = '/register';
+   static const String login = '/login';
+   static const String introductionDoctor = '/introductionDoctor';
++  static const String postCommunity = '/postCommunity';
++  static const String postProTip = '/postProTip';
+ }
+Index: lib/Screens/Community.dart
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/lib/Screens/Community.dart b/lib/Screens/Community.dart
+--- a/lib/Screens/Community.dart	(revision fddf4443f4b0221972e7fa5afdcfcbed40fb6a79)
++++ b/lib/Screens/Community.dart	(revision a15669b2251559e8341ed949fa52b1f0595e2de2)
+@@ -2,6 +2,7 @@
+ // ignore_for_file: avoid_print
+ 
+ import 'package:flutter/material.dart';
++import 'package:nutrisalud/Routes/AppRoutes.dart';
+ import '../Widgets/CommunityWidgets/CommunityPost.dart';
+ import '../Widgets/GeneralWidgets/NavBar.dart';
+ import '../Providers/CommentsProviders.dart';
+@@ -49,215 +50,219 @@
+     });
+   }
+ 
+-  @override
+-  Widget build(BuildContext context) {
+-    double screenWidth = MediaQuery.of(context).size.width;
+-
+-    return Scaffold(
+-      floatingActionButton: FloatingActionButton(
+-        onPressed: () {
+-          print("Floating Button");
+-          showDialog(
+-            context: context,
+-            builder: (BuildContext context) {
+-              return AlertDialog(
+-                shape: RoundedRectangleBorder(
+-                  borderRadius: BorderRadius.circular(20.0),
+-                ),
+-                scrollable: true,
+-                title: const Text(
+-                  "Nuevo comentario",
+-                  style: TextStyle(
+-                    fontFamily: 'Inter',
+-                    fontSize: 19,
+-                    fontWeight: FontWeight.w600,
+-                    color: ColorsConstants.darkGreen,
+-                  ),
+-                ),
+-                content: Padding(
+-                  padding: const EdgeInsets.all(8.0),
+-                  child: Column(
+-                    children: <Widget>[
+-                      TextFormField(
+-                        controller: _userIDController,
+-                        decoration: const InputDecoration(
+-                          labelText: 'UserID',
+-                          icon: Icon(Icons.account_box),
+-                        ),
+-                      ),
+-                      TextFormField(
+-                        controller: _contenidoController,
+-                        decoration: const InputDecoration(
+-                          labelText: 'Contenido',
+-                          icon: Icon(Icons.message),
+-                          focusColor: ColorsConstants.darkGreen,
+-                        ),
+-                        maxLines: 3,
+-                      ),
+-                      TextFormField(
+-                        controller: _horasController,
+-                        keyboardType: TextInputType.number,
+-                        decoration: const InputDecoration(
+-                          labelText: 'Horas',
+-                          icon: Icon(Icons.lock_clock),
+-                          focusColor: ColorsConstants.darkGreen,
+-                        ),
+-                      ),
+-                      TextFormField(
+-                        controller: _fotoController,
+-                        decoration: const InputDecoration(
+-                          labelText: 'Foto (Opcional)',
+-                          icon: Icon(Icons.message),
+-                          focusColor: ColorsConstants.darkGreen,
+-                        ),
+-                      ),
+-                    ],
+-                  ),
+-                ),
+-                actions: [
+-                  ElevatedButton(
+-                    style: ElevatedButton.styleFrom(
+-                      backgroundColor: ColorsConstants.darkGreen,
+-                    ),
+-                    child: const Text(
+-                      "Añadir",
+-                      style: TextStyle(
+-                        fontFamily: 'Inter',
+-                        fontSize: 19,
+-                        fontWeight: FontWeight.w600,
+-                        color: ColorsConstants.whiteColor,
+-                      ),
+-                    ),
+-                    onPressed: () async {
+-                      // Hacer el post
+-                      try {
+-                        Map<String, dynamic> nuevoComentario = {
+-                          'contenido': _contenidoController.text ??
+-                              (throw Exception('Error en contenido')),
+-                          'foto': _fotoController.text == ''
+-                              ? null
+-                              : _fotoController.text,
+-                          'horas': int.parse(_horasController.text) ??
+-                              (throw Exception('Error en horas')),
+-                          'usuario': _userIDController.text ??
+-                              (throw Exception('Error en usuario')),
+-                        };
++  void postComentocito(){
++    showDialog(
++      context: context,
++      builder: (BuildContext context) {
++        return AlertDialog(
++          shape: RoundedRectangleBorder(
++            borderRadius: BorderRadius.circular(20.0),
++          ),
++          scrollable: true,
++          title: const Text(
++            "Nuevo comentario",
++            style: TextStyle(
++              fontFamily: 'Inter',
++              fontSize: 19,
++              fontWeight: FontWeight.w600,
++              color: ColorsConstants.darkGreen,
++            ),
++          ),
++          content: Padding(
++            padding: const EdgeInsets.all(8.0),
++            child: Column(
++              children: <Widget>[
++                TextFormField(
++                  controller: _userIDController,
++                  decoration: const InputDecoration(
++                    labelText: 'UserID',
++                    icon: Icon(Icons.account_box),
++                  ),
++                ),
++                TextFormField(
++                  controller: _contenidoController,
++                  decoration: const InputDecoration(
++                    labelText: 'Contenido',
++                    icon: Icon(Icons.message),
++                    focusColor: ColorsConstants.darkGreen,
++                  ),
++                  maxLines: 3,
++                ),
++                TextFormField(
++                  controller: _horasController,
++                  keyboardType: TextInputType.number,
++                  decoration: const InputDecoration(
++                    labelText: 'Horas',
++                    icon: Icon(Icons.lock_clock),
++                    focusColor: ColorsConstants.darkGreen,
++                  ),
++                ),
++                TextFormField(
++                  controller: _fotoController,
++                  decoration: const InputDecoration(
++                    labelText: 'Foto (Opcional)',
++                    icon: Icon(Icons.message),
++                    focusColor: ColorsConstants.darkGreen,
++                  ),
++                ),
++              ],
++            ),
++          ),
++          actions: [
++            ElevatedButton(
++              style: ElevatedButton.styleFrom(
++                backgroundColor: ColorsConstants.darkGreen,
++              ),
++              child: const Text(
++                "Añadir",
++                style: TextStyle(
++                  fontFamily: 'Inter',
++                  fontSize: 19,
++                  fontWeight: FontWeight.w600,
++                  color: ColorsConstants.whiteColor,
++                ),
++              ),
++              onPressed: () async {
++                // Hacer el post
++                try {
++                  Map<String, dynamic> nuevoComentario = {
++                    'contenido': _contenidoController.text ??
++                        (throw Exception('Error en contenido')),
++                    'foto': _fotoController.text == ''
++                        ? null
++                        : _fotoController.text,
++                    'horas': int.parse(_horasController.text) ??
++                        (throw Exception('Error en horas')),
++                    'usuario': _userIDController.text ??
++                        (throw Exception('Error en usuario')),
++                  };
+ 
+-                        await Comentario.postComentario(nuevoComentario);
++                  await Comentario.postComentario(nuevoComentario);
+ 
+-                        // Borrar los contenidos de los campos de texto
+-                        _userIDController.clear();
+-                        _contenidoController.clear();
+-                        _horasController.clear();
+-                        _fotoController.clear();
++                  // Borrar los contenidos de los campos de texto
++                  _userIDController.clear();
++                  _contenidoController.clear();
++                  _horasController.clear();
++                  _fotoController.clear();
+ 
+-                        Navigator.pop(context);
++                  Navigator.pop(context);
+ 
+-                        showDialog(
+-                          context: context,
+-                          builder: (BuildContext context) {
+-                            return AlertDialog(
+-                              shape: RoundedRectangleBorder(
+-                                borderRadius: BorderRadius.circular(20.0),
+-                              ),
+-                              title: const Text(
+-                                "Comentario añadido",
+-                                style: TextStyle(
+-                                  fontFamily: 'Inter',
+-                                  fontSize: 19,
+-                                  fontWeight: FontWeight.w600,
+-                                  color: ColorsConstants.whiteColor,
+-                                ),
+-                              ),
+-                              actions: [
+-                                ElevatedButton(
+-                                  style: ElevatedButton.styleFrom(
+-                                    backgroundColor: ColorsConstants.darkGreen,
+-                                  ),
+-                                  child: const Text(
+-                                    "Continuar",
+-                                    style: TextStyle(
+-                                      fontFamily: 'Inter',
+-                                      fontSize: 19,
+-                                      fontWeight: FontWeight.w600,
+-                                      color: ColorsConstants.whiteColor,
+-                                    ),
+-                                  ),
+-                                  onPressed: () {
+-                                    Navigator.pop(context);
+-                                  },
+-                                ),
+-                              ],
+-                            );
+-                          },
+-                        );
++                  showDialog(
++                    context: context,
++                    builder: (BuildContext context) {
++                      return AlertDialog(
++                        shape: RoundedRectangleBorder(
++                          borderRadius: BorderRadius.circular(20.0),
++                        ),
++                        title: const Text(
++                          "Comentario añadido",
++                          style: TextStyle(
++                            fontFamily: 'Inter',
++                            fontSize: 19,
++                            fontWeight: FontWeight.w600,
++                            color: ColorsConstants.whiteColor,
++                          ),
++                        ),
++                        actions: [
++                          ElevatedButton(
++                            style: ElevatedButton.styleFrom(
++                              backgroundColor: ColorsConstants.darkGreen,
++                            ),
++                            child: const Text(
++                              "Continuar",
++                              style: TextStyle(
++                                fontFamily: 'Inter',
++                                fontSize: 19,
++                                fontWeight: FontWeight.w600,
++                                color: ColorsConstants.whiteColor,
++                              ),
++                            ),
++                            onPressed: () {
++                              Navigator.pop(context);
++                            },
++                          ),
++                        ],
++                      );
++                    },
++                  );
+ 
+-                        //Actualizar la lista de comentarios
+-                        final List<Comentario> comentarios =
+-                            await Comentario.getComentarios();
++                  //Actualizar la lista de comentarios
++                  final List<Comentario> comentarios =
++                  await Comentario.getComentarios();
+ 
+-                        setState(() {
+-                          // Limpiar la lista existente
+-                          comunityPostsList.clear();
+-                          // Volver a llenar la lista con los comentarios actualizados
+-                          comunityPostsList
+-                              .addAll(comentarios.map((comentario) {
+-                            return CommunityPost(
+-                              horas: comentario.horas,
+-                              contenido: comentario.contenido,
+-                              username: comentario.usuario,
+-                              nombre: comentario.nombre,
+-                            );
+-                          }));
+-                        });
+-                      } catch (e) {
+-                        print('Error en post de comentario: $e');
+-                        Navigator.pop(context);
+-                        showDialog(
+-                          context: context,
+-                          builder: (BuildContext context) {
+-                            return AlertDialog(
+-                              shape: RoundedRectangleBorder(
+-                                borderRadius: BorderRadius.circular(20.0),
+-                              ),
+-                              title: const Text(
+-                                "Error al añadir comentario",
+-                                style: TextStyle(
+-                                  fontFamily: 'Inter',
+-                                  fontSize: 19,
+-                                  fontWeight: FontWeight.w600,
+-                                  color: ColorsConstants.darkGreen,
+-                                ),
+-                              ),
+-                              actions: [
+-                                ElevatedButton(
+-                                  style: ElevatedButton.styleFrom(
+-                                    backgroundColor: ColorsConstants.darkGreen,
+-                                  ),
+-                                  child: const Text(
+-                                    "Continuar",
+-                                    style: TextStyle(
+-                                      fontFamily: 'Inter',
+-                                      fontSize: 19,
+-                                      fontWeight: FontWeight.w600,
+-                                      color: ColorsConstants.darkGreen,
+-                                    ),
+-                                  ),
+-                                  onPressed: () {
+-                                    Navigator.pop(context);
+-                                  },
+-                                ),
+-                              ],
+-                            );
+-                          },
+-                        );
+-                      }
+-                    },
+-                  ),
+-                ],
+-              );
+-            },
+-          );
++                  setState(() {
++                    // Limpiar la lista existente
++                    comunityPostsList.clear();
++                    // Volver a llenar la lista con los comentarios actualizados
++                    comunityPostsList
++                        .addAll(comentarios.map((comentario) {
++                      return CommunityPost(
++                        horas: comentario.horas,
++                        contenido: comentario.contenido,
++                        username: comentario.usuario,
++                        nombre: comentario.nombre,
++                      );
++                    }));
++                  });
++                } catch (e) {
++                  print('Error en post de comentario: $e');
++                  Navigator.pop(context);
++                  showDialog(
++                    context: context,
++                    builder: (BuildContext context) {
++                      return AlertDialog(
++                        shape: RoundedRectangleBorder(
++                          borderRadius: BorderRadius.circular(20.0),
++                        ),
++                        title: const Text(
++                          "Error al añadir comentario",
++                          style: TextStyle(
++                            fontFamily: 'Inter',
++                            fontSize: 19,
++                            fontWeight: FontWeight.w600,
++                            color: ColorsConstants.darkGreen,
++                          ),
++                        ),
++                        actions: [
++                          ElevatedButton(
++                            style: ElevatedButton.styleFrom(
++                              backgroundColor: ColorsConstants.darkGreen,
++                            ),
++                            child: const Text(
++                              "Continuar",
++                              style: TextStyle(
++                                fontFamily: 'Inter',
++                                fontSize: 19,
++                                fontWeight: FontWeight.w600,
++                                color: ColorsConstants.darkGreen,
++                              ),
++                            ),
++                            onPressed: () {
++                              Navigator.pop(context);
++                            },
++                          ),
++                        ],
++                      );
++                    },
++                  );
++                }
++              },
++            ),
++          ],
++        );
++      },
++    );
++  }
++
++  @override
++  Widget build(BuildContext context) {
++    double screenWidth = MediaQuery.of(context).size.width;
++
++    return Scaffold(
++      floatingActionButton: FloatingActionButton(
++        onPressed: () {
++          Navigator.pushNamed(context, AppRoutes.postCommunity);
++
+         },
+         backgroundColor: ColorsConstants.darkGreen,
+         child: const Icon(Icons.add, color: ColorsConstants.whiteColor),
+Index: lib/Screens/MainPage.dart
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/lib/Screens/MainPage.dart b/lib/Screens/MainPage.dart
+--- a/lib/Screens/MainPage.dart	(revision fddf4443f4b0221972e7fa5afdcfcbed40fb6a79)
++++ b/lib/Screens/MainPage.dart	(revision a15669b2251559e8341ed949fa52b1f0595e2de2)
+@@ -1,5 +1,6 @@
+ // ignore: file_names
+ import 'package:flutter/material.dart';
++import 'package:nutrisalud/Routes/AppRoutes.dart';
+ import 'package:nutrisalud/Widgets/GeneralWidgets/DrawerWidget.dart';
+ import '../Widgets/MainPageWidgets/MainPageBlocks.dart';
+ import '../Helpers/HelpersExport.dart';
+@@ -51,6 +52,7 @@
+       floatingActionButton: FloatingActionButton(
+         onPressed: () {
+           // Acciones para añadir un profesional tip
++          Navigator.pushNamed(context, AppRoutes.postProTip);
+         },
+         backgroundColor: ColorsConstants.darkGreen,
+         child: const Icon(Icons.add, color: ColorsConstants.whiteColor),
+Index: lib/Screens/PostCommunity.dart
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/lib/Screens/PostCommunity.dart b/lib/Screens/PostCommunity.dart
+new file mode 100644
+--- /dev/null	(revision a15669b2251559e8341ed949fa52b1f0595e2de2)
++++ b/lib/Screens/PostCommunity.dart	(revision a15669b2251559e8341ed949fa52b1f0595e2de2)
+@@ -0,0 +1,46 @@
++import 'package:flutter/material.dart';
++import 'package:flutter_svg/flutter_svg.dart';
++import '../Helpers/HelpersExport.dart';
++
++class PostCommunity extends StatefulWidget {
++  const PostCommunity({super.key});
++
++  @override
++  State<PostCommunity> createState() => _PostCommunityState();
++}
++
++class _PostCommunityState extends State<PostCommunity> {
++  @override
++  Widget build(BuildContext context) {
++    return Scaffold(
++      backgroundColor: ColorsConstants.whiteColor,
++      appBar: AppBar(
++        actions: [
++          Container(
++            margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.05),
++            child: ElevatedButton(
++              onPressed: (){},
++              style: ButtonStyle(backgroundColor: MaterialStateColor.resolveWith((states) => ColorsConstants.darkGreen)),
++              child: const Text('Post', style: TextStyle(color: ColorsConstants.whiteColor, fontWeight: FontWeight.w500)),
++            ),
++          )
++        ],
++        foregroundColor: ColorsConstants.darkGreen,
++        backgroundColor: ColorsConstants.whiteColor
++      ),
++      body: Container(
++        padding: const EdgeInsets.all(16.0),
++        child: const TextField(
++          style: TextStyle(decoration: TextDecoration.none),
++          expands: true,
++          maxLines: null, // Establece maxLines en null para que el TextField pueda crecer según sea necesario
++          decoration: InputDecoration(
++            border: InputBorder.none,
++            hintText: 'Contenido del comentario',
++          ),
++        ),
++      ),
++
++    );
++  }
++}
+Index: lib/Screens/PostProTip.dart
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/lib/Screens/PostProTip.dart b/lib/Screens/PostProTip.dart
+new file mode 100644
+--- /dev/null	(revision a15669b2251559e8341ed949fa52b1f0595e2de2)
++++ b/lib/Screens/PostProTip.dart	(revision a15669b2251559e8341ed949fa52b1f0595e2de2)
+@@ -0,0 +1,86 @@
++import 'package:flutter/material.dart';
++import '../Helpers/HelpersExport.dart';
++
++class PostProTip extends StatefulWidget {
++  const PostProTip({super.key});
++
++  @override
++  State<PostProTip> createState() => _PostProTipState();
++}
++
++class _PostProTipState extends State<PostProTip> {
++  @override
++  Widget build(BuildContext context) {
++    return Scaffold(
++      backgroundColor: ColorsConstants.whiteColor,
++      appBar: AppBar(
++          actions: [
++            Container(
++              margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.05),
++              child: ElevatedButton(
++                onPressed: (){},
++                style: ButtonStyle(backgroundColor: MaterialStateColor.resolveWith((states) => ColorsConstants.darkGreen)),
++                child: const Text('Post', style: TextStyle(color: ColorsConstants.whiteColor, fontWeight: FontWeight.w500)),
++              ),
++            )
++          ],
++          foregroundColor: ColorsConstants.darkGreen,
++          backgroundColor: ColorsConstants.whiteColor
++      ),
++      body: Padding(
++        padding: const EdgeInsets.all(10.0),
++        child: Column(
++          children: [
++            Row(children: [Text(
++              'Titulo del tip',
++              style: const TextStyle(
++                fontFamily: 'Inter',
++                fontSize: 19,
++                fontWeight: FontWeight.w600,
++                color: ColorsConstants.darkGreen,
++              ),
++            ),],),
++              Container(
++                margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.01,),
++                height: MediaQuery.of(context).size.height * 0.1,
++                padding: const EdgeInsets.all(16.0),
++                child: const TextField(
++                  style: TextStyle(decoration: TextDecoration.none),
++                  expands: true,
++                  maxLines: null, // Establece maxLines en null para que el TextField pueda crecer según sea necesario
++                  decoration: InputDecoration(
++                    border: InputBorder.none,
++                    hintText: 'Escribe aquí...',
++                  ),
++                ),
++            ),
++            SizedBox(height: 15,),
++            Divider(color: ColorsConstants.darkGreen, height: 1),
++            SizedBox(height: 15,),
++            Row(children: [Text(
++              'Contenido de tip',
++              style: const TextStyle(
++                fontFamily: 'Inter',
++                fontSize: 19,
++                fontWeight: FontWeight.w600,
++                color: ColorsConstants.darkGreen,
++              ),
++            ),],),
++            Expanded(child: Container(
++              padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height * 0.01, horizontal: MediaQuery.of(context).size.width * 0.04),
++              child: const TextField(
++                style: TextStyle(decoration: TextDecoration.none),
++                expands: true,
++                maxLines: null, // Establece maxLines en null para que el TextField pueda crecer según sea necesario
++                decoration: InputDecoration(
++                  border: InputBorder.none,
++                  hintText: 'Escribe aquí...',
++                ),
++              ),
++            ),)
++          ],
++        ),
++      ),
++    );
++  }
++}
+Index: lib/Screens/Screens.dart
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/lib/Screens/Screens.dart b/lib/Screens/Screens.dart
+--- a/lib/Screens/Screens.dart	(revision fddf4443f4b0221972e7fa5afdcfcbed40fb6a79)
++++ b/lib/Screens/Screens.dart	(revision a15669b2251559e8341ed949fa52b1f0595e2de2)
+@@ -9,3 +9,4 @@
+ export './Register.dart';
+ export './Login.dart';
+ export './IntroductionDoctor.dart';
++export './PostCommunity.dart';
+Index: lib/main.dart
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/lib/main.dart b/lib/main.dart
+--- a/lib/main.dart	(revision fddf4443f4b0221972e7fa5afdcfcbed40fb6a79)
++++ b/lib/main.dart	(revision a15669b2251559e8341ed949fa52b1f0595e2de2)
+@@ -1,5 +1,6 @@
+ import 'package:flutter/material.dart';
+ import 'package:flutter/services.dart';
++import 'package:nutrisalud/Screens/PostProTip.dart';
+ import '../Helpers/HelpersExport.dart';
+ import 'package:nutrisalud/Routes/AppRoutes.dart';
+ import 'package:nutrisalud/Widgets/GeneralWidgets/NutriSaludBtBar.dart';
+@@ -47,6 +48,10 @@
+           case AppRoutes.introductionDoctor:
+             return MaterialPageRoute(
+                 builder: (context) => const IntroductionDoctor());
++          case AppRoutes.postCommunity:
++            return MaterialPageRoute(builder: (context) => const PostCommunity());
++          case AppRoutes.postProTip:
++            return MaterialPageRoute(builder: (context) => const PostProTip());
+         }
+         return null;
+       },

@@ -39,6 +39,7 @@ class UsuarioPreferences {
   static Usuario usuarioFromJson(String usuarioJson) {
     final Map<String, dynamic> data = jsonDecode(usuarioJson);
     return Usuario(
+      id: data['id'],
       nombre: data['nombre'],
       usuario: data['usuario'],
       contrasena: data['contrasena'],

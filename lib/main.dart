@@ -46,7 +46,6 @@ class MyApp extends StatelessWidget {
             return MaterialPageRoute(builder: (context) => const Login());
           case AppRoutes.introductionDoctor:
             return MaterialPageRoute(builder: (context) => const IntroductionDoctor());
-
         }
         return null;
       },

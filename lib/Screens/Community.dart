@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../Widgets/CommunityWidgets/CommunityPost.dart';
 import '../Widgets/GeneralWidgets/NavBar.dart';
 import '../Providers/CommentsProviders.dart';
+import '../Providers/UsersProviders.dart';
 import '../Helpers/HelpersExport.dart';
 
 class Community extends StatefulWidget {
@@ -115,7 +116,15 @@ class _CommunityState extends State<Community> {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: ColorsConstants.darkGreen,
                     ),
-                    child: const Text("Añadir"),
+                    child: const Text(
+                      "Añadir",
+                      style: TextStyle(
+                        fontFamily: 'Inter',
+                        fontSize: 19,
+                        fontWeight: FontWeight.w600,
+                        color: ColorsConstants.whiteColor,
+                      ),
+                    ),
                     onPressed: () async {
                       // Hacer el post
                       try {
@@ -154,7 +163,7 @@ class _CommunityState extends State<Community> {
                                   fontFamily: 'Inter',
                                   fontSize: 19,
                                   fontWeight: FontWeight.w600,
-                                  color: ColorsConstants.darkGreen,
+                                  color: ColorsConstants.whiteColor,
                                 ),
                               ),
                               actions: [
@@ -162,7 +171,15 @@ class _CommunityState extends State<Community> {
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: ColorsConstants.darkGreen,
                                   ),
-                                  child: const Text("Continuar"),
+                                  child: const Text(
+                                    "Continuar",
+                                    style: TextStyle(
+                                      fontFamily: 'Inter',
+                                      fontSize: 19,
+                                      fontWeight: FontWeight.w600,
+                                      color: ColorsConstants.whiteColor,
+                                    ),
+                                  ),
                                   onPressed: () {
                                     Navigator.pop(context);
                                   },
@@ -214,7 +231,15 @@ class _CommunityState extends State<Community> {
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: ColorsConstants.darkGreen,
                                   ),
-                                  child: const Text("Continuar"),
+                                  child: const Text(
+                                    "Continuar",
+                                    style: TextStyle(
+                                      fontFamily: 'Inter',
+                                      fontSize: 19,
+                                      fontWeight: FontWeight.w600,
+                                      color: ColorsConstants.darkGreen,
+                                    ),
+                                  ),
                                   onPressed: () {
                                     Navigator.pop(context);
                                   },

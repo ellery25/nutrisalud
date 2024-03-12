@@ -1,4 +1,6 @@
 // ignore: file_names
+// ignore_for_file: avoid_print
+
 import 'package:flutter/material.dart';
 import 'package:nutrisalud/Widgets/GeneralWidgets/GeneralBlocks.dart';
 import 'package:page_view_dot_indicator/page_view_dot_indicator.dart';
@@ -7,7 +9,7 @@ import '../Helpers/HelpersExport.dart';
 import '../Providers/NutricionistsProviders.dart';
 
 class Nutricionists extends StatefulWidget {
-  const Nutricionists({Key? key}) : super(key: key);
+  const Nutricionists({super.key});
 
   @override
   _NutricionistsState createState() => _NutricionistsState();
@@ -94,7 +96,7 @@ class _NutricionistsState extends State<Nutricionists> {
               // Usar un FutureBuilder para mostrar el indicador de carga
               Expanded(
                 child: isLoading
-                    ? Center(
+                    ? const Center(
                         child: CircularProgressIndicator(
                             valueColor: AlwaysStoppedAnimation<Color>(
                                 ColorsConstants.darkGreen)))

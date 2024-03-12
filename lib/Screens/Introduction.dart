@@ -13,13 +13,14 @@ class Introduction extends StatefulWidget {
 class _IntroductionState extends State<Introduction> {
   @override
   Widget build(BuildContext context) {
+    double screenHeight = MediaQuery.of(context).size.height;
+
     final pages = [
       PageViewModel(
           title: 'Find Recipes',
           body:
               'NutriSalud is an application developed to improve the quality of your nutrition, you can search for different food recipes.',
-          image: Image.asset(AssetsRoute.foodPng,
-              height: MediaQuery.of(context).size.height * 0.25),
+          image: Image.asset(AssetsRoute.foodPng, height: screenHeight * 0.25),
           decoration: const PageDecoration(
               titleTextStyle: TextStyle(
                   color: ColorsConstants.darkGreen,
@@ -32,7 +33,7 @@ class _IntroductionState extends State<Introduction> {
           body:
               'Socialize with users in our community, share your lifestyle and learn from others.',
           image: Image.asset(AssetsRoute.communityPng,
-              height: MediaQuery.of(context).size.height * 0.25),
+              height: screenHeight * 0.25),
           decoration: const PageDecoration(
               titleTextStyle: TextStyle(
                   color: ColorsConstants.darkGreen,
@@ -44,8 +45,8 @@ class _IntroductionState extends State<Introduction> {
           title: 'Speak with a Nutricionist',
           body:
               'Do you need advice, do you have digestive problems, you can contact our Nutritionists, each one with different specializations that will help you with your diet.',
-          image: Image.asset(AssetsRoute.doctorPng,
-              height: MediaQuery.of(context).size.height * 0.25),
+          image:
+              Image.asset(AssetsRoute.doctorPng, height: screenHeight * 0.25),
           decoration: const PageDecoration(
               titleTextStyle: TextStyle(
                   color: ColorsConstants.darkGreen,
@@ -66,8 +67,7 @@ class _IntroductionState extends State<Introduction> {
                 fontWeight: FontWeight.bold,
                 color: ColorsConstants.whiteColor)),
       ),
-      bodyPadding:
-          EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.2),
+      bodyPadding: EdgeInsets.only(top: screenHeight * 0.2),
       pages: pages,
       dotsDecorator:
           const DotsDecorator(activeColor: ColorsConstants.darkGreen),
@@ -75,13 +75,10 @@ class _IntroductionState extends State<Introduction> {
       done: const Text('Next',
           style: TextStyle(color: ColorsConstants.darkGreen)),
       onDone: () {
-
         //Este button manda a la pestaña principal
 
         Navigator.pushReplacementNamed(context, AppRoutes.home);
-
       },
-
     );
   }
 }

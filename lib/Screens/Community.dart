@@ -1,8 +1,10 @@
+// ignore: file_names
+// ignore_for_file: avoid_print
+
 import 'package:flutter/material.dart';
 import '../Widgets/CommunityWidgets/CommunityPost.dart';
 import '../Widgets/GeneralWidgets/NavBar.dart';
 import '../Providers/CommentsProviders.dart';
-import '../Providers/UsersProviders.dart';
 import '../Helpers/HelpersExport.dart';
 
 class Community extends StatefulWidget {
@@ -50,6 +52,7 @@ class _CommunityState extends State<Community> {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {

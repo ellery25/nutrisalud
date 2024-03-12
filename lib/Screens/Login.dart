@@ -1,3 +1,6 @@
+// ignore: file_names
+// ignore_for_file: avoid_print
+
 import 'package:flutter/material.dart';
 import 'package:nutrisalud/Routes/AppRoutes.dart';
 import '../Helpers/HelpersExport.dart';
@@ -12,8 +15,6 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  final _formKey = GlobalKey<FormState>();
-
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
@@ -57,11 +58,9 @@ class _LoginState extends State<Login> {
           ),
           //Logo
           Container(
-            margin:
-                EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.07),
+            margin: EdgeInsets.only(top: screenHeight * 0.07),
             child: SvgPicture.asset(AssetsRoute.logoSvg,
-                color: ColorsConstants.whiteColor,
-                height: MediaQuery.of(context).size.height * 0.17),
+                color: ColorsConstants.whiteColor, height: screenHeight * 0.17),
           ),
           const SizedBox(height: 30),
 
@@ -72,7 +71,7 @@ class _LoginState extends State<Login> {
                     topRight: Radius.circular(50),
                     topLeft: Radius.circular(50)),
                 color: ColorsConstants.whiteColor),
-            width: MediaQuery.of(context).size.width * 1,
+            width: screenWidth * 1,
             child: Padding(
               padding: const EdgeInsets.all(15.0),
               child: Column(

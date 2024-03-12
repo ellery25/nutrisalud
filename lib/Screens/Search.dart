@@ -1,3 +1,4 @@
+// ignore: file_names
 import 'package:flutter/material.dart';
 import 'package:nutrisalud/Routes/AppRoutes.dart';
 import '../Widgets/GeneralWidgets/NavBar.dart';
@@ -27,7 +28,6 @@ class _SearchState extends State<Search> {
               NavBar(
                 backButton: true,
                 backRoute: () {
-                  print("back search");
                   Navigator.popAndPushNamed(context, AppRoutes.home);
                 },
               ),

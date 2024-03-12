@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
           case AppRoutes.nutricionist:
             return MaterialPageRoute(
                 builder: (context) => const Nutricionists());
-          case AppRoutes.Search:
+          case AppRoutes.search:
             return MaterialPageRoute(builder: (context) => const Search());
           case AppRoutes.welcome:
             return MaterialPageRoute(
@@ -45,7 +45,8 @@ class MyApp extends StatelessWidget {
           case AppRoutes.login:
             return MaterialPageRoute(builder: (context) => const Login());
           case AppRoutes.introductionDoctor:
-            return MaterialPageRoute(builder: (context) => const IntroductionDoctor());
+            return MaterialPageRoute(
+                builder: (context) => const IntroductionDoctor());
         }
         return null;
       },

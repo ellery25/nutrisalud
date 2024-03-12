@@ -8,12 +8,12 @@ class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
   @override
   Widget build(BuildContext context) {
-
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle.light
           .copyWith(statusBarColor: ColorsConstants.lightGreen),
     );
-
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: ColorsConstants.lightGreen,
       body: SafeArea(
@@ -21,18 +21,15 @@ class WelcomeScreen extends StatelessWidget {
         children: [
           //Logo
           Container(
-            margin:
-                EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.07),
+            margin: EdgeInsets.only(top: screenHeight * 0.07),
             child: SvgPicture.asset(AssetsRoute.logoSvg,
-                color: ColorsConstants.whiteColor,
-                height: MediaQuery.of(context).size.height * 0.17),
+                color: ColorsConstants.whiteColor, height: screenHeight * 0.17),
           ),
 
           Container(
               alignment: Alignment.center,
               margin: EdgeInsets.only(
-                  top: MediaQuery.of(context).size.height * 0.01,
-                  bottom: MediaQuery.of(context).size.height * 0.05),
+                  top: screenHeight * 0.01, bottom: screenHeight * 0.05),
               child: const Text(
                 "NutriSalud",
                 style: TextStyle(
@@ -49,14 +46,13 @@ class WelcomeScreen extends StatelessWidget {
                     topRight: Radius.circular(50),
                     topLeft: Radius.circular(50)),
                 color: ColorsConstants.whiteColor),
-            width: MediaQuery.of(context).size.width * 1,
+            width: screenWidth * 1,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 // Welcome!
                 Container(
-                  margin: EdgeInsets.symmetric(
-                      vertical: MediaQuery.of(context).size.height * 0.05),
+                  margin: EdgeInsets.symmetric(vertical: screenHeight * 0.05),
                   child: const Text(
                     'Welcome!',
                     style: TextStyle(
@@ -69,16 +65,14 @@ class WelcomeScreen extends StatelessWidget {
                 //Login
                 InkWell(
                   onTap: () {
-
                     Navigator.pushNamed(context, AppRoutes.login);
-
                   },
                   child: Container(
                     decoration: const BoxDecoration(
                         color: ColorsConstants.darkGreen,
                         borderRadius: BorderRadius.all(Radius.circular(20))),
-                    width: MediaQuery.of(context).size.width * 0.65,
-                    height: MediaQuery.of(context).size.height * 0.07,
+                    width: screenWidth * 0.65,
+                    height: screenHeight * 0.07,
                     alignment: Alignment.center,
                     child: const Text('Login',
                         style: TextStyle(
@@ -87,20 +81,18 @@ class WelcomeScreen extends StatelessWidget {
                             fontWeight: FontWeight.w700)),
                   ),
                 ),
-                SizedBox(height: MediaQuery.of(context).size.height * 0.06),
+                SizedBox(height: screenHeight * 0.06),
                 //Register
                 InkWell(
                   onTap: () {
-
                     Navigator.pushNamed(context, AppRoutes.chooseAcount);
-
                   },
                   child: Container(
                     decoration: const BoxDecoration(
                         color: ColorsConstants.darkGreen,
                         borderRadius: BorderRadius.all(Radius.circular(20))),
-                    width: MediaQuery.of(context).size.width * 0.65,
-                    height: MediaQuery.of(context).size.height * 0.07,
+                    width: screenWidth * 0.65,
+                    height: screenHeight * 0.07,
                     alignment: Alignment.center,
                     child: const Text('Register',
                         style: TextStyle(
@@ -110,17 +102,16 @@ class WelcomeScreen extends StatelessWidget {
                   ),
                 ),
 
-                SizedBox(height: MediaQuery.of(context).size.height * 0.08),
+                SizedBox(height: screenHeight * 0.08),
 
                 //Or continue with
                 Row(
                   children: [
                     Container(
                       color: ColorsConstants.darkGreen,
-                      margin: EdgeInsets.only(
-                          right: MediaQuery.of(context).size.width * 0.03),
-                      width: MediaQuery.of(context).size.width * 0.32,
-                      height: MediaQuery.of(context).size.height * 0.002,
+                      margin: EdgeInsets.only(right: screenWidth * 0.03),
+                      width: screenWidth * 0.32,
+                      height: screenHeight * 0.002,
                     ),
                     Container(
                       alignment: Alignment.center,
@@ -133,16 +124,15 @@ class WelcomeScreen extends StatelessWidget {
                     Expanded(
                       child: Container(
                         color: ColorsConstants.darkGreen,
-                        margin: EdgeInsets.only(
-                            left: MediaQuery.of(context).size.width * 0.03),
-                        width: MediaQuery.of(context).size.width * 0.3,
-                        height: MediaQuery.of(context).size.height * 0.002,
+                        margin: EdgeInsets.only(left: screenWidth * 0.03),
+                        width: screenWidth * 0.3,
+                        height: screenHeight * 0.002,
                       ),
                     )
                   ],
                 ),
 
-                SizedBox(height: MediaQuery.of(context).size.height * 0.04),
+                SizedBox(height: screenHeight * 0.04),
 
                 //Accounts
                 Row(
@@ -152,21 +142,21 @@ class WelcomeScreen extends StatelessWidget {
                       onTap: () {},
                       child: SvgPicture.asset(AssetsRoute.gmailSvg,
                           color: ColorsConstants.darkGreen,
-                          height: MediaQuery.of(context).size.height * 0.04),
+                          height: screenHeight * 0.04),
                     ),
-                    SizedBox(width: MediaQuery.of(context).size.width * 0.07),
+                    SizedBox(width: screenWidth * 0.07),
                     InkWell(
                       onTap: () {},
                       child: SvgPicture.asset(AssetsRoute.metaSvg,
                           color: ColorsConstants.darkGreen,
-                          height: MediaQuery.of(context).size.height * 0.04),
+                          height: screenHeight * 0.04),
                     ),
-                    SizedBox(width: MediaQuery.of(context).size.width * 0.07),
+                    SizedBox(width: screenWidth * 0.07),
                     InkWell(
                       onTap: () {},
                       child: SvgPicture.asset(AssetsRoute.twitterSvg,
                           color: ColorsConstants.darkGreen,
-                          height: MediaQuery.of(context).size.height * 0.04),
+                          height: screenHeight * 0.04),
                     )
                   ],
                 ),

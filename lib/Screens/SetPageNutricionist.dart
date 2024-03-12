@@ -1,8 +1,9 @@
+// ignore: file_names
 import 'package:flutter/material.dart';
 import '../Helpers/HelpersExport.dart';
 
 class SetPageNutricionist extends StatefulWidget {
-  const SetPageNutricionist({Key? key}) : super(key: key);
+  const SetPageNutricionist({super.key});
 
   @override
   _SetPageNutricionist createState() => _SetPageNutricionist();
@@ -39,113 +40,112 @@ class _SetPageNutricionist extends State<SetPageNutricionist> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Text(
+                  const Text(
                     'Contact Info:',
                     style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
                         color: ColorsConstants.darkGreen),
                   ),
-                  SizedBox(height: 20),
-                  Text('Profile URL:'),
+                  const SizedBox(height: 20),
+                  const Text('Profile URL:'),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
+                      const Text(
                         'www.nutrisalud.com/in/drbayter',
                         style: TextStyle(fontSize: 18),
                       ),
                       IconButton(
-                        icon: Icon(Icons.arrow_forward),
+                        icon: const Icon(Icons.arrow_forward),
                         onPressed: () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => SetPageNutricionist()),
+                                builder: (context) => const SetPageNutricionist()),
                           );
                         },
                       ),
                     ],
                   ),
-                  SizedBox(height: 20),
-                  Text('Email:'),
+                  const SizedBox(height: 20),
+                  const Text('Email:'),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
+                      const Text(
                         'drbayter@gmail.com',
                         style: TextStyle(fontSize: 18),
                       ),
                       IconButton(
-                        icon: Icon(Icons.arrow_forward),
+                        icon: const Icon(Icons.arrow_forward),
                         onPressed: () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => SetPageNutricionist()),
+                                builder: (context) => const SetPageNutricionist()),
                           );
                         },
                       ),
                     ],
                   ),
-                  SizedBox(height: 20),
-                  Text('Phone Number'),
-                  TextField(),
-                  SizedBox(height: 20),
-                  Text('Address'),
-                  TextField(),
-                  SizedBox(height: 20),
-                  Text('Birthday'),
-                  TextField(),
-                  SizedBox(height: 20),
-                  Text('WebSite'),
+                  const SizedBox(height: 20),
+                  const Text('Phone Number'),
+                  const TextField(),
+                  const SizedBox(height: 20),
+                  const Text('Address'),
+                  const TextField(),
+                  const SizedBox(height: 20),
+                  const Text('Birthday'),
+                  const TextField(),
+                  const SizedBox(height: 20),
+                  const Text('WebSite'),
                   Row(
                     children: [
                       IconButton(
-                        icon: Icon(Icons.more_horiz),
+                        icon: const Icon(Icons.more_horiz),
                         onPressed: () {
                           _toggleVisibility();
                         },
                       ),
-                      Text(
+                      const Text(
                         'Add website',
                         style: TextStyle(fontSize: 18),
                       ),
                     ],
                   ),
-                  _isVisible ? _buildContainer() : SizedBox(),
-                  SizedBox(height: 20),
+                  _isVisible ? _buildContainer() : const SizedBox(),
+                  const SizedBox(height: 20),
 
-                  Text(
+                  const Text(
                       'Instant Messaging'), // Construir el contenedor solo si es visible
                   Row(
                     children: [
                       IconButton(
-                        icon: Icon(Icons.more_horiz),
+                        icon: const Icon(Icons.more_horiz),
                         onPressed: () {
                           _toggleVisibility2();
                         },
                       ),
-                      Text(
+                      const Text(
                         'Add messaging option',
                         style: TextStyle(fontSize: 18),
                       ),
                     ],
                   ),
-                  _isVisible2 ? _buildContainer2() : SizedBox(),
+                  _isVisible2 ? _buildContainer2() : const SizedBox(),
 
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   Align(
                     alignment: Alignment.bottomRight,
                     child: ElevatedButton(
                       onPressed: () {
                         // Acción cuando se presiona el botón "Next"
                       },
-                      child: Text('Next'),
                       style: ElevatedButton.styleFrom(
-                        primary:
-                            ColorsConstants.lightGreen, // Color de fondo blanco
+                        backgroundColor: ColorsConstants.lightGreen, // Color de fondo blanco
                       ),
+                      child: const Text('Next'),
                     ),
                   ),
                 ],
@@ -159,7 +159,7 @@ class _SetPageNutricionist extends State<SetPageNutricionist> {
 
   Widget _buildContainer() {
     return Container(
-      child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+      child: const Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
         Text('Website'),
         TextField(),
       ]),
@@ -168,7 +168,7 @@ class _SetPageNutricionist extends State<SetPageNutricionist> {
 
   Widget _buildContainer2() {
     return Container(
-      child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+      child: const Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
         Text('Username'),
         TextField(),
       ]),

@@ -18,13 +18,19 @@ class _ChooseAcountState extends State<ChooseAcount> {
       SystemUiOverlayStyle.light
           .copyWith(statusBarColor: ColorsConstants.lightGreen),
     );
+
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
         backgroundColor: ColorsConstants.lightGreen,
-        appBar: AppBar(backgroundColor: ColorsConstants.lightGreen, foregroundColor: ColorsConstants.whiteColor,),
+        appBar: AppBar(
+          backgroundColor: ColorsConstants.lightGreen,
+          foregroundColor: ColorsConstants.whiteColor,
+        ),
         body: Padding(
           padding: EdgeInsets.symmetric(
-              horizontal: MediaQuery.of(context).size.width * 0.07,
-              vertical: MediaQuery.of(context).size.height * 0.001),
+              horizontal: screenWidth * 0.07, vertical: screenHeight * 0.001),
           child: Column(
             children: [
               //Are you a:
@@ -37,38 +43,35 @@ class _ChooseAcountState extends State<ChooseAcount> {
                         fontWeight: FontWeight.bold)),
               ),
               SizedBox(
-                height: MediaQuery.of(context).size.height * 0.03,
+                height: screenHeight * 0.03,
               ),
 
               // Nutricionist
               InkWell(
                 onTap: () {
-
                   //Definir tipo de cuenta
                   Navigator.popAndPushNamed(context, AppRoutes.register);
-
                 },
                 splashColor: MaterialStateColor.resolveWith(
                     (states) => ColorsConstants.darkGreen),
                 customBorder: const BeveledRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(20))),
                 child: Container(
-                  height: MediaQuery.of(context).size.height * 0.35,
-                  width: MediaQuery.of(context).size.width * 0.85,
+                  height: screenHeight * 0.35,
+                  width: screenWidth * 0.85,
                   decoration: const BoxDecoration(
                       color: ColorsConstants.whiteColor,
                       borderRadius: BorderRadius.all(Radius.circular(25))),
                   child: Column(
                     children: [
                       Container(
-                        margin: EdgeInsets.only(
-                            top: MediaQuery.of(context).size.height * 0.08),
+                        margin: EdgeInsets.only(top: screenHeight * 0.08),
                         child: SvgPicture.asset(AssetsRoute.logoSvg,
                             color: ColorsConstants.darkGreen,
-                            height: MediaQuery.of(context).size.height * 0.15),
+                            height: screenHeight * 0.15),
                       ),
                       SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.01,
+                        height: screenHeight * 0.01,
                       ),
                       const Text(
                         'Nutricionist',
@@ -83,34 +86,31 @@ class _ChooseAcountState extends State<ChooseAcount> {
               ),
 
               SizedBox(
-                height: MediaQuery.of(context).size.height * 0.07,
+                height: screenHeight * 0.07,
               ),
 
               // Client
               InkWell(
                 onTap: () {
-
                   //Definir tipo de cuenta
                   Navigator.popAndPushNamed(context, AppRoutes.register);
-
                 },
                 child: Container(
-                  height: MediaQuery.of(context).size.height * 0.35,
-                  width: MediaQuery.of(context).size.width * 0.85,
+                  height: screenHeight * 0.35,
+                  width: screenWidth * 0.85,
                   decoration: const BoxDecoration(
                       color: ColorsConstants.whiteColor,
                       borderRadius: BorderRadius.all(Radius.circular(25))),
                   child: Column(
                     children: [
                       Container(
-                        margin: EdgeInsets.only(
-                            top: MediaQuery.of(context).size.height * 0.07),
+                        margin: EdgeInsets.only(top: screenHeight * 0.07),
                         child: Icon(Icons.account_circle_outlined,
-                            size: MediaQuery.of(context).size.height * 0.15,
+                            size: screenHeight * 0.15,
                             color: ColorsConstants.darkGreen),
                       ),
                       SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.01,
+                        height: screenHeight * 0.01,
                       ),
                       const Text(
                         'User',

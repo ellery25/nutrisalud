@@ -27,6 +27,7 @@ class _RegisterState extends State<Register> {
 
   @override
   Widget build(BuildContext context) {
+    double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: ColorsConstants.lightGreen,
       body: SingleChildScrollView(
@@ -46,7 +47,7 @@ class _RegisterState extends State<Register> {
                 child: Center(
                   child: SvgPicture.asset(AssetsRoute.logoSvg,
                       color: ColorsConstants.whiteColor,
-                      height: MediaQuery.of(context).size.height * 0.17),
+                      height: screenHeight * 0.17),
                 ),
               ),
               Container(

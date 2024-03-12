@@ -1,3 +1,4 @@
+// ignore: file_names
 import 'package:flutter/material.dart';
 import '../../Helpers/Colors.dart';
 
@@ -11,10 +12,11 @@ class EatingTimeBlock extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
       padding: const EdgeInsets.all(20),
-      width: MediaQuery.of(context).size.width * 0.9,
+      width: screenWidth * 0.9,
       decoration: BoxDecoration(
         color: ColorsConstants.lightGreen,
         borderRadius: BorderRadius.circular(15),

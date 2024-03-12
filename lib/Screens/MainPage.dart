@@ -1,3 +1,4 @@
+// ignore: file_names
 import 'package:flutter/material.dart';
 import 'package:nutrisalud/Widgets/GeneralWidgets/DrawerWidget.dart';
 import '../Widgets/MainPageWidgets/MainPageBlocks.dart';
@@ -47,7 +48,7 @@ class _MainPageState extends State<MainPage> {
     ];
 
     return Scaffold(
-      drawer: DrawerWidget(),
+      drawer: const DrawerWidget(),
       backgroundColor: ColorsConstants.whiteColor,
       body: SafeArea(
         child: Column(

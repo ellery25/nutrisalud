@@ -1,3 +1,4 @@
+// ignore: file_names
 import 'package:flutter/material.dart';
 import 'package:nutrisalud/Routes/AppRoutes.dart';
 import '../../Helpers/Colors.dart';
@@ -5,10 +6,11 @@ import '../../Helpers/Colors.dart';
 class MainPageBar extends StatelessWidget {
   final String userAvatar;
 
-  const MainPageBar({Key? key, required this.userAvatar}) : super(key: key);
+  const MainPageBar({super.key, required this.userAvatar});
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
     return Container(
       margin: const EdgeInsets.only(left: 20, top: 10, bottom: 10),
       child: Row(
@@ -27,10 +29,10 @@ class MainPageBar extends StatelessWidget {
             margin: const EdgeInsets.only(left: 5, right: 15),
             height: 40,
             padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 10),
-            width: MediaQuery.of(context).size.width * 0.75,
+            width: screenWidth * 0.75,
             child: TextFormField(
               onTap: () =>
-                  Navigator.pushReplacementNamed(context, AppRoutes.Search),
+                  Navigator.pushReplacementNamed(context, AppRoutes.search),
               keyboardType: TextInputType.text,
               decoration: const InputDecoration(
                 border: InputBorder.none,

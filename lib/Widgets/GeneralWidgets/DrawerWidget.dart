@@ -1,5 +1,5 @@
+// ignore: file_names
 import 'package:flutter/material.dart';
-import 'package:nutrisalud/Routes/AppRoutes.dart';
 import 'package:nutrisalud/Helpers/HelpersExport.dart';
 
 class DrawerWidget extends StatefulWidget {
@@ -12,15 +12,16 @@ class DrawerWidget extends StatefulWidget {
 class _DrawerWidgetState extends State<DrawerWidget> {
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
     return Drawer(
         backgroundColor: ColorsConstants.whiteColor,
         child: Padding(
-          padding:
-              EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.1),
+          padding: EdgeInsets.only(top: screenHeight * 0.1),
           child: Column(
             children: [
-              CircleAvatar(radius: MediaQuery.of(context).size.height * 0.1),
-              SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+              CircleAvatar(radius: screenHeight * 0.1),
+              SizedBox(height: screenHeight * 0.02),
 
               //Aquí va el nombre del usuario
               const Text('Ellery Ricaurte',
@@ -37,13 +38,12 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                       fontWeight: FontWeight.w400,
                       fontStyle: FontStyle.italic)),
 
-              SizedBox(height: MediaQuery.of(context).size.height * 0.25),
+              SizedBox(height: screenHeight * 0.25),
 
               //Help, conditions and Share
               Container(
-                width: MediaQuery.of(context).size.width * 0.9,
-                margin: EdgeInsets.only(
-                    right: MediaQuery.of(context).size.width * 0.15),
+                width: screenWidth * 0.9,
+                margin: EdgeInsets.only(right: screenWidth * 0.15),
                 alignment: Alignment.centerLeft,
                 child: Column(
                   children: [
@@ -61,8 +61,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                                   color: ColorsConstants.darkGreen,
                                   fontSize: 18,
                                   fontWeight: FontWeight.w300)),
-                          SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.03),
+                          SizedBox(width: screenWidth * 0.03),
                           const Icon(
                             Icons.help_outline,
                             color: ColorsConstants.darkGreen,
@@ -85,8 +84,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                                   color: ColorsConstants.darkGreen,
                                   fontSize: 18,
                                   fontWeight: FontWeight.w300)),
-                          SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.03),
+                          SizedBox(width: screenWidth * 0.03),
                           const Icon(
                             Icons.menu_book,
                             color: ColorsConstants.darkGreen,
@@ -109,8 +107,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                                   color: ColorsConstants.darkGreen,
                                   fontSize: 18,
                                   fontWeight: FontWeight.w300)),
-                          SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.03),
+                          SizedBox(width: screenWidth * 0.03),
                           const Icon(
                             Icons.share,
                             color: ColorsConstants.darkGreen,
@@ -125,7 +122,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               Expanded(
                   child: Container(
                       margin: EdgeInsets.only(
-                          left: MediaQuery.of(context).size.width * 0.5, bottom: MediaQuery.of(context).size.height * 0.01),
+                          left: screenWidth * 0.5, bottom: screenHeight * 0.01),
                       alignment: Alignment.bottomRight,
                       child: Row(
                         children: [

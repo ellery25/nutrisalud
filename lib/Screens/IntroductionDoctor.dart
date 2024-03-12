@@ -14,32 +14,35 @@ class IntroductionDoctor extends StatefulWidget {
 class _IntroductionDoctorState extends State<IntroductionDoctor> {
   @override
   Widget build(BuildContext context) {
+    double screenHeight = MediaQuery.of(context).size.height;
 
     final pages = [
       PageViewModel(
           title: 'Make Tips!',
           body:
-          'Create tips to recommend to people to improve their diet or nutrition.',
-          image: SvgPicture.asset(AssetsRoute.bulbSvg, color: ColorsConstants.darkGreen, height: MediaQuery.of(context).size.height * 0.25),
+              'Create tips to recommend to people to improve their diet or nutrition.',
+          image: SvgPicture.asset(AssetsRoute.bulbSvg,
+              color: ColorsConstants.darkGreen, height: screenHeight * 0.25),
           decoration: const PageDecoration(
               titleTextStyle: TextStyle(
                   color: ColorsConstants.darkGreen,
                   fontSize: 24,
                   fontWeight: FontWeight.bold),
               bodyTextStyle:
-              TextStyle(color: ColorsConstants.darkGreen, fontSize: 16))),
+                  TextStyle(color: ColorsConstants.darkGreen, fontSize: 16))),
       PageViewModel(
           title: 'Improve the nutrition of your users',
           body:
-          'You will be able to have consultation sessions with your patients',
-          image: SvgPicture.asset(AssetsRoute.commentSvg, color: ColorsConstants.darkGreen, height: MediaQuery.of(context).size.height * 0.25),
+              'You will be able to have consultation sessions with your patients',
+          image: SvgPicture.asset(AssetsRoute.commentSvg,
+              color: ColorsConstants.darkGreen, height: screenHeight * 0.25),
           decoration: const PageDecoration(
               titleTextStyle: TextStyle(
                   color: ColorsConstants.darkGreen,
                   fontSize: 24,
                   fontWeight: FontWeight.bold),
               bodyTextStyle:
-              TextStyle(color: ColorsConstants.darkGreen, fontSize: 16))),
+                  TextStyle(color: ColorsConstants.darkGreen, fontSize: 16))),
     ];
 
     return IntroductionScreen(
@@ -53,20 +56,17 @@ class _IntroductionDoctorState extends State<IntroductionDoctor> {
                 fontWeight: FontWeight.bold,
                 color: ColorsConstants.whiteColor)),
       ),
-      bodyPadding:
-      EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.2),
+      bodyPadding: EdgeInsets.only(top: screenHeight * 0.2),
       pages: pages,
       dotsDecorator:
-      const DotsDecorator(activeColor: ColorsConstants.darkGreen),
+          const DotsDecorator(activeColor: ColorsConstants.darkGreen),
       showNextButton: false,
       done: const Text('Next',
           style: TextStyle(color: ColorsConstants.darkGreen)),
       onDone: () {
-
         //Este button manda a la pestaña principal
 
         Navigator.pushReplacementNamed(context, AppRoutes.home);
-
       },
     );
   }

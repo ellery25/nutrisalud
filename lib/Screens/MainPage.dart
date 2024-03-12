@@ -1,5 +1,6 @@
 // ignore: file_names
 import 'package:flutter/material.dart';
+import 'package:nutrisalud/Routes/AppRoutes.dart';
 import 'package:nutrisalud/Widgets/GeneralWidgets/DrawerWidget.dart';
 import '../Widgets/MainPageWidgets/MainPageBlocks.dart';
 import '../Helpers/HelpersExport.dart';
@@ -51,6 +52,7 @@ class _MainPageState extends State<MainPage> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           // Acciones para añadir un profesional tip
+          Navigator.pushNamed(context, AppRoutes.postProTip);
         },
         backgroundColor: ColorsConstants.darkGreen,
         child: const Icon(Icons.add, color: ColorsConstants.whiteColor),

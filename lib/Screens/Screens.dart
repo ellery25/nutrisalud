@@ -9,3 +9,4 @@ export './ChooseAcount.dart';
 export './Register.dart';
 export './Login.dart';
 export './IntroductionDoctor.dart';
+export './PostCommunity.dart';

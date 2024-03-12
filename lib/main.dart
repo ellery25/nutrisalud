@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:nutrisalud/Screens/PostProTip.dart';
 import '../Helpers/HelpersExport.dart';
 import 'package:nutrisalud/Routes/AppRoutes.dart';
 import 'package:nutrisalud/Widgets/GeneralWidgets/NutriSaludBtBar.dart';
@@ -47,6 +48,10 @@ class MyApp extends StatelessWidget {
           case AppRoutes.introductionDoctor:
             return MaterialPageRoute(
                 builder: (context) => const IntroductionDoctor());
+          case AppRoutes.postCommunity:
+            return MaterialPageRoute(builder: (context) => const PostCommunity());
+          case AppRoutes.postProTip:
+            return MaterialPageRoute(builder: (context) => const PostProTip());
         }
         return null;
       },

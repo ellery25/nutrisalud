@@ -36,6 +36,8 @@ class _LoginState extends State<Login> {
           usuario.contrasena == _passwordController.text) {
         usuarioEncontrado = true;
         print('Usuario encontrado');
+        // Guardar la variable en shared preference
+        print(usuario.id);
         break;
       }
     }

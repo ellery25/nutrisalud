@@ -74,6 +74,22 @@ class Nutricionistas {
     }
   }
 
+  // HTTP: GET BY ID
+  static Future<Map<String, dynamic>> getNutricionista(String id) async {
+    final response = await http.get(Uri.parse('$baseUrl/$id.json'));
+
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> data = jsonDecode(response.body);
+      if (data.isNotEmpty) {
+        return data;
+      } else {
+        throw Exception('Nutricionista no encontrado');
+      }
+    } else {
+      throw Exception('Error en get de nutricionista');
+    }
+  }
+
   // HTTP: POST
   static Future<void> postNutricionist(
       Map<String, dynamic> nutricionist) async {

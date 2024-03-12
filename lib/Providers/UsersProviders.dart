@@ -1,14 +1,17 @@
+// ignore: file_names
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 // Modelo Usuario
 class Usuario {
+  final String id;
   final String nombre;
   final String usuario;
   final String contrasena;
   final String? foto;
 
   Usuario({
+    required this.id,
     required this.nombre,
     required this.usuario,
     required this.contrasena,
@@ -17,6 +20,7 @@ class Usuario {
 
   factory Usuario.fromJson(Map<String, dynamic> json, String id) {
     return Usuario(
+      id: id,
       nombre: json['nombre'],
       usuario: json['usuario'],
       contrasena: json['contrasena'],
@@ -38,8 +42,6 @@ class Usuario {
       data.forEach((key, value) {
         usuarios.add(Usuario.fromJson(value, key));
       });
-
-      print(usuarios);
 
       return usuarios;
     } else {

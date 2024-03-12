@@ -63,80 +63,80 @@ class NutriCard extends StatelessWidget {
                 ),
               ),
             ),
+            Spacer(),
             Padding(
-              padding: EdgeInsets.all(screenWidth * 0.05),
-              child: Center(
-                child: Column(
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.all(screenWidth * 0.025),
-                          child: Text(
-                            nombre,
-                            style: const TextStyle(
-                              fontFamily: 'Inter',
-                              fontSize: 28,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.white,
-                            ),
+              padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
+              child: Column(
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.all(screenWidth * 0.025),
+                        child: Text(
+                          nombre,
+                          style: const TextStyle(
+                            fontFamily: 'Inter',
+                            fontSize: 28,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.white,
                           ),
                         ),
-                        Padding(
-                          padding: EdgeInsets.only(bottom: screenWidth * 0.05),
-                          child: Text(
-                            descripcion,
-                            style: const TextStyle(
-                              fontFamily: 'Inter',
-                              fontSize: 15,
-                              fontWeight: FontWeight.w200,
-                              color: Colors.white,
-                            ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(bottom: screenWidth * 0.05),
+                        child: Text(
+                          descripcion,
+                          style: const TextStyle(
+                            fontFamily: 'Inter',
+                            fontSize: 15,
+                            fontWeight: FontWeight.w200,
+                            color: Colors.white,
                           ),
                         ),
-                        Row(
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                print("Save tapped");
-                              },
-                              child: const Icon(
-                                Icons.bookmark_border,
-                                fill: 1,
-                                color: Color(0xffffffff),
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 15,
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                print("Share tapped");
-                              },
-                              child: const Icon(
-                                Icons.share,
-                                color: Color(0xffffffff),
-                              ),
-                            ),
-                            const Spacer(),
-                            Text(
-                              calificacion
-                                  .toString(), // Calificacion del nutricionista
-                              style: const TextStyle(color: Color(0xffffffff)),
-                            ),
-                            const Icon(
-                              Icons.star_rounded,
+                      ),
+                      Row(
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              print("Save tapped");
+                            },
+                            child: const Icon(
+                              Icons.bookmark_border,
+                              fill: 1,
                               color: Color(0xffffffff),
                             ),
-                          ],
-                        )
-                      ],
-                    )
-                  ],
-                ),
+                          ),
+                          const SizedBox(
+                            width: 15,
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              print("Share tapped");
+                            },
+                            child: const Icon(
+                              Icons.share,
+                              color: Color(0xffffffff),
+                            ),
+                          ),
+                          const Spacer(),
+                          Text(
+                            calificacion
+                                .toString(), // Calificacion del nutricionista
+                            style: const TextStyle(color: Color(0xffffffff)),
+                          ),
+                          const Icon(
+                            Icons.star_rounded,
+                            color: Color(0xffffffff),
+                          ),
+                        ],
+                      )
+                    ],
+                  )
+                ],
               ),
             ),
+            Spacer(),
           ],
         ),
       ),

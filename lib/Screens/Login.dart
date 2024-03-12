@@ -29,9 +29,6 @@ class _LoginState extends State<Login> {
 
     bool usuarioEncontrado = false;
 
-    // Imprimir el JSON de Usuarios
-    print(usuarios);
-
     // Recorrer el JSON para buscar coincidencias
     for (var usuario in usuarios) {
       if (usuario.usuario == _emailController.text &&

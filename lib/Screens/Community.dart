@@ -7,6 +7,7 @@ import '../Widgets/GeneralWidgets/NavBar.dart';
 import '../Providers/CommentsProviders.dart';
 import '../Helpers/HelpersExport.dart';
 import '../Providers/Preferences/IsNutricionist.dart';
+import '../Providers/Preferences/UsuarioPreferences.dart';
 
 class Community extends StatefulWidget {
   const Community({super.key});
@@ -18,17 +19,42 @@ class Community extends StatefulWidget {
 class _CommunityState extends State<Community> {
   List<Widget> comunityPostsList = [];
   bool isLoading = true;
-
+  String userId = '';
+  bool isNutricionist = false;
 
   @override
-  void initState() async {
+  void initState() {
     super.initState();
     llenarCommunityPostsList();
-    // Prueba de la lista de usuarios
-    print("Se ejecuta Llenar comunity posts");
-    isNutricionist userIsANutricionist = await isNutricionist.getInstance();
-    bool userIs = userIsANutricionist.getIsNutricionist('isNutricionist?');
-    print(userIs);
+    _cargarUserId();
+    _cargarIsNutricionist();
+  }
+
+  _cargarUserId() async {
+    // Pedir la variable de userId de las preferencias del usuario
+    UserPersistence userPersistence = await UserPersistence.getInstance();
+    // Obtener el userId
+    String userId = userPersistence.getUser('userId');
+    // Actualizar el estado para reflejar el userId
+    setState(() {
+      this.userId = userId;
+    });
+
+    print('userId: $userId');
+  }
+
+  _cargarIsNutricionist() async {
+    // Pedir la variable de userId de las preferencias del usuario
+    IsNutricionist userIsANutricionist = await IsNutricionist.getInstance();
+    // Obtener el userId
+    bool isNutricionist =
+        userIsANutricionist.getIsNutricionist('isNutricionist?');
+    // Actualizar el estado para reflejar el userId
+    setState(() {
+      this.isNutricionist = isNutricionist;
+    });
+
+    print('isNutricionist: $isNutricionist');
   }
 
   Future<void> llenarCommunityPostsList() async {
@@ -45,11 +71,11 @@ class _CommunityState extends State<Community> {
             .inHours;
 
         return CommunityPost(
-          horas: diferenciaEnHoras,
-          contenido: comentario.contenido,
-          username: comentario.usuario,
-          nombre: comentario.nombre,
-        );
+            horas: diferenciaEnHoras,
+            contenido: comentario.contenido,
+            username: comentario.usuario,
+            nombre: comentario.nombre,
+            userIdWidget: userId);
       }));
       isLoading = false;
     });

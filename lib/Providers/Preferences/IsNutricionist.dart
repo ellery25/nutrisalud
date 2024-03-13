@@ -1,14 +1,13 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
-class isNutricionist {
-
+class IsNutricionist {
   late SharedPreferences _prefs;
 
-  isNutricionist._(this._prefs);
+  IsNutricionist._(this._prefs);
 
-  static Future<isNutricionist> getInstance() async {
+  static Future<IsNutricionist> getInstance() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    return isNutricionist._(prefs);
+    return IsNutricionist._(prefs);
   }
 
   Future<void> saveIsNutricionist(String key, bool value) async {
@@ -22,6 +21,4 @@ class isNutricionist {
   Future<void> setIsNutricionist(String key, bool newValue) async {
     await _prefs.setBool(key, newValue);
   }
-
-
 }

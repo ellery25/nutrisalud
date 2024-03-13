@@ -15,14 +15,26 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
+  bool isNutricionist = false;
 
   @override
-  void initState() async {
-    // TODO: implement initState
+  void initState() {
     super.initState();
-    isNutricionist userIsANutricionist = await isNutricionist.getInstance();
-    bool userIs = userIsANutricionist.getIsNutricionist('isNutricionist?');
-    print(userIs);
+    _cargarIsNutricionist();
+  }
+
+  _cargarIsNutricionist() async {
+    // Pedir la variable de userId de las preferencias del usuario
+    IsNutricionist userIsANutricionist = await IsNutricionist.getInstance();
+    // Obtener el userId
+    bool isNutricionist =
+        userIsANutricionist.getIsNutricionist('isNutricionist?');
+    // Actualizar el estado para reflejar el userId
+    setState(() {
+      this.isNutricionist = isNutricionist;
+    });
+
+    print('isNutricionist: $isNutricionist');
   }
 
   @override
@@ -60,7 +72,7 @@ class _MainPageState extends State<MainPage> {
       ),
     ];
 
-      _mostrarUsuario() async {
+    _mostrarUsuario() async {
       UserPersistence userPersistence = await UserPersistence.getInstance();
       String userId = userPersistence.getUser('userId');
       print(userId);

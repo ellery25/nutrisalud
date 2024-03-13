@@ -1,14 +1,17 @@
-// ignore: file_names
+// ignore_for_file: avoid_print
+
 import 'package:flutter/material.dart';
 import 'package:nutrisalud/Routes/AppRoutes.dart';
-import 'package:nutrisalud/Widgets/GeneralWidgets/DrawerWidget.dart';
 import '../Widgets/MainPageWidgets/MainPageBlocks.dart';
 import '../Helpers/HelpersExport.dart';
 import '../Providers/Preferences/UsuarioPreferences.dart';
 import '../Providers/Preferences/IsNutricionist.dart';
+import '../Providers/ProTipsProviders.dart';
+import '../Providers/NutricionistsProviders.dart';
+import '../Providers/UsersProviders.dart';
 
 class MainPage extends StatefulWidget {
-  const MainPage({super.key});
+  const MainPage({Key? key}) : super(key: key);
 
   @override
   State<MainPage> createState() => _MainPageState();
@@ -16,11 +19,20 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   bool isNutricionist = false;
+  String userId = '';
+  bool isLoading = true;
+  List<Widget> professionalTipsList = [];
+  String dato1Sesion = '';
+  String dato2Sesion = '';
 
   @override
   void initState() {
     super.initState();
     _cargarIsNutricionist();
+    _cargarUserId().then((_) {
+      buscarInformacionSesion();
+    });
+    llenarProTipsList();
   }
 
   _cargarIsNutricionist() async {
@@ -37,46 +49,74 @@ class _MainPageState extends State<MainPage> {
     print('isNutricionist: $isNutricionist');
   }
 
+  _cargarUserId() async {
+    // Pedir la variable de userId de las preferencias del usuario
+    UserPersistence userPersistence = await UserPersistence.getInstance();
+    // Obtener el userId
+    String userId = userPersistence.getUser('userId');
+    // Actualizar el estado para reflejar el userId
+    setState(() {
+      this.userId = userId;
+    });
+
+    print('userId: $userId');
+  }
+
+  Future<void> llenarProTipsList() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    try {
+      // Obtener los ProTips
+      List<ProTip> proTips = await ProTip.getProTips();
+
+      // Actualizar el estado con los ProTips obtenidos
+      setState(() {
+        professionalTipsList.addAll(proTips.map((proTip) {
+          return ProfessionalTipsBlock(
+            title: proTip.titulo,
+            tip: proTip.contenido,
+            nutricionistAvatar: proTip.foto,
+          );
+        }));
+
+        isLoading = false;
+      });
+    } catch (e) {
+      print('Error al obtener los ProTips: $e');
+      // Manejar el error, si es necesario
+    }
+  }
+
+  Future<void> buscarInformacionSesion() async {
+    print('Buscando información de la sesión');
+    if (isNutricionist) {
+      //Get para nutricionista
+      final nutricionista = await Nutricionistas.getNutricionista(
+          'https://unilibremovil2-default-rtdb.firebaseio.com/nutricionistas/$userId.json');
+
+      setState(() {
+        dato1Sesion = nutricionista['nombre'];
+        dato2Sesion = nutricionista['email'];
+      });
+    } else {
+      //Get para usuario
+
+      final usuario = await Usuario.getUsuario(
+          'https://unilibremovil2-default-rtdb.firebaseio.com/usuarios/$userId.json');
+      setState(() {
+        dato1Sesion = usuario['nombre'];
+        dato2Sesion = usuario['usuario'];
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    List<Widget> professionalTipsList = [
-      const ProfessionalTipsBlock(
-        title: 'Consume Omega-3',
-        tip:
-            'Incorpora alimentos ricos en ácidos grasos omega-3, como salmón, chía y nueces. Estos son beneficiosos para la salud cardiovascular y cerebral.',
-        nutricionistAvatar: "assets/imgs/dr_1.jpg",
-      ),
-      const ProfessionalTipsBlock(
-        title: 'Mantén una Hidratación Optima',
-        tip:
-            'Bebe suficiente agua a lo largo del día. Una hidratación adecuada es esencial para el funcionamiento óptimo del cuerpo y puede ayudar en la pérdida de peso.',
-        nutricionistAvatar: "assets/imgs/dr_4.jpg",
-      ),
-      const ProfessionalTipsBlock(
-        title: 'Incluye Variedad en tu Dieta',
-        tip:
-            'Asegúrate de incluir una amplia variedad de alimentos en tu dieta diaria. Esto garantiza la obtención de diferentes nutrientes esenciales para el cuerpo.',
-        nutricionistAvatar: "assets/imgs/dr_1.jpg",
-      ),
-      const ProfessionalTipsBlock(
-        title: 'Controla las Porciones',
-        tip:
-            'Mantén un control adecuado de las porciones para evitar el exceso de calorías. Utiliza platos más pequeños y presta atención a las señales de hambre y saciedad.',
-        nutricionistAvatar: "assets/imgs/dr_3.jpg",
-      ),
-      const ProfessionalTipsBlock(
-        title: 'Cocina en Casa',
-        tip:
-            'Prepara tus comidas en casa siempre que sea posible. Esto te permite tener un mayor control sobre los ingredientes y la calidad de tu alimentación.',
-        nutricionistAvatar: "assets/imgs/dr_2.jpg",
-      ),
-    ];
-
-    _mostrarUsuario() async {
-      UserPersistence userPersistence = await UserPersistence.getInstance();
-      String userId = userPersistence.getUser('userId');
-      print(userId);
-    }
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+    BuildContext currentContext = context;
 
     return Scaffold(
       // Si la variable isNutricionist es false, mostrar el botón flotante
@@ -85,13 +125,12 @@ class _MainPageState extends State<MainPage> {
               onPressed: () {
                 // Acciones para añadir un profesional tip
                 Navigator.pushNamed(context, AppRoutes.postProTip);
-                _mostrarUsuario();
               },
               backgroundColor: ColorsConstants.darkGreen,
               child: const Icon(Icons.add, color: ColorsConstants.whiteColor),
             )
           : null,
-      drawer: const DrawerWidget(),
+
       backgroundColor: ColorsConstants.whiteColor,
       body: SafeArea(
         child: Column(
@@ -159,12 +198,177 @@ class _MainPageState extends State<MainPage> {
                         ],
                       ),
                     ),
-                    ...professionalTipsList,
+                    isLoading
+                        ? const Padding(
+                            padding: EdgeInsets.all(15.0),
+                            child: Center(
+                              child: CircularProgressIndicator(
+                                valueColor: AlwaysStoppedAnimation<Color>(
+                                    ColorsConstants.darkGreen),
+                              ),
+                            ),
+                          )
+                        : Column(
+                            children: professionalTipsList,
+                          ),
                   ],
                 ),
               ),
             ),
           ],
+        ),
+      ),
+      drawer: Drawer(
+        backgroundColor: ColorsConstants.whiteColor,
+        child: Padding(
+          padding: EdgeInsets.only(top: screenHeight * 0.1),
+          child: Column(
+            children: [
+              CircleAvatar(radius: screenHeight * 0.1),
+              SizedBox(height: screenHeight * 0.02),
+              Text(
+                dato1Sesion,
+                style: const TextStyle(
+                  color: ColorsConstants.darkGreen,
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Text(
+                dato2Sesion,
+                style: const TextStyle(
+                  color: ColorsConstants.darkGreen,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w400,
+                  fontStyle: FontStyle.italic,
+                ),
+              ),
+              SizedBox(height: screenHeight * 0.25),
+              //Help, conditions and Share
+              Container(
+                width: screenWidth * 0.9,
+                margin: EdgeInsets.only(right: screenWidth * 0.15),
+                alignment: Alignment.centerLeft,
+                child: Column(
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {},
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateColor.resolveWith(
+                            (states) => ColorsConstants.whiteColor),
+                        shadowColor: MaterialStateColor.resolveWith(
+                            (states) => Colors.transparent),
+                      ),
+                      child: Row(
+                        children: [
+                          const Text(
+                            'Help',
+                            style: TextStyle(
+                              color: ColorsConstants.darkGreen,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w300,
+                            ),
+                          ),
+                          SizedBox(width: screenWidth * 0.03),
+                          const Icon(
+                            Icons.help_outline,
+                            color: ColorsConstants.darkGreen,
+                            weight: 1,
+                          ),
+                        ],
+                      ),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {},
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateColor.resolveWith(
+                            (states) => ColorsConstants.whiteColor),
+                        shadowColor: MaterialStateColor.resolveWith(
+                            (states) => Colors.transparent),
+                      ),
+                      child: Row(
+                        children: [
+                          const Text(
+                            'Terms & Conditions',
+                            style: TextStyle(
+                              color: ColorsConstants.darkGreen,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w300,
+                            ),
+                          ),
+                          SizedBox(width: screenWidth * 0.03),
+                          const Icon(
+                            Icons.menu_book,
+                            color: ColorsConstants.darkGreen,
+                            weight: 1,
+                          ),
+                        ],
+                      ),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {},
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateColor.resolveWith(
+                            (states) => ColorsConstants.whiteColor),
+                        shadowColor: MaterialStateColor.resolveWith(
+                            (states) => Colors.transparent),
+                      ),
+                      child: Row(
+                        children: [
+                          const Text(
+                            'Share with friends',
+                            style: TextStyle(
+                              color: ColorsConstants.darkGreen,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w300,
+                            ),
+                          ),
+                          SizedBox(width: screenWidth * 0.03),
+                          const Icon(
+                            Icons.share,
+                            color: ColorsConstants.darkGreen,
+                            weight: 1,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Expanded(
+                child: Container(
+                  margin: EdgeInsets.only(
+                      left: screenWidth * 0.5, bottom: screenHeight * 0.01),
+                  alignment: Alignment.bottomRight,
+                  child: Row(
+                    children: [
+                      const Text(
+                        'Log out',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 14,
+                          color: ColorsConstants.darkGreen,
+                        ),
+                      ),
+                      IconButton(
+                        onPressed: () async {
+                          UserPersistence userPersistence =
+                              await UserPersistence.getInstance();
+                          await userPersistence.setUser('userId', '');
+                          Navigator.pushReplacementNamed(
+                              currentContext, AppRoutes.welcome);
+                        },
+                        icon: const Icon(
+                          Icons.logout,
+                          color: ColorsConstants.darkGreen,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

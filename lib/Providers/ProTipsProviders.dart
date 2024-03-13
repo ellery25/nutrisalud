@@ -25,7 +25,7 @@ class ProTip {
       id: id,
       contenido: json['contenido'],
       titulo: json['titulo'],
-      nutricionistaId: json['foto'],
+      nutricionistaId: json['nutricionista'],
     );
   }
 

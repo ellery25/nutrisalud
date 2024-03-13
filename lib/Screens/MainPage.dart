@@ -79,15 +79,18 @@ class _MainPageState extends State<MainPage> {
     }
 
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // Acciones para añadir un profesional tip
-          Navigator.pushNamed(context, AppRoutes.postProTip);
-          _mostrarUsuario();
-        },
-        backgroundColor: ColorsConstants.darkGreen,
-        child: const Icon(Icons.add, color: ColorsConstants.whiteColor),
-      ),
+      // Si la variable isNutricionist es false, mostrar el botón flotante
+      floatingActionButton: isNutricionist == true
+          ? FloatingActionButton(
+              onPressed: () {
+                // Acciones para añadir un profesional tip
+                Navigator.pushNamed(context, AppRoutes.postProTip);
+                _mostrarUsuario();
+              },
+              backgroundColor: ColorsConstants.darkGreen,
+              child: const Icon(Icons.add, color: ColorsConstants.whiteColor),
+            )
+          : null,
       drawer: const DrawerWidget(),
       backgroundColor: ColorsConstants.whiteColor,
       body: SafeArea(

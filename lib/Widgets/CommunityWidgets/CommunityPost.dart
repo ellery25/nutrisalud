@@ -1,8 +1,8 @@
-// ignore: file_names
 import 'package:flutter/material.dart';
 import '../../Helpers/Colors.dart';
+import '../../Providers/Preferences/UsuarioPreferences.dart';
 
-class CommunityPost extends StatelessWidget {
+class CommunityPost extends StatefulWidget {
   final String contenido;
   final String? foto;
   final int horas;
@@ -10,14 +10,42 @@ class CommunityPost extends StatelessWidget {
   final String username;
   final String userIdWidget;
 
-  const CommunityPost(
-      {super.key,
-      this.foto,
-      required this.horas,
-      required this.contenido,
-      required this.username,
-      required this.nombre,
-      required this.userIdWidget});
+  const CommunityPost({
+    Key? key,
+    this.foto,
+    required this.horas,
+    required this.contenido,
+    required this.username,
+    required this.nombre,
+    required this.userIdWidget,
+  }) : super(key: key);
+
+  @override
+  _CommunityPostState createState() => _CommunityPostState();
+}
+
+class _CommunityPostState extends State<CommunityPost> {
+  String userId = '';
+  bool isNutricionist = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _cargarUserId();
+  }
+
+  _cargarUserId() async {
+    // Pedir la variable de userId de las preferencias del usuario
+    UserPersistence userPersistence = await UserPersistence.getInstance();
+    // Obtener el userId
+    String userId = userPersistence.getUser('userId');
+    // Actualizar el estado para reflejar el userId
+    setState(() {
+      this.userId = userId;
+    });
+
+    print('userId: $userId');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +67,7 @@ class CommunityPost extends StatelessWidget {
                 child: Row(
                   children: <Widget>[
                     Text(
-                      nombre,
+                      widget.nombre,
                       style: const TextStyle(
                         fontFamily: 'Inter',
                         fontSize: 19,
@@ -49,7 +77,7 @@ class CommunityPost extends StatelessWidget {
                     ),
                     const Spacer(),
                     Text(
-                      '@$username',
+                      '@${widget.username}',
                       style: const TextStyle(
                         fontFamily: 'Inter',
                         fontSize: 19,
@@ -60,7 +88,7 @@ class CommunityPost extends StatelessWidget {
                     const Spacer(),
                     const Spacer(),
                     Text(
-                      '${horas}h',
+                      '${widget.horas}h',
                       style: const TextStyle(
                         fontFamily: 'Inter',
                         fontSize: 19,
@@ -72,7 +100,7 @@ class CommunityPost extends StatelessWidget {
                 ),
               ),
               Text(
-                contenido,
+                widget.contenido,
                 style: const TextStyle(
                   fontFamily: 'Inter',
                   fontSize: 15,
@@ -80,7 +108,7 @@ class CommunityPost extends StatelessWidget {
                   color: ColorsConstants.darkGreen,
                 ),
               ),
-              if (foto != null) ...[
+              if (widget.foto != null) ...[
                 Padding(
                   padding: const EdgeInsets.only(top: 10.0),
                   child: Container(
@@ -92,13 +120,15 @@ class CommunityPost extends StatelessWidget {
                       border: Border.all(color: ColorsConstants.darkGreen),
                     ),
                     child: Center(
-                      child: Image.asset(foto!),
+                      child: Image.asset(widget.foto!),
                     ),
                   ),
                 ),
               ],
-              if (userIdWidget != userIdShared) ...[
+              if ('https://unilibremovil2-default-rtdb.firebaseio.com/usuarios/${userId}.json' ==
+                  widget.userIdWidget) ...[
                 // Boton de borrar
+                Text("Borrar comentario")
               ]
             ],
           ),

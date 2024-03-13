@@ -75,7 +75,7 @@ class _CommunityState extends State<Community> {
             contenido: comentario.contenido,
             username: comentario.usuario,
             nombre: comentario.nombre,
-            userIdWidget: userId);
+            userIdWidget: comentario.usuarioId);
       }));
       isLoading = false;
     });
@@ -86,13 +86,16 @@ class _CommunityState extends State<Community> {
     double screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.pushNamed(context, AppRoutes.postCommunity);
-        },
-        backgroundColor: ColorsConstants.darkGreen,
-        child: const Icon(Icons.add, color: ColorsConstants.whiteColor),
-      ),
+      // Si la variable isNutricionist es false, mostrar el botón flotante
+      floatingActionButton: isNutricionist == false
+          ? FloatingActionButton(
+              onPressed: () {
+                Navigator.pushNamed(context, AppRoutes.postCommunity);
+              },
+              backgroundColor: ColorsConstants.darkGreen,
+              child: const Icon(Icons.add, color: ColorsConstants.whiteColor),
+            )
+          : null,
       backgroundColor: ColorsConstants.whiteColor,
       body: SafeArea(
         child: Padding(

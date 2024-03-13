@@ -40,6 +40,10 @@ class _RecommendedFoodState extends State<RecommendedFood> {
     var screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
+      // Si la variable isNutricionist es false, mostrar el botón flotante
+      //floatingActionButton: isNutricionist == true ? FloatingActionButton(onPressed: () {
+      // Acciones para añadir un profesional tip
+      //},backgroundColor: ColorsConstants.darkGreen,child: const Icon(Icons.add, color: ColorsConstants.whiteColor),): null,
       backgroundColor: ColorsConstants.whiteColor,
       body: SafeArea(
         child: Padding(

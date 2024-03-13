@@ -1,5 +1,4 @@
-// ignore: file_names
-// ignore_for_file: avoid_print
+// ignore_for_file: avoid_print, file_names
 
 import 'package:flutter/material.dart';
 import 'package:nutrisalud/Routes/AppRoutes.dart';
@@ -17,11 +16,7 @@ class Community extends StatefulWidget {
 
 class _CommunityState extends State<Community> {
   List<Widget> comunityPostsList = [];
-  final TextEditingController _userIDController = TextEditingController();
-  final TextEditingController _contenidoController = TextEditingController();
-  final TextEditingController _horasController = TextEditingController();
-  final TextEditingController _fotoController = TextEditingController();
-  bool isLoading = true; // Nuevo estado para indicar si se está cargando
+  bool isLoading = true;
 
   @override
   void initState() {
@@ -39,8 +34,13 @@ class _CommunityState extends State<Community> {
     final List<Comentario> comentarios = await Comentario.getComentarios();
     setState(() {
       comunityPostsList.addAll(comentarios.map((comentario) {
+        // Calcular la diferencia en horas
+        int diferenciaEnHoras = DateTime.parse(DateTime.now().toString())
+            .difference(DateTime.parse(comentario.horas))
+            .inHours;
+
         return CommunityPost(
-          horas: comentario.horas,
+          horas: diferenciaEnHoras,
           contenido: comentario.contenido,
           username: comentario.usuario,
           nombre: comentario.nombre,
@@ -48,210 +48,6 @@ class _CommunityState extends State<Community> {
       }));
       isLoading = false;
     });
-  }
-
-  void postComentocito(){
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20.0),
-          ),
-          scrollable: true,
-          title: const Text(
-            "Nuevo comentario",
-            style: TextStyle(
-              fontFamily: 'Inter',
-              fontSize: 19,
-              fontWeight: FontWeight.w600,
-              color: ColorsConstants.darkGreen,
-            ),
-          ),
-          content: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              children: <Widget>[
-                TextFormField(
-                  controller: _userIDController,
-                  decoration: const InputDecoration(
-                    labelText: 'UserID',
-                    icon: Icon(Icons.account_box),
-                  ),
-                ),
-                TextFormField(
-                  controller: _contenidoController,
-                  decoration: const InputDecoration(
-                    labelText: 'Contenido',
-                    icon: Icon(Icons.message),
-                    focusColor: ColorsConstants.darkGreen,
-                  ),
-                  maxLines: 3,
-                ),
-                TextFormField(
-                  controller: _horasController,
-                  keyboardType: TextInputType.number,
-                  decoration: const InputDecoration(
-                    labelText: 'Horas',
-                    icon: Icon(Icons.lock_clock),
-                    focusColor: ColorsConstants.darkGreen,
-                  ),
-                ),
-                TextFormField(
-                  controller: _fotoController,
-                  decoration: const InputDecoration(
-                    labelText: 'Foto (Opcional)',
-                    icon: Icon(Icons.message),
-                    focusColor: ColorsConstants.darkGreen,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          actions: [
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: ColorsConstants.darkGreen,
-              ),
-              child: const Text(
-                "Añadir",
-                style: TextStyle(
-                  fontFamily: 'Inter',
-                  fontSize: 19,
-                  fontWeight: FontWeight.w600,
-                  color: ColorsConstants.whiteColor,
-                ),
-              ),
-              onPressed: () async {
-                // Hacer el post
-                try {
-                  Map<String, dynamic> nuevoComentario = {
-                    'contenido': _contenidoController.text ??
-                        (throw Exception('Error en contenido')),
-                    'foto': _fotoController.text == ''
-                        ? null
-                        : _fotoController.text,
-                    'horas': int.parse(_horasController.text) ??
-                        (throw Exception('Error en horas')),
-                    'usuario': _userIDController.text ??
-                        (throw Exception('Error en usuario')),
-                  };
-
-                  await Comentario.postComentario(nuevoComentario);
-
-                  // Borrar los contenidos de los campos de texto
-                  _userIDController.clear();
-                  _contenidoController.clear();
-                  _horasController.clear();
-                  _fotoController.clear();
-
-                  Navigator.pop(context);
-
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20.0),
-                        ),
-                        title: const Text(
-                          "Comentario añadido",
-                          style: TextStyle(
-                            fontFamily: 'Inter',
-                            fontSize: 19,
-                            fontWeight: FontWeight.w600,
-                            color: ColorsConstants.whiteColor,
-                          ),
-                        ),
-                        actions: [
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: ColorsConstants.darkGreen,
-                            ),
-                            child: const Text(
-                              "Continuar",
-                              style: TextStyle(
-                                fontFamily: 'Inter',
-                                fontSize: 19,
-                                fontWeight: FontWeight.w600,
-                                color: ColorsConstants.whiteColor,
-                              ),
-                            ),
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                          ),
-                        ],
-                      );
-                    },
-                  );
-
-                  //Actualizar la lista de comentarios
-                  final List<Comentario> comentarios =
-                  await Comentario.getComentarios();
-
-                  setState(() {
-                    // Limpiar la lista existente
-                    comunityPostsList.clear();
-                    // Volver a llenar la lista con los comentarios actualizados
-                    comunityPostsList
-                        .addAll(comentarios.map((comentario) {
-                      return CommunityPost(
-                        horas: comentario.horas,
-                        contenido: comentario.contenido,
-                        username: comentario.usuario,
-                        nombre: comentario.nombre,
-                      );
-                    }));
-                  });
-                } catch (e) {
-                  print('Error en post de comentario: $e');
-                  Navigator.pop(context);
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20.0),
-                        ),
-                        title: const Text(
-                          "Error al añadir comentario",
-                          style: TextStyle(
-                            fontFamily: 'Inter',
-                            fontSize: 19,
-                            fontWeight: FontWeight.w600,
-                            color: ColorsConstants.darkGreen,
-                          ),
-                        ),
-                        actions: [
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: ColorsConstants.darkGreen,
-                            ),
-                            child: const Text(
-                              "Continuar",
-                              style: TextStyle(
-                                fontFamily: 'Inter',
-                                fontSize: 19,
-                                fontWeight: FontWeight.w600,
-                                color: ColorsConstants.darkGreen,
-                              ),
-                            ),
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                          ),
-                        ],
-                      );
-                    },
-                  );
-                }
-              },
-            ),
-          ],
-        );
-      },
-    );
   }
 
   @override
@@ -262,7 +58,6 @@ class _CommunityState extends State<Community> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.pushNamed(context, AppRoutes.postCommunity);
-
         },
         backgroundColor: ColorsConstants.darkGreen,
         child: const Icon(Icons.add, color: ColorsConstants.whiteColor),

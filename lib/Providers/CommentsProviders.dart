@@ -10,7 +10,7 @@ class Comentario {
   final String id;
   final String contenido;
   final String? foto;
-  final int horas;
+  final String horas;
   final String usuarioId;
   late final String usuario;
   late final String nombre;

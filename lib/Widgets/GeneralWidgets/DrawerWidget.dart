@@ -1,6 +1,8 @@
 // ignore: file_names
 import 'package:flutter/material.dart';
 import 'package:nutrisalud/Helpers/HelpersExport.dart';
+import 'package:nutrisalud/Routes/AppRoutes.dart';
+import '../../Providers/Preferences/UsuarioPreferences.dart';
 
 class DrawerWidget extends StatefulWidget {
   const DrawerWidget({super.key});
@@ -14,6 +16,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
+    BuildContext currentContext = context;
     return Drawer(
         backgroundColor: ColorsConstants.whiteColor,
         child: Padding(
@@ -132,7 +135,11 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                                   fontSize: 14,
                                   color: ColorsConstants.darkGreen)),
                           IconButton(
-                              onPressed: () {},
+                              onPressed: () async {
+                                UserPersistence userPersistence = await UserPersistence.getInstance();
+                                await userPersistence.setUser('userId', '');
+                                Navigator.pushReplacementNamed(currentContext, AppRoutes.welcome);
+                              },
                               icon: const Icon(
                                 Icons.logout,
                                 color: ColorsConstants.darkGreen,

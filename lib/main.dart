@@ -72,7 +72,7 @@ class MyApp extends StatelessWidget {
              debugShowCheckedModeBanner: false,
            );
          } else {
-           return CircularProgressIndicator();
+           return const CircularProgressIndicator();
          }
       },
     );

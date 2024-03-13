@@ -35,7 +35,7 @@ class _NutriSaludBtBarState extends State<NutriSaludBtBar> {
         children: const [
           MainPage(),
           Nutricionists(),
-          RecomendedFood(),
+          RecommendedFood(),
           Community(),
         ],
       ),

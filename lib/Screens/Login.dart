@@ -7,6 +7,7 @@ import '../Helpers/HelpersExport.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../Providers/UsersProviders.dart';
 import '../Providers/Preferences/UsuarioPreferences.dart';
+import '../Providers/Preferences/IsNutricionist.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -32,6 +33,7 @@ class _LoginState extends State<Login> {
     bool usuarioEncontrado = false;
 
     UserPersistence userPersistence = await UserPersistence.getInstance();
+    isNutricionist isNutricionistCheck = await isNutricionist.getInstance();
 
     // Recorrer el JSON para buscar coincidencias
     for (var usuario in usuarios) {
@@ -45,6 +47,10 @@ class _LoginState extends State<Login> {
         break;
       }
     }
+
+    //is Nutricionist?
+    await isNutricionistCheck.saveIsNutricionist('isNutricionist?', false);
+
     return usuarioEncontrado;
   }
 

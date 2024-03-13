@@ -5,6 +5,7 @@ import 'package:nutrisalud/Widgets/GeneralWidgets/DrawerWidget.dart';
 import '../Widgets/MainPageWidgets/MainPageBlocks.dart';
 import '../Helpers/HelpersExport.dart';
 import '../Providers/Preferences/UsuarioPreferences.dart';
+import '../Providers/Preferences/IsNutricionist.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -14,6 +15,16 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
+
+  @override
+  void initState() async {
+    // TODO: implement initState
+    super.initState();
+    isNutricionist userIsANutricionist = await isNutricionist.getInstance();
+    bool userIs = userIsANutricionist.getIsNutricionist('isNutricionist?');
+    print(userIs);
+  }
+
   @override
   Widget build(BuildContext context) {
     List<Widget> professionalTipsList = [

@@ -3,6 +3,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:nutrisalud/Providers/NutricionistsProviders.dart';
+import 'package:nutrisalud/Providers/Preferences/FirsTime.dart';
 import 'package:nutrisalud/Routes/AppRoutes.dart';
 import '../Helpers/HelpersExport.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -163,8 +164,14 @@ class _LoginState extends State<Login> {
                   ElevatedButton(
                     onPressed: () async {
                       bool coincidencia = await revisarCoincidencia();
+                      bool isFirstTime = await FirsTimePreferences.isFirstTime() ?? true;
                       if (coincidencia) {
+                        if (isFirstTime) {
+                          await FirsTimePreferences.setFirstTime(false);
+                          Navigator.pushReplacementNamed(context, AppRoutes.introduction);
+                        } else {
                         Navigator.pushReplacementNamed(context, AppRoutes.home);
+                      }
                       } else {
                         showDialog(
                           context: context,

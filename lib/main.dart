@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
          if(snapshot.connectionState == ConnectionState.done){
            return MaterialApp(
              title: 'NutriSalud ',
-             initialRoute: AppRoutes.welcome,
+             initialRoute: snapshot.data ?? AppRoutes.welcome,
              onGenerateRoute: (routes) {
                switch (routes.name) {
                  case AppRoutes.home:

@@ -4,6 +4,7 @@ import 'package:nutrisalud/Routes/AppRoutes.dart';
 import 'package:nutrisalud/Widgets/GeneralWidgets/DrawerWidget.dart';
 import '../Widgets/MainPageWidgets/MainPageBlocks.dart';
 import '../Helpers/HelpersExport.dart';
+import '../Providers/Preferences/UsuarioPreferences.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -48,11 +49,18 @@ class _MainPageState extends State<MainPage> {
       ),
     ];
 
+      _mostrarUsuario() async {
+      UserPersistence userPersistence = await UserPersistence.getInstance();
+      String userId = userPersistence.getUser('userId');
+      print(userId);
+    }
+
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           // Acciones para añadir un profesional tip
           Navigator.pushNamed(context, AppRoutes.postProTip);
+          _mostrarUsuario();
         },
         backgroundColor: ColorsConstants.darkGreen,
         child: const Icon(Icons.add, color: ColorsConstants.whiteColor),

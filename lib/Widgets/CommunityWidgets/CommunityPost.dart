@@ -8,6 +8,7 @@ class CommunityPost extends StatelessWidget {
   final int horas;
   final String nombre;
   final String username;
+  final String userIdWidget;
 
   const CommunityPost(
       {super.key,
@@ -15,7 +16,8 @@ class CommunityPost extends StatelessWidget {
       required this.horas,
       required this.contenido,
       required this.username,
-      required this.nombre});
+      required this.nombre,
+      required this.userIdWidget});
 
   @override
   Widget build(BuildContext context) {
@@ -94,6 +96,9 @@ class CommunityPost extends StatelessWidget {
                     ),
                   ),
                 ),
+              ],
+              if (userIdWidget != userIdShared) ...[
+                // Boton de borrar
               ]
             ],
           ),

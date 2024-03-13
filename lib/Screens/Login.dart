@@ -2,6 +2,7 @@
 // ignore_for_file: avoid_print
 
 import 'package:flutter/material.dart';
+import 'package:nutrisalud/Providers/NutricionistsProviders.dart';
 import 'package:nutrisalud/Routes/AppRoutes.dart';
 import '../Helpers/HelpersExport.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -28,29 +29,46 @@ class _LoginState extends State<Login> {
   }
 
   Future<bool> revisarCoincidencia() async {
-    final usuarios = await Usuario.getUsuarios();
+    // Instancias del shared preference
+    UserPersistence userPersistence = await UserPersistence.getInstance();
+    IsNutricionist isNutricionistCheck = await IsNutricionist.getInstance();
 
+    // Variable para saber si el usuario fue encontrado
     bool usuarioEncontrado = false;
 
-    UserPersistence userPersistence = await UserPersistence.getInstance();
-    isNutricionist isNutricionistCheck = await isNutricionist.getInstance();
+    // Get de usuarios
+    final usuarios = await Usuario.getUsuarios();
 
     // Recorrer el JSON para buscar coincidencias
     for (var usuario in usuarios) {
       if (usuario.usuario == _userNameController.text &&
           usuario.contrasena == _passwordController.text) {
         usuarioEncontrado = true;
-        print('Usuario encontrado');
         // Guardar la variable en shared preference
         await userPersistence.saveUser('userId', usuario.id.toString());
-        print(usuario.id);
+        print('Usuario encontrado, id: ${usuario.id}');
+        // Guardar la variable de isNutricionist false en shared preference
+        await isNutricionistCheck.saveIsNutricionist('isNutricionist?', false);
         break;
       }
     }
 
-    //is Nutricionist?
-    await isNutricionistCheck.saveIsNutricionist('isNutricionist?', false);
-
+    // Validar coincidencia en la coleccion de nutricionistas si no fue encontrado en usuarios
+    if (!usuarioEncontrado) {
+      final nutricionistas = await Nutricionistas.getNutricionistas();
+      for (var nutricionista in nutricionistas) {
+        if (nutricionista.email == _userNameController.text &&
+            nutricionista.contrasena == _passwordController.text) {
+          usuarioEncontrado = true;
+          // Guardar la variable en shared preference
+          await userPersistence.saveUser('userId', nutricionista.id.toString());
+          print('Nutricionista encontrado, id: ${nutricionista.id}');
+          // Guardar la variable de isNutricionist true en shared preference
+          await isNutricionistCheck.saveIsNutricionist('isNutricionist?', true);
+          break;
+        }
+      }
+    }
     return usuarioEncontrado;
   }
 

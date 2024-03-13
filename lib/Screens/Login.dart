@@ -15,12 +15,12 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _userNameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
   @override
   void dispose() {
-    _emailController.dispose();
+    _userNameController.dispose();
     _passwordController.dispose();
     super.dispose();
   }
@@ -32,7 +32,7 @@ class _LoginState extends State<Login> {
 
     // Recorrer el JSON para buscar coincidencias
     for (var usuario in usuarios) {
-      if (usuario.usuario == _emailController.text &&
+      if (usuario.usuario == _userNameController.text &&
           usuario.contrasena == _passwordController.text) {
         usuarioEncontrado = true;
         print('Usuario encontrado');
@@ -91,18 +91,18 @@ class _LoginState extends State<Login> {
                   ),
                   const SizedBox(height: 16),
                   TextFormField(
-                    controller: _emailController,
+                    controller: _userNameController,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(15.0),
                         borderSide: const BorderSide(color: Colors.green),
                       ),
-                      labelText: 'Email:',
+                      labelText: 'Nombre de usuario:',
                       labelStyle: const TextStyle(color: Colors.green),
                     ),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Please enter your email';
+                        return 'Please enter your user name';
                       }
                       return null;
                     },

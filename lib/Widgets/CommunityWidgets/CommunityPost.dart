@@ -9,16 +9,18 @@ class CommunityPost extends StatefulWidget {
   final String nombre;
   final String username;
   final String userIdWidget;
+  final VoidCallback funcionEliminar;
 
-  const CommunityPost({
-    Key? key,
-    this.foto,
-    required this.horas,
-    required this.contenido,
-    required this.username,
-    required this.nombre,
-    required this.userIdWidget,
-  }) : super(key: key);
+  const CommunityPost(
+      {Key? key,
+      this.foto,
+      required this.horas,
+      required this.contenido,
+      required this.username,
+      required this.nombre,
+      required this.userIdWidget,
+      required this.funcionEliminar})
+      : super(key: key);
 
   @override
   _CommunityPostState createState() => _CommunityPostState();
@@ -130,7 +132,23 @@ class _CommunityPostState extends State<CommunityPost> {
                 // Boton de borrar
                 Container(
                   alignment: Alignment.bottomRight,
-                  child: IconButton(onPressed: (){}, icon: const Icon(Icons.delete_outline, color: ColorsConstants.darkGreen,)),
+                  child: IconButton(
+                      onPressed: () {
+                        // Delete del comentario
+                        widget.funcionEliminar();
+
+                        // Mostrar un snackbar
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Comentario eliminado'),
+                            duration: Duration(seconds: 2),
+                          ),
+                        );
+                      },
+                      icon: const Icon(
+                        Icons.delete_outline,
+                        color: ColorsConstants.darkGreen,
+                      )),
                 )
               ]
             ],

@@ -79,7 +79,7 @@ class Usuario {
 
   // HTTP: DELETE
   static Future<void> deleteUsuario(String id) async {
-    final url = Uri.parse('$baseUrl/$id');
+    final url = Uri.parse(id);
     await http.delete(url);
   }
 }

@@ -200,7 +200,7 @@ class _MainPageState extends State<MainPage> {
                     ),
                     isLoading
                         ? const Padding(
-                            padding: EdgeInsets.all(15.0),
+                            padding: EdgeInsets.all(40.0),
                             child: Center(
                               child: CircularProgressIndicator(
                                 valueColor: AlwaysStoppedAnimation<Color>(

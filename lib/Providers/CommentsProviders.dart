@@ -90,7 +90,7 @@ class Comentario {
 
   // HTTP: DELETE
   static Future<void> deleteComentario(String id) async {
-    final url = Uri.parse('$baseUrl/$id');
+    final url = Uri.parse(id);
     await http.delete(url);
   }
 }

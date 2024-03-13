@@ -71,11 +71,16 @@ class _CommunityState extends State<Community> {
             .inHours;
 
         return CommunityPost(
-            horas: diferenciaEnHoras,
-            contenido: comentario.contenido,
-            username: comentario.usuario,
-            nombre: comentario.nombre,
-            userIdWidget: comentario.usuarioId);
+          horas: diferenciaEnHoras,
+          contenido: comentario.contenido,
+          username: comentario.usuario,
+          nombre: comentario.nombre,
+          userIdWidget: comentario.usuarioId,
+          funcionEliminar: () {
+            Comentario.deleteComentario(
+                'https://unilibremovil2-default-rtdb.firebaseio.com/comentarios/${comentario.id}.json');
+          },
+        );
       }));
       isLoading = false;
     });

@@ -6,6 +6,7 @@ import 'package:nutrisalud/Routes/AppRoutes.dart';
 import '../Helpers/HelpersExport.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../Providers/UsersProviders.dart';
+import '../Providers/Preferences/UsuarioPreferences.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -30,6 +31,8 @@ class _LoginState extends State<Login> {
 
     bool usuarioEncontrado = false;
 
+    UserPersistence userPersistence = await UserPersistence.getInstance();
+
     // Recorrer el JSON para buscar coincidencias
     for (var usuario in usuarios) {
       if (usuario.usuario == _userNameController.text &&
@@ -37,6 +40,7 @@ class _LoginState extends State<Login> {
         usuarioEncontrado = true;
         print('Usuario encontrado');
         // Guardar la variable en shared preference
+        await userPersistence.saveUser('userId', usuario.id.toString());
         print(usuario.id);
         break;
       }

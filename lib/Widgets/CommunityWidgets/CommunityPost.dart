@@ -128,7 +128,10 @@ class _CommunityPostState extends State<CommunityPost> {
               if ('https://unilibremovil2-default-rtdb.firebaseio.com/usuarios/${userId}.json' ==
                   widget.userIdWidget) ...[
                 // Boton de borrar
-                Text("Borrar comentario")
+                Container(
+                  alignment: Alignment.bottomRight,
+                  child: IconButton(onPressed: (){}, icon: const Icon(Icons.delete_outline, color: ColorsConstants.darkGreen,)),
+                )
               ]
             ],
           ),

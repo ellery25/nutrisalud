@@ -6,6 +6,7 @@ import '../Widgets/CommunityWidgets/CommunityPost.dart';
 import '../Widgets/GeneralWidgets/NavBar.dart';
 import '../Providers/CommentsProviders.dart';
 import '../Helpers/HelpersExport.dart';
+import '../Providers/Preferences/IsNutricionist.dart';
 
 class Community extends StatefulWidget {
   const Community({super.key});
@@ -18,12 +19,16 @@ class _CommunityState extends State<Community> {
   List<Widget> comunityPostsList = [];
   bool isLoading = true;
 
+
   @override
-  void initState() {
+  void initState() async {
     super.initState();
     llenarCommunityPostsList();
     // Prueba de la lista de usuarios
     print("Se ejecuta Llenar comunity posts");
+    isNutricionist userIsANutricionist = await isNutricionist.getInstance();
+    bool userIs = userIsANutricionist.getIsNutricionist('isNutricionist?');
+    print(userIs);
   }
 
   Future<void> llenarCommunityPostsList() async {

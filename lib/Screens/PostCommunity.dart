@@ -1,12 +1,14 @@
 // ignore_for_file: avoid_print, file_names
 
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:nutrisalud/Screens/Community.dart';
 import '../Helpers/HelpersExport.dart';
 import '../Providers/Preferences/UsuarioPreferences.dart';
 import '../Providers/CommentsProviders.dart';
 
 class PostCommunity extends StatefulWidget {
-  const PostCommunity({Key? key}) : super(key: key);
+  const PostCommunity({super.key});
 
   @override
   State<PostCommunity> createState() => _PostCommunityState();
@@ -15,6 +17,7 @@ class PostCommunity extends StatefulWidget {
 class _PostCommunityState extends State<PostCommunity> {
   final TextEditingController _contenidoController = TextEditingController();
   String userId = '';
+  bool setCommunityVisited = false;
 
   @override
   void initState() {
@@ -146,7 +149,12 @@ class _PostCommunityState extends State<PostCommunity> {
                               ),
                             ),
                             onPressed: () {
-                              Navigator.pop(context);
+                              GetStorage().write('communityVisited', false);
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const Community()),
+                              );
                             },
                           ),
                         ],

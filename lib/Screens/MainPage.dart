@@ -1,6 +1,8 @@
 // ignore_for_file: avoid_print
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:nutrisalud/Routes/AppRoutes.dart';
 import '../Widgets/MainPageWidgets/MainPageBlocks.dart';
 import '../Helpers/HelpersExport.dart';
@@ -11,19 +13,23 @@ import '../Providers/NutricionistsProviders.dart';
 import '../Providers/UsersProviders.dart';
 
 class MainPage extends StatefulWidget {
-  const MainPage({Key? key}) : super(key: key);
+  const MainPage({super.key});
 
   @override
   State<MainPage> createState() => _MainPageState();
 }
 
 class _MainPageState extends State<MainPage> {
-  bool isNutricionist = false;
+  List<Widget> getProfessionalTipsList = [];
+  List<Widget> localProfessionalTipsList = [];
   String userId = '';
-  bool isLoading = true;
-  List<Widget> professionalTipsList = [];
   String dato1Sesion = '';
   String dato2Sesion = '';
+
+  // GetX Variables
+  RxBool hasBeenVisitedProTips = false.obs;
+  RxBool isLoading = false.obs;
+  RxBool isNutricionist = false.obs;
 
   @override
   void initState() {
@@ -32,7 +38,23 @@ class _MainPageState extends State<MainPage> {
     _cargarUserId().then((_) {
       buscarInformacionSesion();
     });
+    _checkVisitedStatus();
     llenarProTipsList();
+    localProfessionalTipsList =
+        GetStorage().read('localProfessionalTipsList') ?? [];
+  }
+
+  _checkVisitedStatus() {
+    // Verificar si la página ya ha sido visitada antes
+    hasBeenVisitedProTips.value = GetStorage().read('proTipsVisited') ?? false;
+
+    // Si es la primera vez que se visita, actualizar el estado y guardar en GetStorage
+    if (!hasBeenVisitedProTips.value) {
+      setState(() {
+        hasBeenVisitedProTips.value = false;
+      });
+      GetStorage().write('proTipsVisited', true);
+    }
   }
 
   _cargarIsNutricionist() async {
@@ -43,7 +65,7 @@ class _MainPageState extends State<MainPage> {
         userIsANutricionist.getIsNutricionist('isNutricionist?');
     // Actualizar el estado para reflejar el userId
     setState(() {
-      this.isNutricionist = isNutricionist;
+      this.isNutricionist.value = isNutricionist;
     });
 
     print('isNutricionist: $isNutricionist');
@@ -64,7 +86,7 @@ class _MainPageState extends State<MainPage> {
 
   Future<void> llenarProTipsList() async {
     setState(() {
-      isLoading = true;
+      isLoading.value = true;
     });
 
     try {
@@ -73,7 +95,8 @@ class _MainPageState extends State<MainPage> {
 
       // Actualizar el estado con los ProTips obtenidos
       setState(() {
-        professionalTipsList.addAll(proTips.map((proTip) {
+        getProfessionalTipsList.clear();
+        getProfessionalTipsList.addAll(proTips.map((proTip) {
           return ProfessionalTipsBlock(
             title: proTip.titulo,
             tip: proTip.contenido,
@@ -81,17 +104,19 @@ class _MainPageState extends State<MainPage> {
           );
         }));
 
-        isLoading = false;
+        isLoading.value = false;
       });
     } catch (e) {
       print('Error al obtener los ProTips: $e');
       // Manejar el error, si es necesario
     }
+
+    GetStorage().write('localProfessionalTipsList', getProfessionalTipsList);
   }
 
   Future<void> buscarInformacionSesion() async {
     print('Buscando información de la sesión');
-    if (isNutricionist) {
+    if (isNutricionist.value) {
       //Get para nutricionista
       final nutricionista = await Nutricionistas.getNutricionista(
           'https://unilibremovil2-default-rtdb.firebaseio.com/nutricionistas/$userId.json');
@@ -120,16 +145,18 @@ class _MainPageState extends State<MainPage> {
 
     return Scaffold(
       // Si la variable isNutricionist es false, mostrar el botón flotante
-      floatingActionButton: isNutricionist == true
-          ? FloatingActionButton(
-              onPressed: () {
-                // Acciones para añadir un profesional tip
-                Navigator.pushNamed(context, AppRoutes.postProTip);
-              },
-              backgroundColor: ColorsConstants.darkGreen,
-              child: const Icon(Icons.add, color: ColorsConstants.whiteColor),
-            )
-          : null,
+      floatingActionButton: Obx(
+        () => isNutricionist.value
+            ? FloatingActionButton(
+                onPressed: () {
+                  // Acciones para añadir un profesional tip
+                  Navigator.pushNamed(context, AppRoutes.postProTip);
+                },
+                backgroundColor: ColorsConstants.darkGreen,
+                child: const Icon(Icons.add, color: ColorsConstants.whiteColor),
+              )
+            : const SizedBox.shrink(),
+      ),
 
       backgroundColor: ColorsConstants.whiteColor,
       body: SafeArea(
@@ -185,9 +212,9 @@ class _MainPageState extends State<MainPage> {
                     Container(
                       margin: const EdgeInsets.symmetric(
                           horizontal: 20, vertical: 7),
-                      child: const Row(
+                      child: Row(
                         children: [
-                          Text(
+                          const Text(
                             'Professional Tips',
                             style: TextStyle(
                               fontSize: 24,
@@ -195,22 +222,46 @@ class _MainPageState extends State<MainPage> {
                               color: ColorsConstants.darkGreen,
                             ),
                           ),
+                          const Spacer(),
+                          GestureDetector(
+                            onTap: () {
+                              hasBeenVisitedProTips.value = false;
+                              llenarProTipsList();
+                              localProfessionalTipsList =
+                                  GetStorage().read('localComunityPostsList') ??
+                                      [];
+                            },
+                            child: const Padding(
+                              padding: EdgeInsets.only(right: 10.0),
+                              child: Icon(
+                                Icons.refresh,
+                                size: 24,
+                                color: Color(0xff3A5A40),
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                     ),
-                    isLoading
-                        ? const Padding(
-                            padding: EdgeInsets.all(40.0),
-                            child: Center(
-                              child: CircularProgressIndicator(
-                                valueColor: AlwaysStoppedAnimation<Color>(
-                                    ColorsConstants.darkGreen),
-                              ),
+                    Obx(
+                      () => !hasBeenVisitedProTips.value
+                          ? isLoading.value
+                              ? const Padding(
+                                  padding: EdgeInsets.all(40.0),
+                                  child: Center(
+                                    child: CircularProgressIndicator(
+                                      valueColor: AlwaysStoppedAnimation<Color>(
+                                          ColorsConstants.darkGreen),
+                                    ),
+                                  ),
+                                )
+                              : Column(
+                                  children: getProfessionalTipsList,
+                                )
+                          : Column(
+                              children: localProfessionalTipsList,
                             ),
-                          )
-                        : Column(
-                            children: professionalTipsList,
-                          ),
+                    )
                   ],
                 ),
               ),

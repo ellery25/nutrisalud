@@ -1,9 +1,10 @@
 // ignore_for_file: avoid_print, file_names
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:nutrisalud/Routes/AppRoutes.dart';
 import '../Widgets/CommunityWidgets/CommunityPost.dart';
-import '../Widgets/GeneralWidgets/NavBar.dart';
 import '../Providers/CommentsProviders.dart';
 import '../Helpers/HelpersExport.dart';
 import '../Providers/Preferences/IsNutricionist.dart';
@@ -17,17 +18,37 @@ class Community extends StatefulWidget {
 }
 
 class _CommunityState extends State<Community> {
-  List<Widget> comunityPostsList = [];
-  bool isLoading = true;
+  List<Widget> getComunityPostsList = [];
+  List<Widget> localComunityPostsList = [];
   String userId = '';
   bool isNutricionist = false;
+
+  // GetX Variables
+  RxBool hasBeenVisitedCommunity = false.obs;
+  RxBool isLoading = false.obs;
 
   @override
   void initState() {
     super.initState();
-    llenarCommunityPostsList();
     _cargarUserId();
     _cargarIsNutricionist();
+    _checkVisitedStatus();
+    llenarCommunityPostsList();
+    localComunityPostsList = GetStorage().read('localComunityPostsList') ?? [];
+  }
+
+  _checkVisitedStatus() {
+    // Verificar si la página ya ha sido visitada antes
+    hasBeenVisitedCommunity.value =
+        GetStorage().read('communityVisited') ?? false;
+
+    // Si es la primera vez que se visita, actualizar el estado y guardar en GetStorage
+    if (!hasBeenVisitedCommunity.value) {
+      setState(() {
+        hasBeenVisitedCommunity.value = false;
+      });
+      GetStorage().write('communityVisited', true);
+    }
   }
 
   _cargarUserId() async {
@@ -59,12 +80,13 @@ class _CommunityState extends State<Community> {
 
   Future<void> llenarCommunityPostsList() async {
     setState(() {
-      isLoading = true;
+      isLoading.value = true;
     });
     print('Llenando la lista de community posts');
     final List<Comentario> comentarios = await Comentario.getComentarios();
     setState(() {
-      comunityPostsList.addAll(comentarios.map((comentario) {
+      getComunityPostsList.clear();
+      getComunityPostsList.addAll(comentarios.map((comentario) {
         // Calcular la diferencia en horas
         int diferenciaEnHoras = DateTime.parse(DateTime.now().toString())
             .difference(DateTime.parse(comentario.horas))
@@ -79,11 +101,18 @@ class _CommunityState extends State<Community> {
           funcionEliminar: () {
             Comentario.deleteComentario(
                 'https://unilibremovil2-default-rtdb.firebaseio.com/comentarios/${comentario.id}.json');
+
+            llenarCommunityPostsList();
+            localComunityPostsList =
+                GetStorage().read('getComunityPostsList') ?? [];
           },
         );
       }));
-      isLoading = false;
+      isLoading.value = false;
     });
+
+    // Guardar la lista de community posts en GetStorage
+    GetStorage().write('localComunityPostsList', getComunityPostsList);
   }
 
   @override
@@ -91,7 +120,6 @@ class _CommunityState extends State<Community> {
     double screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      // Si la variable isNutricionist es false, mostrar el botón flotante
       floatingActionButton: isNutricionist == false
           ? FloatingActionButton(
               onPressed: () {
@@ -107,25 +135,68 @@ class _CommunityState extends State<Community> {
           padding: EdgeInsets.all(screenWidth * 0.05),
           child: Column(
             children: [
-              NavBar(
-                backButton: false,
-                title: "Community",
-                backRoute: () {
-                  print("Back Community");
-                },
+              Padding(
+                padding: const EdgeInsets.only(bottom: 10.0),
+                child: Row(
+                  children: [
+                    const SizedBox(
+                      width: 34,
+                    ),
+                    const Spacer(),
+                    const Text(
+                      "Community",
+                      style: TextStyle(
+                        fontFamily: 'Inter',
+                        fontSize: 26.5,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xff3A5A40),
+                      ),
+                    ),
+                    const Spacer(),
+                    GestureDetector(
+                      onTap: () {
+                        llenarCommunityPostsList();
+                        hasBeenVisitedCommunity.value = false;
+                        localComunityPostsList =
+                            GetStorage().read('getComunityPostsList') ?? [];
+                      },
+                      child: const Padding(
+                        padding: EdgeInsets.only(right: 10.0),
+                        child: Icon(
+                          Icons.refresh,
+                          size: 24,
+                          color: Color(0xff3A5A40),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 34,
+                    ),
+                  ],
+                ),
               ),
-              Expanded(
-                child: isLoading
-                    ? const Center(
-                        child: CircularProgressIndicator(
-                            valueColor: AlwaysStoppedAnimation<Color>(
-                                ColorsConstants.darkGreen)),
+              Obx(
+                () => !hasBeenVisitedCommunity.value
+                    ? Expanded(
+                        child: isLoading.value
+                            ? const Center(
+                                child: CircularProgressIndicator(
+                                  valueColor: AlwaysStoppedAnimation<Color>(
+                                    ColorsConstants.darkGreen,
+                                  ),
+                                ),
+                              )
+                            : SingleChildScrollView(
+                                child: Column(
+                                  children: getComunityPostsList,
+                                ),
+                              ),
                       )
-                    : SingleChildScrollView(
-                        child: Column(
-                          children: [
-                            ...comunityPostsList,
-                          ],
+                    : Expanded(
+                        child: SingleChildScrollView(
+                          child: Column(
+                            children: localComunityPostsList,
+                          ),
                         ),
                       ),
               ),

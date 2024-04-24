@@ -16,68 +16,93 @@ class _PostProTipState extends State<PostProTip> {
       appBar: AppBar(
           actions: [
             Container(
-              margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.05),
+              margin: EdgeInsets.symmetric(
+                  horizontal: MediaQuery.of(context).size.width * 0.05),
               child: ElevatedButton(
-                onPressed: (){},
-                style: ButtonStyle(backgroundColor: MaterialStateColor.resolveWith((states) => ColorsConstants.darkGreen)),
-                child: const Text('Post', style: TextStyle(color: ColorsConstants.whiteColor, fontWeight: FontWeight.w500)),
+                onPressed: () {},
+                style: ButtonStyle(
+                    backgroundColor: MaterialStateColor.resolveWith(
+                        (states) => ColorsConstants.darkGreen)),
+                child: const Text('Post',
+                    style: TextStyle(
+                        color: ColorsConstants.whiteColor,
+                        fontWeight: FontWeight.w500)),
               ),
             )
           ],
           foregroundColor: ColorsConstants.darkGreen,
-          backgroundColor: ColorsConstants.whiteColor
-      ),
+          backgroundColor: ColorsConstants.whiteColor),
       body: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Column(
           children: [
-            Row(children: [Text(
-              'Titulo del tip',
-              style: const TextStyle(
-                fontFamily: 'Inter',
-                fontSize: 19,
-                fontWeight: FontWeight.w600,
-                color: ColorsConstants.darkGreen,
-              ),
-            ),],),
-              Container(
-                margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.01,),
-                height: MediaQuery.of(context).size.height * 0.1,
-                padding: const EdgeInsets.all(16.0),
-                child: const TextField(
-                  style: TextStyle(decoration: TextDecoration.none),
-                  expands: true,
-                  maxLines: null, // Establece maxLines en null para que el TextField pueda crecer según sea necesario
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                    hintText: 'Escribe aquí...',
+            const Row(
+              children: [
+                Text(
+                  'Titulo del tip',
+                  style: TextStyle(
+                    fontFamily: 'Inter',
+                    fontSize: 19,
+                    fontWeight: FontWeight.w600,
+                    color: ColorsConstants.darkGreen,
                   ),
                 ),
+              ],
             ),
-            SizedBox(height: 15,),
-            Divider(color: ColorsConstants.darkGreen, height: 1),
-            SizedBox(height: 15,),
-            Row(children: [Text(
-              'Contenido de tip',
-              style: const TextStyle(
-                fontFamily: 'Inter',
-                fontSize: 19,
-                fontWeight: FontWeight.w600,
-                color: ColorsConstants.darkGreen,
+            Container(
+              margin: EdgeInsets.only(
+                top: MediaQuery.of(context).size.height * 0.01,
               ),
-            ),],),
-            Expanded(child: Container(
-              padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height * 0.01, horizontal: MediaQuery.of(context).size.width * 0.04),
+              height: MediaQuery.of(context).size.height * 0.1,
+              padding: const EdgeInsets.all(16.0),
               child: const TextField(
                 style: TextStyle(decoration: TextDecoration.none),
                 expands: true,
-                maxLines: null, // Establece maxLines en null para que el TextField pueda crecer según sea necesario
+                maxLines:
+                    null, // Establece maxLines en null para que el TextField pueda crecer según sea necesario
                 decoration: InputDecoration(
                   border: InputBorder.none,
                   hintText: 'Escribe aquí...',
                 ),
               ),
-            ),)
+            ),
+            const SizedBox(
+              height: 15,
+            ),
+            const Divider(color: ColorsConstants.darkGreen, height: 1),
+            const SizedBox(
+              height: 15,
+            ),
+            const Row(
+              children: [
+                Text(
+                  'Contenido de tip',
+                  style: TextStyle(
+                    fontFamily: 'Inter',
+                    fontSize: 19,
+                    fontWeight: FontWeight.w600,
+                    color: ColorsConstants.darkGreen,
+                  ),
+                ),
+              ],
+            ),
+            Expanded(
+              child: Container(
+                padding: EdgeInsets.symmetric(
+                    vertical: MediaQuery.of(context).size.height * 0.01,
+                    horizontal: MediaQuery.of(context).size.width * 0.04),
+                child: const TextField(
+                  style: TextStyle(decoration: TextDecoration.none),
+                  expands: true,
+                  maxLines:
+                      null, // Establece maxLines en null para que el TextField pueda crecer según sea necesario
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    hintText: 'Escribe aquí...',
+                  ),
+                ),
+              ),
+            )
           ],
         ),
       ),

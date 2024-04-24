@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../Helpers/Colors.dart';
 import '../../Providers/Preferences/UsuarioPreferences.dart';
+import 'package:get/get.dart';
 
 class CommunityPost extends StatefulWidget {
   final String contenido;
@@ -138,12 +139,7 @@ class _CommunityPostState extends State<CommunityPost> {
                         widget.funcionEliminar();
 
                         // Mostrar un snackbar
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Comentario eliminado'),
-                            duration: Duration(seconds: 2),
-                          ),
-                        );
+                        Get.snackbar("Aviso", "Comentario eliminado");
                       },
                       icon: const Icon(
                         Icons.delete_outline,

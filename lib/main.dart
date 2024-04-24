@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nutrisalud/Screens/PostProTip.dart';
-import 'package:nutrisalud/blocs/Comments/Comments_cubit.dart';
-import 'package:nutrisalud/blocs/Nutricionists/Nutricionist_cubit.dart';
-import 'package:nutrisalud/blocs/ProTips/ProTips_cubit.dart';
 import '../Helpers/HelpersExport.dart';
 import 'package:nutrisalud/Routes/AppRoutes.dart';
 import 'package:nutrisalud/Widgets/GeneralWidgets/NutriSaludBtBar.dart';
@@ -37,15 +33,9 @@ class MyApp extends StatelessWidget {
       future: _defineInitialRoute(),
       builder: (context, snapshot) {
          if(snapshot.connectionState == ConnectionState.done){
-           return MultiBlocProvider(providers: [
-              BlocProvider<ProTipsBloc>(
-                create: (context) => ProTipsBloc(),
-              ),
-              BlocProvider(create: (context) => NutricionistBloc()),
-              BlocProvider(create: (context) => CommentsBloc())
-           ], child: MaterialApp(
+           return MaterialApp(
              title: 'NutriSalud ',
-             initialRoute: snapshot.data ?? AppRoutes.home,
+             initialRoute: snapshot.data ?? AppRoutes.welcome,
              onGenerateRoute: (routes) {
                switch (routes.name) {
                  case AppRoutes.home:
@@ -80,7 +70,7 @@ class MyApp extends StatelessWidget {
                return null;
              },
              debugShowCheckedModeBanner: false,
-           ));
+           );
          } else {
            return const CircularProgressIndicator();
          }

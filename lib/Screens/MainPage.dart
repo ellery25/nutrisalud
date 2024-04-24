@@ -1,13 +1,12 @@
 // ignore_for_file: avoid_print
 
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nutrisalud/Routes/AppRoutes.dart';
-import 'package:nutrisalud/blocs/ProTips/ProTips_cubit.dart';
 import '../Widgets/MainPageWidgets/MainPageBlocks.dart';
 import '../Helpers/HelpersExport.dart';
 import '../Providers/Preferences/UsuarioPreferences.dart';
 import '../Providers/Preferences/IsNutricionist.dart';
+import '../Providers/ProTipsProviders.dart';
 import '../Providers/NutricionistsProviders.dart';
 import '../Providers/UsersProviders.dart';
 
@@ -33,7 +32,7 @@ class _MainPageState extends State<MainPage> {
     _cargarUserId().then((_) {
       buscarInformacionSesion();
     });
-    context.read<ProTipsBloc>().add(FetchProTips());
+    llenarProTipsList();
   }
 
   _cargarIsNutricionist() async {
@@ -61,6 +60,33 @@ class _MainPageState extends State<MainPage> {
     });
 
     print('userId: $userId');
+  }
+
+  Future<void> llenarProTipsList() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    try {
+      // Obtener los ProTips
+      List<ProTip> proTips = await ProTip.getProTips();
+
+      // Actualizar el estado con los ProTips obtenidos
+      setState(() {
+        professionalTipsList.addAll(proTips.map((proTip) {
+          return ProfessionalTipsBlock(
+            title: proTip.titulo,
+            tip: proTip.contenido,
+            nutricionistAvatar: proTip.foto,
+          );
+        }));
+
+        isLoading = false;
+      });
+    } catch (e) {
+      print('Error al obtener los ProTips: $e');
+      // Manejar el error, si es necesario
+    }
   }
 
   Future<void> buscarInformacionSesion() async {
@@ -152,7 +178,7 @@ class _MainPageState extends State<MainPage> {
                     ),
                     const EatingTimeBlock(
                       type: 'Dinner',
-                      food: 'Grilled Salmon',
+                      food: 'Sancocho de mondongo',
                       time: '5:00 - 7:00 PM',
                     ),
                     //Professional Tips
@@ -172,26 +198,19 @@ class _MainPageState extends State<MainPage> {
                         ],
                       ),
                     ),
-                    BlocBuilder<ProTipsBloc, ProTipsState>(
-                      builder: (context, state) {
-                        if (state is ProtipsLoading) {
-                          return const CircularProgressIndicator();
-                        } else if (state is ProtipsLoaded) {
-                          professionalTipsList
-                              .addAll(state.protips.map((proTip) {
-                            return ProfessionalTipsBlock(
-                              title: proTip.titulo,
-                              tip: proTip.contenido,
-                              nutricionistAvatar: proTip.foto,
-                            );
-                          }));
-                          return ListView(children: professionalTipsList);
-                        } else if (state is ProtipsError) {
-                          return Text(state.message);
-                        }
-                        return Container();
-                      },
-                    ),
+                    isLoading
+                        ? const Padding(
+                            padding: EdgeInsets.all(40.0),
+                            child: Center(
+                              child: CircularProgressIndicator(
+                                valueColor: AlwaysStoppedAnimation<Color>(
+                                    ColorsConstants.darkGreen),
+                              ),
+                            ),
+                          )
+                        : Column(
+                            children: professionalTipsList,
+                          ),
                   ],
                 ),
               ),

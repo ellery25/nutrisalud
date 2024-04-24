@@ -65,7 +65,7 @@ class _RegisterState extends State<Register> {
 
     return Scaffold(
       backgroundColor: ColorsConstants.lightGreen,
-      body: SingleChildScrollView(
+      body: SafeArea(
         child: Column(
           children: [
             AppBar(
@@ -82,8 +82,8 @@ class _RegisterState extends State<Register> {
               ),
             ),
             const SizedBox(height: 30),
-                Container(
-                height: screenHeight * 0.62,
+            Expanded(
+              child: Container(
                 decoration: const BoxDecoration(
                   borderRadius: BorderRadius.only(
                     topRight: Radius.circular(50),
@@ -335,9 +335,10 @@ class _RegisterState extends State<Register> {
                   ),
                 ),
               ),
+            )
           ],
         ),
-      )
+      ),
     );
   }
 }

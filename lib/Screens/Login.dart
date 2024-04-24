@@ -80,138 +80,133 @@ class _LoginState extends State<Login> {
 
     return Scaffold(
       backgroundColor: ColorsConstants.lightGreen,
-      body: SingleChildScrollView(
-        child: Column(
-            children: [
-              AppBar(
-                backgroundColor: ColorsConstants.lightGreen,
-                foregroundColor: ColorsConstants.whiteColor,
-              ),
-              //Logo
-              Container(
-                margin: EdgeInsets.only(top: screenHeight * 0.07),
-                child: SvgPicture.asset(AssetsRoute.logoSvg,
-                    color: ColorsConstants.whiteColor,
-                    height: screenHeight * 0.17),
-              ),
-              const SizedBox(height: 30),
-
-              Container(
-                height: screenHeight * 0.62,
-                decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(50),
-                        topLeft: Radius.circular(50)),
-                    color: ColorsConstants.whiteColor),
-                width: screenWidth * 1,
-                child: Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      const SizedBox(height: 30),
-                      const Text(
-                        'Login',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 28,
-                          fontWeight: FontWeight.bold,
-                          color: ColorsConstants.darkGreen,
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-                      TextFormField(
-                        controller: _userNameController,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15.0),
-                            borderSide: const BorderSide(color: Colors.green),
-                          ),
-                          labelText: 'Nombre de usuario:',
-                          labelStyle: const TextStyle(color: Colors.green),
-                        ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter your user name';
-                          }
-                          return null;
-                        },
-                      ),
-                      const SizedBox(height: 16),
-                      TextFormField(
-                        controller: _passwordController,
-                        obscureText: true,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15.0),
-                            borderSide: const BorderSide(color: Colors.green),
-                          ),
-                          labelText: 'Password:',
-                          labelStyle: const TextStyle(color: Colors.green),
-                        ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter your password';
-                          }
-                          return null;
-                        },
-                      ),
-                      const SizedBox(height: 12),
-                      const Text(
-                        'Forgot your password?',
-                        style: TextStyle(color: Colors.grey, fontSize: 12),
-                      ),
-                      const SizedBox(height: 24),
-                      ElevatedButton(
-                        onPressed: () async {
-                          bool coincidencia = await revisarCoincidencia();
-                          bool isFirstTime =
-                              await FirsTimePreferences.isFirstTime() ?? true;
-                          if (coincidencia) {
-                            if (isFirstTime) {
-                              await FirsTimePreferences.setFirstTime(false);
-                              Navigator.pushReplacementNamed(
-                                  context, AppRoutes.introduction);
-                            } else {
-                              Navigator.pushReplacementNamed(
-                                  context, AppRoutes.home);
-                            }
-                          } else {
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  title: const Text('Error'),
-                                  content: const Text(
-                                      'Usuario o contraseña incorrectos'),
-                                  actions: <Widget>[
-                                    TextButton(
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                      },
-                                      child: const Text('Aceptar'),
-                                    ),
-                                  ],
-                                );
-                              },
-                            );
-                          }
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: ColorsConstants.darkGreen,
-                        ),
-                        child: const Text(
-                          'Login',
-                          style: TextStyle(color: ColorsConstants.whiteColor),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              )
-            ],
+      body: SafeArea(
+          child: Column(
+        children: [
+          AppBar(
+            backgroundColor: ColorsConstants.lightGreen,
+            foregroundColor: ColorsConstants.whiteColor,
           ),
-      )
+          //Logo
+          Container(
+            margin: EdgeInsets.only(top: screenHeight * 0.07),
+            child: SvgPicture.asset(AssetsRoute.logoSvg,
+                color: ColorsConstants.whiteColor, height: screenHeight * 0.17),
+          ),
+          const SizedBox(height: 30),
+
+          Expanded(
+              child: Container(
+            decoration: const BoxDecoration(
+                borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(50),
+                    topLeft: Radius.circular(50)),
+                color: ColorsConstants.whiteColor),
+            width: screenWidth * 1,
+            child: Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const SizedBox(height: 30),
+                  const Text(
+                    'Login',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 28,
+                      fontWeight: FontWeight.bold,
+                      color: ColorsConstants.darkGreen,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  TextFormField(
+                    controller: _userNameController,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15.0),
+                        borderSide: const BorderSide(color: Colors.green),
+                      ),
+                      labelText: 'Nombre de usuario:',
+                      labelStyle: const TextStyle(color: Colors.green),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter your user name';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 16),
+                  TextFormField(
+                    controller: _passwordController,
+                    obscureText: true,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15.0),
+                        borderSide: const BorderSide(color: Colors.green),
+                      ),
+                      labelText: 'Password:',
+                      labelStyle: const TextStyle(color: Colors.green),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter your password';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 12),
+                  const Text(
+                    'Forgot your password?',
+                    style: TextStyle(color: Colors.grey, fontSize: 12),
+                  ),
+                  const SizedBox(height: 24),
+                  ElevatedButton(
+                    onPressed: () async {
+                      bool coincidencia = await revisarCoincidencia();
+                      bool isFirstTime = await FirsTimePreferences.isFirstTime() ?? true;
+                      if (coincidencia) {
+                        if (isFirstTime) {
+                          await FirsTimePreferences.setFirstTime(false);
+                          Navigator.pushReplacementNamed(context, AppRoutes.introduction);
+                        } else {
+                        Navigator.pushReplacementNamed(context, AppRoutes.home);
+                      }
+                      } else {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: const Text('Error'),
+                              content: const Text(
+                                  'Usuario o contraseña incorrectos'),
+                              actions: <Widget>[
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: const Text('Aceptar'),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      }
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: ColorsConstants.darkGreen,
+                    ),
+                    child: const Text(
+                      'Login',
+                      style: TextStyle(color: ColorsConstants.whiteColor),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ))
+        ],
+      )),
     );
   }
 }

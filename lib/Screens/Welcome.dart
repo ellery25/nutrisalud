@@ -50,17 +50,18 @@ class WelcomeScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                const Spacer(),
+
                 // Welcome!
-                Container(
-                  margin: EdgeInsets.symmetric(vertical: screenHeight * 0.05),
-                  child: const Text(
-                    'Welcome!',
-                    style: TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.w800,
-                        color: ColorsConstants.darkGreen),
-                  ),
+                const Text(
+                  'Welcome!',
+                  style: TextStyle(
+                      fontSize: 30,
+                      fontWeight: FontWeight.w800,
+                      color: ColorsConstants.darkGreen),
                 ),
+
+                SizedBox(height: screenHeight * 0.05),
 
                 //Login
                 InkWell(
@@ -81,7 +82,9 @@ class WelcomeScreen extends StatelessWidget {
                             fontWeight: FontWeight.w700)),
                   ),
                 ),
+
                 SizedBox(height: screenHeight * 0.06),
+
                 //Register
                 InkWell(
                   onTap: () {
@@ -102,64 +105,7 @@ class WelcomeScreen extends StatelessWidget {
                   ),
                 ),
 
-                SizedBox(height: screenHeight * 0.08),
-
-                //Or continue with
-                Row(
-                  children: [
-                    Container(
-                      color: ColorsConstants.darkGreen,
-                      margin: EdgeInsets.only(right: screenWidth * 0.03),
-                      width: screenWidth * 0.32,
-                      height: screenHeight * 0.002,
-                    ),
-                    Container(
-                      alignment: Alignment.center,
-                      child: const Text(
-                        'Or continue with',
-                        style: TextStyle(
-                            color: ColorsConstants.darkGreen, fontSize: 16),
-                      ),
-                    ),
-                    Expanded(
-                      child: Container(
-                        color: ColorsConstants.darkGreen,
-                        margin: EdgeInsets.only(left: screenWidth * 0.03),
-                        width: screenWidth * 0.3,
-                        height: screenHeight * 0.002,
-                      ),
-                    )
-                  ],
-                ),
-
-                SizedBox(height: screenHeight * 0.04),
-
-                //Accounts
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    InkWell(
-                      onTap: () {},
-                      child: SvgPicture.asset(AssetsRoute.gmailSvg,
-                          color: ColorsConstants.darkGreen,
-                          height: screenHeight * 0.04),
-                    ),
-                    SizedBox(width: screenWidth * 0.07),
-                    InkWell(
-                      onTap: () {},
-                      child: SvgPicture.asset(AssetsRoute.metaSvg,
-                          color: ColorsConstants.darkGreen,
-                          height: screenHeight * 0.04),
-                    ),
-                    SizedBox(width: screenWidth * 0.07),
-                    InkWell(
-                      onTap: () {},
-                      child: SvgPicture.asset(AssetsRoute.twitterSvg,
-                          color: ColorsConstants.darkGreen,
-                          height: screenHeight * 0.04),
-                    )
-                  ],
-                ),
+                const Spacer(),
               ],
             ),
           ))

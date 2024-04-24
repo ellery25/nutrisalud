@@ -37,6 +37,7 @@ class _NutricionistsState extends State<Nutricionists> {
           await Nutricionistas.getNutricionistas();
 
       // Iterar la lista de usuarios para mostrar todos los nutricionistas y sus datos
+      /*
       for (var element in nutricionistas) {
         // Imprimir todos los datos de cada uno de los elementos
         print('Nombre: ${element.nombre}');
@@ -52,6 +53,7 @@ class _NutricionistsState extends State<Nutricionists> {
         print('Website: ${element.web_site}');
         print('----------------------');
       }
+      */
       setState(() {
         nutricardsList = nutricionistas.map((nutricionista) {
           return NutriCard(

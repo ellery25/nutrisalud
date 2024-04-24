@@ -45,6 +45,7 @@ class ProTip {
       });
 
       // Imprimir proTips
+      /*
       for (var proTip in proTips) {
         print('ID: ${proTip.id}');
         print('Titulo: ${proTip.titulo}');
@@ -52,6 +53,7 @@ class ProTip {
         print('Nutricionista ID: ${proTip.nutricionistaId}');
         print('----------------------');
       }
+      */
 
       for (var proTip in proTips) {
         try {

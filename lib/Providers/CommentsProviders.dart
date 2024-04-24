@@ -49,6 +49,7 @@ class Comentario {
       });
 
       // Imprimir comentarios
+      /*
       for (var comentario in comentarios) {
         print('ID: ${comentario.id}');
         print('Contenido: ${comentario.contenido}');
@@ -57,6 +58,7 @@ class Comentario {
         print('Usuario ID: ${comentario.usuarioId}');
         print('----------------------');
       }
+      */
 
       for (var comentario in comentarios) {
         try {

@@ -150,11 +150,8 @@ class _PostCommunityState extends State<PostCommunity> {
                             ),
                             onPressed: () {
                               GetStorage().write('communityVisited', false);
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const Community()),
-                              );
+                              Navigator.pop(context);
+                              Navigator.pop(context);
                             },
                           ),
                         ],

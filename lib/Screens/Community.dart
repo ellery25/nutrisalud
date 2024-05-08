@@ -1,78 +1,51 @@
-// ignore_for_file: avoid_print, file_names
-
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
-import 'package:nutrisalud/Routes/AppRoutes.dart';
-import '../Widgets/CommunityWidgets/CommunityPost.dart';
-import '../Providers/CommentsProviders.dart';
-import '../Helpers/HelpersExport.dart';
-import '../Providers/Preferences/IsNutricionist.dart';
-import '../Providers/Preferences/UsuarioPreferences.dart';
+import 'package:nutrisalud/Widgets/CommunityWidgets/community_post.dart';
+import 'package:nutrisalud/Widgets/GeneralWidgets/NavBar.dart';
+import 'package:nutrisalud/Providers/comments_providers.dart';
+import 'package:nutrisalud/Preferences/save_load.dart';
+import 'package:nutrisalud/Helpers/helpers_export.dart';
+
+// TODO: Mostrar aviso de comentario eliminado, luego actualizar nuevamente la lista de comentarios
 
 class Community extends StatefulWidget {
   const Community({super.key});
-
   @override
-  _CommunityState createState() => _CommunityState();
+  State<Community> createState() => _CommunityState();
 }
 
 class _CommunityState extends State<Community> {
-  List<Widget> getComunityPostsList = [];
-  List<Widget> localComunityPostsList = [];
+  List<Widget> communityPostsList = [];
+  bool isLoading = true;
   String userId = '';
-  bool isNutricionist = false;
-
-  // GetX Variables
-  RxBool hasBeenVisitedCommunity = false.obs;
-  RxBool isLoading = false.obs;
+  String isNutricionist = "false";
 
   @override
   void initState() {
     super.initState();
+    llenarCommunityPostsList();
     _cargarUserId();
     _cargarIsNutricionist();
-    _checkVisitedStatus();
-    llenarCommunityPostsList();
-    localComunityPostsList = GetStorage().read('localComunityPostsList') ?? [];
-  }
-
-  _checkVisitedStatus() {
-    // Verificar si la página ya ha sido visitada antes
-    hasBeenVisitedCommunity.value =
-        GetStorage().read('communityVisited') ?? false;
-
-    // Si es la primera vez que se visita, actualizar el estado y guardar en GetStorage
-    if (!hasBeenVisitedCommunity.value) {
-      setState(() {
-        hasBeenVisitedCommunity.value = false;
-      });
-      GetStorage().write('communityVisited', true);
-    }
   }
 
   _cargarUserId() async {
-    // Pedir la variable de userId de las preferencias del usuario
-    UserPersistence userPersistence = await UserPersistence.getInstance();
     // Obtener el userId
-    String userId = userPersistence.getUser('userId');
+    String? userId = await SharedPreferencesHelper.loadData("userId");
     // Actualizar el estado para reflejar el userId
     setState(() {
-      this.userId = userId;
+      this.userId = userId!;
     });
 
     print('userId: $userId');
   }
 
   _cargarIsNutricionist() async {
-    // Pedir la variable de userId de las preferencias del usuario
-    IsNutricionist userIsANutricionist = await IsNutricionist.getInstance();
     // Obtener el userId
-    bool isNutricionist =
-        userIsANutricionist.getIsNutricionist('isNutricionist?');
+    String? isNutricionist =
+        await SharedPreferencesHelper.loadData("isNutricionist");
+
     // Actualizar el estado para reflejar el userId
     setState(() {
-      this.isNutricionist = isNutricionist;
+      this.isNutricionist = isNutricionist!;
     });
 
     print('isNutricionist: $isNutricionist');
@@ -80,13 +53,12 @@ class _CommunityState extends State<Community> {
 
   Future<void> llenarCommunityPostsList() async {
     setState(() {
-      isLoading.value = true;
+      isLoading = true;
     });
     print('Llenando la lista de community posts');
     final List<Comentario> comentarios = await Comentario.getComentarios();
     setState(() {
-      getComunityPostsList.clear();
-      getComunityPostsList.addAll(comentarios.map((comentario) {
+      communityPostsList.addAll(comentarios.map((comentario) {
         // Calcular la diferencia en horas
         int diferenciaEnHoras = DateTime.parse(DateTime.now().toString())
             .difference(DateTime.parse(comentario.horas))
@@ -98,21 +70,14 @@ class _CommunityState extends State<Community> {
           username: comentario.usuario,
           nombre: comentario.nombre,
           userIdWidget: comentario.usuarioId,
-          funcionEliminar: () {
+          functionEliminar: () {
             Comentario.deleteComentario(
                 'https://unilibremovil2-default-rtdb.firebaseio.com/comentarios/${comentario.id}.json');
-
-            llenarCommunityPostsList();
-            localComunityPostsList =
-                GetStorage().read('getComunityPostsList') ?? [];
           },
         );
       }));
-      isLoading.value = false;
+      isLoading = false;
     });
-
-    // Guardar la lista de community posts en GetStorage
-    GetStorage().write('localComunityPostsList', getComunityPostsList);
   }
 
   @override
@@ -120,6 +85,7 @@ class _CommunityState extends State<Community> {
     double screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
+      // Si la variable isNutricionist es false, mostrar el botón flotante
       floatingActionButton: isNutricionist == false
           ? FloatingActionButton(
               onPressed: () {
@@ -135,68 +101,25 @@ class _CommunityState extends State<Community> {
           padding: EdgeInsets.all(screenWidth * 0.05),
           child: Column(
             children: [
-              Padding(
-                padding: const EdgeInsets.only(bottom: 10.0),
-                child: Row(
-                  children: [
-                    const SizedBox(
-                      width: 34,
-                    ),
-                    const Spacer(),
-                    const Text(
-                      "Community",
-                      style: TextStyle(
-                        fontFamily: 'Inter',
-                        fontSize: 26.5,
-                        fontWeight: FontWeight.bold,
-                        color: Color(0xff3A5A40),
-                      ),
-                    ),
-                    const Spacer(),
-                    GestureDetector(
-                      onTap: () {
-                        llenarCommunityPostsList();
-                        hasBeenVisitedCommunity.value = false;
-                        localComunityPostsList =
-                            GetStorage().read('getComunityPostsList') ?? [];
-                      },
-                      child: const Padding(
-                        padding: EdgeInsets.only(right: 10.0),
-                        child: Icon(
-                          Icons.refresh,
-                          size: 24,
-                          color: Color(0xff3A5A40),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 34,
-                    ),
-                  ],
-                ),
+              NavBar(
+                backButton: false,
+                title: "Community",
+                backRoute: () {
+                  print("Back Community");
+                },
               ),
-              Obx(
-                () => !hasBeenVisitedCommunity.value
-                    ? Expanded(
-                        child: isLoading.value
-                            ? const Center(
-                                child: CircularProgressIndicator(
-                                  valueColor: AlwaysStoppedAnimation<Color>(
-                                    ColorsConstants.darkGreen,
-                                  ),
-                                ),
-                              )
-                            : SingleChildScrollView(
-                                child: Column(
-                                  children: getComunityPostsList,
-                                ),
-                              ),
+              Expanded(
+                child: isLoading
+                    ? const Center(
+                        child: CircularProgressIndicator(
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                                ColorsConstants.darkGreen)),
                       )
-                    : Expanded(
-                        child: SingleChildScrollView(
-                          child: Column(
-                            children: localComunityPostsList,
-                          ),
+                    : SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            ...communityPostsList,
+                          ],
                         ),
                       ),
               ),

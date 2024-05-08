@@ -1,25 +1,28 @@
-import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:nutrisalud/Helpers/helpers_export.dart';
 
-class Introduction extends StatefulWidget {
-  const Introduction({super.key});
+import 'package:flutter/material.dart';
+
+class IntroductionDoctor extends StatefulWidget {
+  const IntroductionDoctor({super.key});
 
   @override
-  State<Introduction> createState() => _IntroductionState();
+  State<IntroductionDoctor> createState() => _IntroductionDoctorState();
 }
 
-class _IntroductionState extends State<Introduction> {
+class _IntroductionDoctorState extends State<IntroductionDoctor> {
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
 
     final pages = [
       PageViewModel(
-          title: 'Find Recipes',
+          title: 'Make Tips!',
           body:
-              'NutriSalud is an application developed to improve the quality of your nutrition, you can search for different food recipes.',
-          image: Image.asset(AssetsRoutes.foodPng, height: screenHeight * 0.25),
+              'Create tips to recommend to people to improve their diet or nutrition.',
+          image: SvgPicture.asset(AssetsRoutes.bulbSvg,
+              color: ColorsConstants.darkGreen, height: screenHeight * 0.25),
           decoration: const PageDecoration(
               titleTextStyle: TextStyle(
                   color: ColorsConstants.darkGreen,
@@ -28,24 +31,11 @@ class _IntroductionState extends State<Introduction> {
               bodyTextStyle:
                   TextStyle(color: ColorsConstants.darkGreen, fontSize: 16))),
       PageViewModel(
-          title: 'Talk with the community',
+          title: 'Improve the nutrition of your users',
           body:
-              'Socialize with users in our community, share your lifestyle and learn from others.',
-          image: Image.asset(AssetsRoutes.communityPng,
-              height: screenHeight * 0.25),
-          decoration: const PageDecoration(
-              titleTextStyle: TextStyle(
-                  color: ColorsConstants.darkGreen,
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold),
-              bodyTextStyle:
-                  TextStyle(color: ColorsConstants.darkGreen, fontSize: 16))),
-      PageViewModel(
-          title: 'Speak with a Nutricionist',
-          body:
-              'Do you need advice, do you have digestive problems, you can contact our Nutritionists, each one with different specializations that will help you with your diet.',
-          image:
-              Image.asset(AssetsRoutes.doctorPng, height: screenHeight * 0.25),
+              'You will be able to have consultation sessions with your patients',
+          image: SvgPicture.asset(AssetsRoutes.commentSvg,
+              color: ColorsConstants.darkGreen, height: screenHeight * 0.25),
           decoration: const PageDecoration(
               titleTextStyle: TextStyle(
                   color: ColorsConstants.darkGreen,

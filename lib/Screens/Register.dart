@@ -1,17 +1,14 @@
-// ignore: file_names
-// ignore_for_file: avoid_print
-
 import 'package:flutter/material.dart';
-import 'package:nutrisalud/Routes/AppRoutes.dart';
-import '../Helpers/HelpersExport.dart';
+import 'package:nutrisalud/Helpers/helpers_export.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import '../Providers/UsersProviders.dart';
+import 'package:nutrisalud/Providers/users_providers.dart';
+
+// TODO: Indicador de carga mientras se procesa la peticion de registro
 
 class Register extends StatefulWidget {
-  const Register({Key? key}) : super(key: key);
-
+  const Register({super.key});
   @override
-  _RegisterState createState() => _RegisterState();
+  State<Register> createState() => _RegisterState();
 }
 
 class _RegisterState extends State<Register> {
@@ -76,7 +73,7 @@ class _RegisterState extends State<Register> {
             Container(
               margin: EdgeInsets.only(top: screenHeight * 0.07),
               child: SvgPicture.asset(
-                AssetsRoute.logoSvg,
+                AssetsRoutes.logoSvg,
                 color: ColorsConstants.whiteColor,
                 height: screenHeight * 0.17,
               ),
@@ -280,8 +277,10 @@ class _RegisterState extends State<Register> {
                           }
 
                           if (await validarLogin()) {
+                            if (!context.mounted) return;
                             Navigator.pushNamed(context, AppRoutes.login);
                           } else {
+                            if (!context.mounted) return;
                             showDialog(
                               context: context,
                               builder: (BuildContext context) {

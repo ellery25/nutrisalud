@@ -1,17 +1,13 @@
-// ignore: file_names
 import 'package:flutter/material.dart';
-import 'package:nutrisalud/Routes/AppRoutes.dart';
-import '../Widgets/GeneralWidgets/NavBar.dart';
-import '../Widgets/SearchWidgets/RecipePreview.dart';
-import '../Helpers/HelpersExport.dart';
 
-// Peticion de JSON de los nutricionistas
+import 'package:nutrisalud/Widgets/GeneralWidgets/NavBar.dart';
+import 'package:nutrisalud/Widgets/SearchWidgets/recipe_preview.dart';
+import 'package:nutrisalud/Helpers/helpers_export.dart';
 
-// Renderizado de la pagina
 class Search extends StatefulWidget {
   const Search({super.key});
   @override
-  _SearchState createState() => _SearchState();
+  State<Search> createState() => _SearchState();
 }
 
 class _SearchState extends State<Search> {

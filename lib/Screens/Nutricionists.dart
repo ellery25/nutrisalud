@@ -1,25 +1,36 @@
-// ignore: file_names
-// ignore_for_file: avoid_print
-
 import 'package:flutter/material.dart';
-import 'package:nutrisalud/Widgets/GeneralWidgets/GeneralBlocks.dart';
+import 'package:nutrisalud/Widgets/GeneralWidgets/general_blocks.dart';
 import 'package:page_view_dot_indicator/page_view_dot_indicator.dart';
-import '../Widgets/NutricionistWidgets/NutriCard.dart';
-import '../Helpers/HelpersExport.dart';
-import '../Providers/NutricionistsProviders.dart';
+import 'package:nutrisalud/Widgets/NutricionistWidgets/nutricard.dart';
+import 'package:nutrisalud/Helpers/helpers_export.dart';
+import 'package:nutrisalud/Providers/nutricionists_providers.dart';
+
+// TODO: Color de fondo diferente al de las demas pantallas
 
 class Nutricionists extends StatefulWidget {
   const Nutricionists({super.key});
-
   @override
-  _NutricionistsState createState() => _NutricionistsState();
+  State<Nutricionists> createState() => _NutricionistsState();
 }
 
 class _NutricionistsState extends State<Nutricionists> {
   late int selectedPage;
   late final PageController _pageController;
 
-  List<Widget> nutricardsList = [];
+  List<Widget> nutricardsList = [
+    const Nutricard(
+      nombre: "Dr. Marlon José",
+      descripcion:
+          "Nutricionista especializado en dietas personalizadas para mejorar la salud y el rendimiento físico.",
+      calificacion: 4.5,
+      foto: "assets/imgs/dr_1.jpg",
+      skill_1: "Planificación de dietas",
+      email: "melo.jose@example.com",
+      instagram: "melojose_nutri",
+      whatsapp: "+573045360092",
+      webSite: "www.melojose.com",
+    )
+  ];
   int pageCount = 0;
   bool isLoading = true;
 
@@ -27,17 +38,17 @@ class _NutricionistsState extends State<Nutricionists> {
   void initState() {
     selectedPage = 0;
     _pageController = PageController(initialPage: selectedPage);
-    _loadNutricionistas();
+    loadNutricionistas();
     super.initState();
   }
 
-  void _loadNutricionistas() async {
+  Future<void> loadNutricionistas() async {
     try {
       List<Nutricionistas> nutricionistas =
           await Nutricionistas.getNutricionistas();
 
-      // Iterar la lista de usuarios para mostrar todos los nutricionistas y sus datos
       /*
+      // Iterar la lista de usuarios para mostrar todos los nutricionistas y sus datos
       for (var element in nutricionistas) {
         // Imprimir todos los datos de cada uno de los elementos
         print('Nombre: ${element.nombre}');
@@ -50,13 +61,14 @@ class _NutricionistsState extends State<Nutricionists> {
         print('Email: ${element.email}');
         print('Instagram: ${element.instagram ?? 'No tiene'}');
         print('Whatsapp: ${element.whatsapp ?? 'No tiene'}');
-        print('Website: ${element.web_site}');
+        print('Website: ${element.webSite}');
         print('----------------------');
       }
       */
+
       setState(() {
         nutricardsList = nutricionistas.map((nutricionista) {
-          return NutriCard(
+          return Nutricard(
             nombre: nutricionista.nombre,
             descripcion: nutricionista.descripcion,
             calificacion: nutricionista.calificacion,
@@ -67,7 +79,7 @@ class _NutricionistsState extends State<Nutricionists> {
             email: nutricionista.email,
             instagram: nutricionista.instagram,
             whatsapp: nutricionista.whatsapp,
-            web_site: nutricionista.web_site,
+            webSite: nutricionista.web_site,
           );
         }).toList();
         pageCount = nutricardsList.length; // Actualiza pageCount

@@ -2,9 +2,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:url_launcher/url_launcher.dart';
-import '../../Helpers/HelpersExport.dart';
+import 'package:nutrisalud/Helpers/helpers_export.dart';
 
-class NutriCard extends StatelessWidget {
+class Nutricard extends StatelessWidget {
   final String foto;
   final String nombre;
   final String descripcion;
@@ -15,9 +15,9 @@ class NutriCard extends StatelessWidget {
   final String? whatsapp;
   final String? instagram;
   final String email;
-  final String web_site;
+  final String webSite;
 
-  const NutriCard(
+  const Nutricard(
       {super.key,
       required this.foto,
       required this.nombre,
@@ -29,7 +29,7 @@ class NutriCard extends StatelessWidget {
       this.whatsapp,
       this.instagram,
       required this.email,
-      required this.web_site});
+      required this.webSite});
 
   @override
   Widget build(BuildContext context) {
@@ -207,8 +207,8 @@ class NutriCard extends StatelessWidget {
                     const Spacer(),
                     GestureDetector(
                       onTap: () async {
-                        await launch(
-                            'mailto:$email'); // Reemplaza por el URL deseado
+                        await launchUrl(Uri.parse(
+                            'mailto:$email')); // Reemplaza por el URL deseado
                       },
                       child: const Icon(
                         Icons.mail_outline,
@@ -252,10 +252,10 @@ class NutriCard extends StatelessWidget {
                 const Spacer(),
                 GestureDetector(
                   onTap: () async {
-                    await launch('https://$web_site');
+                    await launch('https://$webSite');
                   },
                   child: Text(
-                    web_site,
+                    webSite,
                     style: const TextStyle(
                       fontFamily: 'Inter',
                       fontSize: 18,

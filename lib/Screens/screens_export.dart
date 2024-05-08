@@ -1,0 +1,14 @@
+export "choose_account.dart";
+export "community.dart";
+export "introduction_doctor.dart";
+export "introduction.dart";
+export "login.dart";
+export "main_page.dart";
+export "nutricionists.dart";
+export "post_community.dart";
+export "post_pro_tip.dart";
+export 'recommended_food.dart';
+export "register.dart";
+export "search.dart";
+export "set_page_nutricionist.dart";
+export "welcome.dart";

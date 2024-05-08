@@ -1,7 +1,7 @@
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/material.dart';
-import 'package:nutrisalud/Routes/AppRoutes.dart';
-import '../Helpers/HelpersExport.dart';
+
+import 'package:nutrisalud/Helpers/helpers_export.dart';
 import 'package:flutter/services.dart';
 
 class WelcomeScreen extends StatelessWidget {
@@ -22,7 +22,7 @@ class WelcomeScreen extends StatelessWidget {
           //Logo
           Container(
             margin: EdgeInsets.only(top: screenHeight * 0.07),
-            child: SvgPicture.asset(AssetsRoute.logoSvg,
+            child: SvgPicture.asset(AssetsRoutes.logoSvg,
                 color: ColorsConstants.whiteColor, height: screenHeight * 0.17),
           ),
 
@@ -88,7 +88,7 @@ class WelcomeScreen extends StatelessWidget {
                 //Register
                 InkWell(
                   onTap: () {
-                    Navigator.pushNamed(context, AppRoutes.chooseAcount);
+                    Navigator.pushNamed(context, AppRoutes.chooseAccount);
                   },
                   child: Container(
                     decoration: const BoxDecoration(

@@ -1,18 +1,43 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:nutrisalud/Screens/PostProTip.dart';
-import '../Helpers/HelpersExport.dart';
-import 'package:nutrisalud/Routes/AppRoutes.dart';
-import 'package:nutrisalud/Widgets/GeneralWidgets/NutriSaludBtBar.dart';
-import './Screens/Screens.dart';
-import './Providers/Preferences/UsuarioPreferences.dart';
+import 'package:nutrisalud/Preferences/save_load.dart';
+import 'package:nutrisalud/Helpers/helpers_export.dart';
+import 'package:nutrisalud/Widgets/GeneralWidgets/nutrisalud_bt_bar.dart';
+import 'Screens/screens_export.dart';
 
 void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  String rutaInicial = AppRoutes.welcome;
+
+  @override
+  void initState() {
+    definirRuta();
+    super.initState();
+  }
+
+  void definirRuta() async {
+    String? idUsuario = await SharedPreferencesHelper.loadData("userId");
+
+    if (idUsuario == null) {
+      setState(() {
+        rutaInicial = AppRoutes.welcome;
+      });
+    } else {
+      setState(() {
+        rutaInicial = AppRoutes.home;
+      });
+    }
+    print(rutaInicial);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,59 +46,27 @@ class MyApp extends StatelessWidget {
           .copyWith(statusBarColor: ColorsConstants.whiteColor),
     );
 
-    Future<String> _defineInitialRoute() async {
-      UserPersistence userPersistence = await UserPersistence.getInstance();
-
-      String userId = userPersistence.getUser('userId');
-
-      return userId.isNotEmpty ? AppRoutes.home : AppRoutes.welcome;
-    }
-
-    return FutureBuilder<String>(
-      future: _defineInitialRoute(),
-      builder: (context, snapshot) {
-         if(snapshot.connectionState == ConnectionState.done){
-           return MaterialApp(
-             title: 'NutriSalud ',
-             initialRoute: snapshot.data ?? AppRoutes.welcome,
-             onGenerateRoute: (routes) {
-               switch (routes.name) {
-                 case AppRoutes.home:
-                   return MaterialPageRoute(
-                       builder: (context) => const NutriSaludBtBar());
-                 case AppRoutes.nutricionist:
-                   return MaterialPageRoute(
-                       builder: (context) => const Nutricionists());
-                 case AppRoutes.search:
-                   return MaterialPageRoute(builder: (context) => const Search());
-                 case AppRoutes.welcome:
-                   return MaterialPageRoute(
-                       builder: (context) => const WelcomeScreen());
-                 case AppRoutes.introduction:
-                   return MaterialPageRoute(
-                       builder: (context) => const Introduction());
-                 case AppRoutes.chooseAcount:
-                   return MaterialPageRoute(
-                       builder: (context) => const ChooseAcount());
-                 case AppRoutes.register:
-                   return MaterialPageRoute(builder: (context) => const Register());
-                 case AppRoutes.login:
-                   return MaterialPageRoute(builder: (context) => const Login());
-                 case AppRoutes.introductionDoctor:
-                   return MaterialPageRoute(
-                       builder: (context) => const IntroductionDoctor());
-                 case AppRoutes.postCommunity:
-                   return MaterialPageRoute(builder: (context) => const PostCommunity());
-                 case AppRoutes.postProTip:
-                   return MaterialPageRoute(builder: (context) => const PostProTip());
-               }
-               return null;
-             },
-             debugShowCheckedModeBanner: false,
-           );
-         } else {
-           return const CircularProgressIndicator();
-         }
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Nutrisalud',
+      theme: ThemeData(
+        colorScheme:
+            ColorScheme.fromSeed(seedColor: ColorsConstants.whiteColor),
+        useMaterial3: true,
+      ),
+      initialRoute: rutaInicial,
+      routes: {
+        AppRoutes.home: (context) => const NutrisaludBtBar(),
+        AppRoutes.nutricionist: (context) => const Nutricionists(),
+        AppRoutes.search: (context) => const Search(),
+        AppRoutes.welcome: (context) => const WelcomeScreen(),
+        AppRoutes.introduction: (context) => const Introduction(),
+        AppRoutes.chooseAccount: (context) => const ChooseAccount(),
+        AppRoutes.register: (context) => const Register(),
+        AppRoutes.login: (context) => const Login(),
+        AppRoutes.introductionDoctor: (context) => const IntroductionDoctor(),
+        AppRoutes.postCommunity: (context) => const PostCommunity(),
+        AppRoutes.postProTip: (context) => const PostProTip(),
       },
     );
   }

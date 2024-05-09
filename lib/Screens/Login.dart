@@ -5,8 +5,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:nutrisalud/Providers/users_providers.dart';
 import 'package:nutrisalud/Providers/nutricionists_providers.dart';
 
-// TODO: Indicador de carga mientras se procesa la peticion de Login
-
 class Login extends StatefulWidget {
   const Login({super.key});
   @override
@@ -154,23 +152,30 @@ class _LoginState extends State<Login> {
                   const SizedBox(height: 24),
                   ElevatedButton(
                     onPressed: () async {
-                      // Carga del Login
+                      // Indicardor de carga de Login
                       showDialog(
                         context: context,
                         builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: const Text('Procesing data'),
-                            content: Container(
+                          return const AlertDialog(
+                            title: Text('Procesing data',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  color: ColorsConstants.darkGreen,
+                                  fontWeight: FontWeight.bold,
+                                )),
+                            content: SizedBox(
                               height: 50,
                               width: 50,
-                              child: const Center(
-                                child: CircularProgressIndicator(),
+                              child: Center(
+                                child: CircularProgressIndicator(
+                                  color: ColorsConstants.darkGreen,
+                                ),
                               ),
                             ),
                           );
                         },
                       );
-                      // Carga del Login
+
                       bool coincidencia = await revisarCoincidencia();
                       String isFirstTime =
                           await SharedPreferencesHelper.loadData(
@@ -196,14 +201,23 @@ class _LoginState extends State<Login> {
                             return AlertDialog(
                               title: const Text('Error'),
                               content: const Text(
-                                  'Usuario o contraseña incorrectos'),
+                                  'User or password incorrect, please try again.',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    color: ColorsConstants.darkGreen,
+                                    fontWeight: FontWeight.bold,
+                                  )),
                               actions: <Widget>[
                                 TextButton(
                                   onPressed: () {
                                     Navigator.of(context).pop();
                                     Navigator.of(context).pop();
                                   },
-                                  child: const Text('Aceptar'),
+                                  child: const Text('Aceptar',
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        color: ColorsConstants.whiteColor,
+                                      )),
                                 ),
                               ],
                             );

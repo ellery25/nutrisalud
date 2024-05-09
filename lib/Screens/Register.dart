@@ -3,8 +3,6 @@ import 'package:nutrisalud/Helpers/helpers_export.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:nutrisalud/Providers/users_providers.dart';
 
-// TODO: Indicador de carga mientras se procesa la peticion de registro
-
 class Register extends StatefulWidget {
   const Register({super.key});
   @override
@@ -153,30 +151,23 @@ class _RegisterState extends State<Register> {
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(20.0),
                                   ),
-                                  title: const Text(
-                                    "The name is empty",
-                                    style: TextStyle(
-                                      fontFamily: 'Inter',
-                                      fontSize: 19,
-                                      fontWeight: FontWeight.w600,
-                                      color: ColorsConstants.darkGreen,
-                                    ),
-                                  ),
+                                  title: const Text("The name is empty",
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        color: ColorsConstants.darkGreen,
+                                        fontWeight: FontWeight.bold,
+                                      )),
                                   actions: [
                                     ElevatedButton(
                                       style: ElevatedButton.styleFrom(
                                         backgroundColor:
                                             ColorsConstants.darkGreen,
                                       ),
-                                      child: const Text(
-                                        "Close",
-                                        style: TextStyle(
-                                          fontFamily: 'Inter',
-                                          fontSize: 19,
-                                          fontWeight: FontWeight.w400,
-                                          color: ColorsConstants.whiteColor,
-                                        ),
-                                      ),
+                                      child: const Text("Close",
+                                          style: TextStyle(
+                                            fontSize: 18,
+                                            color: ColorsConstants.whiteColor,
+                                          )),
                                       onPressed: () {
                                         Navigator.pop(context);
                                       },
@@ -197,30 +188,23 @@ class _RegisterState extends State<Register> {
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(20.0),
                                   ),
-                                  title: const Text(
-                                    "The user name is empty",
-                                    style: TextStyle(
-                                      fontFamily: 'Inter',
-                                      fontSize: 19,
-                                      fontWeight: FontWeight.w600,
-                                      color: ColorsConstants.darkGreen,
-                                    ),
-                                  ),
+                                  title: const Text("The user name is empty",
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        color: ColorsConstants.darkGreen,
+                                        fontWeight: FontWeight.bold,
+                                      )),
                                   actions: [
                                     ElevatedButton(
                                       style: ElevatedButton.styleFrom(
                                         backgroundColor:
                                             ColorsConstants.darkGreen,
                                       ),
-                                      child: const Text(
-                                        "Close",
-                                        style: TextStyle(
-                                          fontFamily: 'Inter',
-                                          fontSize: 19,
-                                          fontWeight: FontWeight.w400,
-                                          color: ColorsConstants.whiteColor,
-                                        ),
-                                      ),
+                                      child: const Text("Close",
+                                          style: TextStyle(
+                                            fontSize: 18,
+                                            color: ColorsConstants.whiteColor,
+                                          )),
                                       onPressed: () {
                                         Navigator.pop(context);
                                       },
@@ -241,30 +225,23 @@ class _RegisterState extends State<Register> {
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(20.0),
                                   ),
-                                  title: const Text(
-                                    "The password is empty",
-                                    style: TextStyle(
-                                      fontFamily: 'Inter',
-                                      fontSize: 19,
-                                      fontWeight: FontWeight.w600,
-                                      color: ColorsConstants.darkGreen,
-                                    ),
-                                  ),
+                                  title: const Text("The password is empty",
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        color: ColorsConstants.darkGreen,
+                                        fontWeight: FontWeight.bold,
+                                      )),
                                   actions: [
                                     ElevatedButton(
                                       style: ElevatedButton.styleFrom(
                                         backgroundColor:
                                             ColorsConstants.darkGreen,
                                       ),
-                                      child: const Text(
-                                        "Close",
-                                        style: TextStyle(
-                                          fontFamily: 'Inter',
-                                          fontSize: 19,
-                                          fontWeight: FontWeight.w400,
-                                          color: ColorsConstants.whiteColor,
-                                        ),
-                                      ),
+                                      child: const Text("Close",
+                                          style: TextStyle(
+                                            fontSize: 18,
+                                            color: ColorsConstants.whiteColor,
+                                          )),
                                       onPressed: () {
                                         Navigator.pop(context);
                                       },
@@ -276,11 +253,38 @@ class _RegisterState extends State<Register> {
                             return;
                           }
 
+                          // Indicador de carga de registro
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return const AlertDialog(
+                                title: Text('Procesing data',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      color: ColorsConstants.darkGreen,
+                                      fontWeight: FontWeight.bold,
+                                    )),
+                                content: SizedBox(
+                                  height: 50,
+                                  width: 50,
+                                  child: Center(
+                                    child: CircularProgressIndicator(
+                                      color: ColorsConstants.darkGreen,
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                          );
+
                           if (await validarLogin()) {
                             if (!context.mounted) return;
+                            Navigator.pop(context);
                             Navigator.pushNamed(context, AppRoutes.login);
                           } else {
                             if (!context.mounted) return;
+                            Navigator.pop(context);
+
                             showDialog(
                               context: context,
                               builder: (BuildContext context) {
@@ -289,29 +293,23 @@ class _RegisterState extends State<Register> {
                                     borderRadius: BorderRadius.circular(20.0),
                                   ),
                                   title: const Text(
-                                    "The user name is already in use",
-                                    style: TextStyle(
-                                      fontFamily: 'Inter',
-                                      fontSize: 19,
-                                      fontWeight: FontWeight.w600,
-                                      color: ColorsConstants.whiteColor,
-                                    ),
-                                  ),
+                                      "The user name is already in use",
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        color: ColorsConstants.darkGreen,
+                                        fontWeight: FontWeight.bold,
+                                      )),
                                   actions: [
                                     ElevatedButton(
                                       style: ElevatedButton.styleFrom(
                                         backgroundColor:
                                             ColorsConstants.darkGreen,
                                       ),
-                                      child: const Text(
-                                        "Close",
-                                        style: TextStyle(
-                                          fontFamily: 'Inter',
-                                          fontSize: 19,
-                                          fontWeight: FontWeight.w400,
-                                          color: ColorsConstants.whiteColor,
-                                        ),
-                                      ),
+                                      child: const Text("Close",
+                                          style: TextStyle(
+                                            fontSize: 18,
+                                            color: ColorsConstants.whiteColor,
+                                          )),
                                       onPressed: () {
                                         Navigator.pop(context);
                                       },

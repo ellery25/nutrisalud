@@ -122,7 +122,7 @@ class _RegisterState extends State<Register> {
                             borderRadius: BorderRadius.circular(15.0),
                             borderSide: const BorderSide(color: Colors.green),
                           ),
-                          labelText: 'User Name:',
+                          labelText: 'Username:',
                           labelStyle: const TextStyle(color: Colors.green),
                         ),
                       ),

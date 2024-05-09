@@ -202,8 +202,7 @@ class _MainPageState extends State<MainPage> {
                             padding: EdgeInsets.all(40.0),
                             child: Center(
                               child: CircularProgressIndicator(
-                                valueColor: AlwaysStoppedAnimation<Color>(
-                                    ColorsConstants.darkGreen),
+                                color: ColorsConstants.darkGreen,
                               ),
                             ),
                           )

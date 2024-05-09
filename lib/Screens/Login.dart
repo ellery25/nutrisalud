@@ -120,7 +120,7 @@ class _LoginState extends State<Login> {
                         borderRadius: BorderRadius.circular(15.0),
                         borderSide: const BorderSide(color: Colors.green),
                       ),
-                      labelText: 'Nombre de usuario:',
+                      labelText: 'Username:',
                       labelStyle: const TextStyle(color: Colors.green),
                     ),
                     validator: (value) {
@@ -199,25 +199,26 @@ class _LoginState extends State<Login> {
                           context: context,
                           builder: (BuildContext context) {
                             return AlertDialog(
-                              title: const Text('Error'),
-                              content: const Text(
+                              title: const Text(
                                   'User or password incorrect, please try again.',
                                   style: TextStyle(
                                     fontSize: 18,
                                     color: ColorsConstants.darkGreen,
                                     fontWeight: FontWeight.bold,
                                   )),
-                              actions: <Widget>[
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                    Navigator.of(context).pop();
-                                  },
-                                  child: const Text('Aceptar',
+                              actions: [
+                                ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: ColorsConstants.darkGreen,
+                                  ),
+                                  child: const Text("Continuar",
                                       style: TextStyle(
                                         fontSize: 18,
                                         color: ColorsConstants.whiteColor,
                                       )),
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
                                 ),
                               ],
                             );

@@ -53,38 +53,22 @@ class _PostCommunityState extends State<PostCommunity> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20.0),
                         ),
-                        title: const Text(
-                          "Error",
-                          style: TextStyle(
-                            fontFamily: 'Inter',
-                            fontSize: 19,
-                            fontWeight: FontWeight.w600,
-                            color: ColorsConstants.darkGreen,
-                          ),
-                        ),
-                        content: const Text(
-                          "El contenido del comentario no puede estar vacío",
-                          style: TextStyle(
-                            fontFamily: 'Inter',
-                            fontSize: 19,
-                            fontWeight: FontWeight.w600,
-                            color: ColorsConstants.darkGreen,
-                          ),
-                        ),
+                        title: const Text("The comment can't be empty",
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: ColorsConstants.darkGreen,
+                              fontWeight: FontWeight.bold,
+                            )),
                         actions: [
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               backgroundColor: ColorsConstants.darkGreen,
                             ),
-                            child: const Text(
-                              "Continuar",
-                              style: TextStyle(
-                                fontFamily: 'Inter',
-                                fontSize: 19,
-                                fontWeight: FontWeight.w600,
-                                color: ColorsConstants.whiteColor,
-                              ),
-                            ),
+                            child: const Text("Continuar",
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  color: ColorsConstants.whiteColor,
+                                )),
                             onPressed: () {
                               Navigator.pop(context);
                             },
@@ -121,30 +105,24 @@ class _PostCommunityState extends State<PostCommunity> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20.0),
                         ),
-                        title: const Text(
-                          "Comentario añadido",
-                          style: TextStyle(
-                            fontFamily: 'Inter',
-                            fontSize: 19,
-                            fontWeight: FontWeight.w600,
-                            color: ColorsConstants.darkGreen,
-                          ),
-                        ),
+                        title: const Text("Comment added",
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: ColorsConstants.darkGreen,
+                              fontWeight: FontWeight.bold,
+                            )),
                         actions: [
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               backgroundColor: ColorsConstants.darkGreen,
                             ),
-                            child: const Text(
-                              "Continuar",
-                              style: TextStyle(
-                                fontFamily: 'Inter',
-                                fontSize: 19,
-                                fontWeight: FontWeight.w400,
-                                color: ColorsConstants.whiteColor,
-                              ),
-                            ),
+                            child: const Text("Continuar",
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  color: ColorsConstants.whiteColor,
+                                )),
                             onPressed: () {
+                              Navigator.pop(context);
                               Navigator.pop(context);
                             },
                           ),

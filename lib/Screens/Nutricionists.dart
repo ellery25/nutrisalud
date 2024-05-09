@@ -5,8 +5,6 @@ import 'package:nutrisalud/Widgets/NutricionistWidgets/nutricard.dart';
 import 'package:nutrisalud/Helpers/helpers_export.dart';
 import 'package:nutrisalud/Providers/nutricionists_providers.dart';
 
-// TODO: Color de fondo diferente al de las demas pantallas
-
 class Nutricionists extends StatefulWidget {
   const Nutricionists({super.key});
   @override
@@ -95,7 +93,7 @@ class _NutricionistsState extends State<Nutricionists> {
     double screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: ColorsConstants.whiteColor,
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.all(screenWidth * 0.05),
@@ -112,8 +110,8 @@ class _NutricionistsState extends State<Nutricionists> {
                 child: isLoading
                     ? const Center(
                         child: CircularProgressIndicator(
-                            valueColor: AlwaysStoppedAnimation<Color>(
-                                ColorsConstants.darkGreen)))
+                        color: ColorsConstants.darkGreen,
+                      ))
                     : GestureDetector(
                         onHorizontalDragEnd: (details) {
                           if (details.primaryVelocity! > 0) {

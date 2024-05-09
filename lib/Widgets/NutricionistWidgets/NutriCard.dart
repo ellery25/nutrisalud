@@ -121,8 +121,7 @@ class Nutricard extends StatelessWidget {
                           ),
                           const Spacer(),
                           Text(
-                            calificacion
-                                .toString(), // Calificacion del nutricionista
+                            calificacion.toString(),
                             style: const TextStyle(color: Color(0xffffffff)),
                           ),
                           const Icon(
@@ -221,8 +220,8 @@ class Nutricard extends StatelessWidget {
                         padding: const EdgeInsets.only(left: 15.0),
                         child: GestureDetector(
                           onTap: () async {
-                            await launch(
-                                'https://www.instagram.com/$instagram/');
+                            await launchUrl(Uri.parse(
+                                'https://www.instagram.com/$instagram/'));
                           },
                           child: const FaIcon(
                             FontAwesomeIcons.instagram,
@@ -236,8 +235,8 @@ class Nutricard extends StatelessWidget {
                         padding: const EdgeInsets.only(left: 15.0),
                         child: GestureDetector(
                           onTap: () async {
-                            await launch(
-                                'https://api.whatsapp.com/send?phone=+$whatsapp&text=Nutrisalud');
+                            await launchUrl(Uri.parse(
+                                'https://api.whatsapp.com/send?phone=+$whatsapp&text=Nutrisalud'));
                           },
                           child: const FaIcon(
                             FontAwesomeIcons.whatsapp,
@@ -252,7 +251,7 @@ class Nutricard extends StatelessWidget {
                 const Spacer(),
                 GestureDetector(
                   onTap: () async {
-                    await launch('https://$webSite');
+                    await launchUrl(Uri.parse('https://$webSite'));
                   },
                   child: Text(
                     webSite,

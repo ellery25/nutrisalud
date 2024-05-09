@@ -5,7 +5,7 @@ import 'package:nutrisalud/Providers/comments_providers.dart';
 import 'package:nutrisalud/Preferences/save_load.dart';
 import 'package:nutrisalud/Helpers/helpers_export.dart';
 
-// TODO: Mostrar aviso de comentario eliminado, luego actualizar nuevamente la lista de comentarios
+// TODO: Actualizar la lista de comentarios cuando se elimine un comentario
 
 class Community extends StatefulWidget {
   const Community({super.key});
@@ -71,8 +71,68 @@ class _CommunityState extends State<Community> {
           nombre: comentario.nombre,
           userIdWidget: comentario.usuarioId,
           functionEliminar: () {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return const AlertDialog(
+                  title: Text(
+                    'Procesing data',
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: ColorsConstants.darkGreen,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  content: SizedBox(
+                    height: 50,
+                    width: 50,
+                    child: Center(
+                      child: CircularProgressIndicator(
+                        color: ColorsConstants.darkGreen,
+                      ),
+                    ),
+                  ),
+                );
+              },
+            );
+
             Comentario.deleteComentario(
-                'https://unilibremovil2-default-rtdb.firebaseio.com/comentarios/${comentario.id}.json');
+                    'https://unilibremovil2-default-rtdb.firebaseio.com/comentarios/${comentario.id}.json')
+                .then((_) {
+              Navigator.of(context).pop();
+
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: const Text(
+                      'Comment deleted.',
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: ColorsConstants.darkGreen,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    actions: [
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: ColorsConstants.darkGreen,
+                        ),
+                        child: const Text("Continuar",
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: ColorsConstants.whiteColor,
+                            )),
+                        onPressed: () {
+                          Navigator.pop(context);
+                          // TODO: Aqui colocar funcion para Actualizar la lista de comentarios
+                        },
+                      ),
+                    ],
+                  );
+                },
+              );
+            });
           },
         );
       }));
@@ -86,7 +146,7 @@ class _CommunityState extends State<Community> {
 
     return Scaffold(
       // Si la variable isNutricionist es false, mostrar el botón flotante
-      floatingActionButton: isNutricionist == false
+      floatingActionButton: isNutricionist == "false"
           ? FloatingActionButton(
               onPressed: () {
                 Navigator.pushNamed(context, AppRoutes.postCommunity);
@@ -112,8 +172,7 @@ class _CommunityState extends State<Community> {
                 child: isLoading
                     ? const Center(
                         child: CircularProgressIndicator(
-                            valueColor: AlwaysStoppedAnimation<Color>(
-                                ColorsConstants.darkGreen)),
+                            color: ColorsConstants.darkGreen),
                       )
                     : SingleChildScrollView(
                         child: Column(

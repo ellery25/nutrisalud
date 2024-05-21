@@ -246,28 +246,10 @@ class _RegisterState extends State<Register> {
                         }
 
                         // Indicador de carga de registro
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return const AlertDialog(
-                              title: Text('Procesing data',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    color: ColorsConstants.darkGreen,
-                                    fontWeight: FontWeight.bold,
-                                  )),
-                              content: SizedBox(
-                                height: 50,
-                                width: 50,
-                                child: Center(
-                                  child: CircularProgressIndicator(
-                                    color: ColorsConstants.darkGreen,
-                                  ),
-                                ),
-                              ),
-                            );
-                          },
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Loading Data', style: TextStyle(color: ColorsConstants.whiteColor),), duration: Duration(seconds: 1), backgroundColor: ColorsConstants.darkGreen,)
                         );
+
 
                         if (await validarLogin()) {
                           if (!context.mounted) return;

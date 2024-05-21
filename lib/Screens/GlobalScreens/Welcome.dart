@@ -50,8 +50,7 @@ class WelcomeScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const Spacer(),
-
+                SizedBox(height: screenWidth* 0.2,),
                 // Welcome!
                 const Text(
                   'Welcome!',

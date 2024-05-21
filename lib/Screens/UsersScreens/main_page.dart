@@ -262,7 +262,7 @@ class _MainPageState extends State<MainPage> {
                   fontStyle: FontStyle.italic,
                 ),
               ),
-              SizedBox(height: screenHeight * 0.25),
+              SizedBox(height: screenHeight * 0.42),
               Container(
                 width: screenWidth * 0.9,
                 alignment: Alignment.centerLeft,

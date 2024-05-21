@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 class CommunityPost extends StatefulWidget {
   final String contenido;
   final String? foto;
-  final int horas;
+  final String horas;
   final String nombre;
   final String username;
   final String userIdWidget;
@@ -88,10 +88,10 @@ class _CommunityPostState extends State<CommunityPost> {
                     const Spacer(),
                     const Spacer(),
                     Text(
-                      '${widget.horas}h',
+                      widget.horas,
                       style: const TextStyle(
                         fontFamily: 'Inter',
-                        fontSize: 19,
+                        fontSize: 14,
                         fontWeight: FontWeight.w400,
                         color: ColorsConstants.darkGreen,
                       ),
@@ -125,7 +125,7 @@ class _CommunityPostState extends State<CommunityPost> {
                   ),
                 ),
               ],
-              if ('https://unilibremovil2-default-rtdb.firebaseio.com/usuarios/$userId.json' ==
+              if (userId ==
                   widget.userIdWidget) ...[
                 // Boton de borrar
                 Container(

@@ -1,10 +1,11 @@
+
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:nutrisalud/Preferences/save_load.dart';
 import 'package:flutter/material.dart';
+import 'package:nutrisalud/Providers/nutritionists_providers.dart';
 import 'package:nutrisalud/Widgets/MainPageWidgets/main_page_blocks.dart';
 import 'package:nutrisalud/Helpers/helpers_export.dart';
 import 'package:nutrisalud/Providers/protips_provider.dart';
-import 'package:nutrisalud/Providers/nutricionists_providers.dart';
 import 'package:nutrisalud/Providers/users_providers.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -41,13 +42,13 @@ class _MainPageState extends State<MainPage> {
   _cargarIsNutricionist() async {
     // Obtener el isNutricionist
     String? isNutricionist =
-        await SharedPreferencesHelper.loadData('isNutricionist');
+        await SharedPreferencesHelper.loadData('type');
     // Actualizar el estado para reflejar el userId
-    setState(() {
-      this.isNutricionist = isNutricionist!;
-    });
-
-    print('isNutricionist: $isNutricionist');
+    if(isNutricionist != "user"){
+      setState(() {
+        this.isNutricionist = "true";
+      });
+    }
   }
 
   _cargarUserId() async {
@@ -67,21 +68,30 @@ class _MainPageState extends State<MainPage> {
     });
 
     try {
-      // Obtener los ProTips
-      List<ProTip> proTips = await ProTip.getProTips();
+      // Obtener los 
+      print('Paso1');
+      String? loadToken = await SharedPreferencesHelper.loadData('access_token');
+      print('Paso2');
+      if(loadToken == null) {
+        throw Exception('No hay token');
+      }
+      print('Paso3');
+        List<ProTip> proTips = await ProTip.getProTips(loadToken);
+      print('Paso4');
+        setState(() {
+          professionalTipsList.addAll(proTips.map((proTip) {
+              return ProfessionalTipsBlock(
+              title: proTip.title,
+              tip: proTip.content,
+              nutritionistId: proTip.nutritionist_id,
+            );
+          }));
+
+          isLoading = false;
+        });
+      
 
       // Actualizar el estado con los ProTips obtenidos
-      setState(() {
-        professionalTipsList.addAll(proTips.map((proTip) {
-          return ProfessionalTipsBlock(
-            title: proTip.titulo,
-            tip: proTip.contenido,
-            nutricionistAvatar: proTip.foto,
-          );
-        }));
-
-        isLoading = false;
-      });
     } catch (e) {
       print('Error al obtener los ProTips: $e');
       // Manejar el error, si es necesario
@@ -90,23 +100,24 @@ class _MainPageState extends State<MainPage> {
 
   Future<void> buscarInformacionSesion() async {
     print('Buscando información de la sesión');
+    String? loadToken = await SharedPreferencesHelper.loadData('access_token');
     if (isNutricionist == "true") {
       //Get para nutricionista
-      final nutricionista = await Nutricionistas.getNutricionista(
-          'https://unilibremovil2-default-rtdb.firebaseio.com/nutricionistas/$userId.json');
+      final nutricionista = await Nutritionist.getNutritionistById(
+          loadToken!,userId);
 
       setState(() {
-        dato1Sesion = nutricionista['nombre'];
+        dato1Sesion = nutricionista['name'];
         dato2Sesion = nutricionista['email'];
       });
     } else {
       //Get para usuario
 
-      final usuario = await Usuario.getUsuario(
-          'https://unilibremovil2-default-rtdb.firebaseio.com/usuarios/$userId.json');
+      final usuario = await User.getUserById(
+          loadToken!, userId);
       setState(() {
-        dato1Sesion = usuario['nombre'];
-        dato2Sesion = usuario['usuario'];
+        dato1Sesion = usuario['name'];
+        dato2Sesion = usuario['username'];
       });
     }
   }

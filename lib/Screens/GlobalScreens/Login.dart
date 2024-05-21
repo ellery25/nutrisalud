@@ -1,9 +1,11 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:nutrisalud/Preferences/save_load.dart';
 import 'package:flutter/material.dart';
 import 'package:nutrisalud/Helpers/helpers_export.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:nutrisalud/Providers/users_providers.dart';
-import 'package:nutrisalud/Providers/nutricionists_providers.dart';
+import 'package:nutrisalud/Providers/nutritionists_providers.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -22,50 +24,8 @@ class _LoginState extends State<Login> {
     super.dispose();
   }
 
-  Future<bool> revisarCoincidencia() async {
-    // Variable para saber si el usuario fue encontrado
-    bool usuarioEncontrado = false;
 
-    // Get de usuarios
-    final usuarios = await Usuario.getUsuarios();
 
-    // Recorrer el JSON para buscar coincidencias
-    for (var usuario in usuarios) {
-      if (usuario.usuario == _userNameController.text &&
-          usuario.contrasena == _passwordController.text) {
-        usuarioEncontrado = true;
-        // Guardar la variable en shared preference
-        await SharedPreferencesHelper.saveData('userId', usuario.id.toString());
-
-        print('Usuario encontrado, id: ${usuario.id}');
-        // Guardar la variable de isNutricionist false en shared preference
-
-        await SharedPreferencesHelper.saveData('isNutricionist', "false");
-
-        break;
-      }
-    }
-
-    // Validar coincidencia en la coleccion de nutricionistas si no fue encontrado en usuarios
-    if (!usuarioEncontrado) {
-      final nutricionistas = await Nutricionistas.getNutricionistas();
-      for (var nutricionista in nutricionistas) {
-        if (nutricionista.email == _userNameController.text &&
-            nutricionista.contrasena == _passwordController.text) {
-          usuarioEncontrado = true;
-          // Guardar la variable en shared preference
-          await SharedPreferencesHelper.saveData(
-              'userId', nutricionista.id.toString());
-          print('Nutricionista encontrado, id: ${nutricionista.id}');
-          // Guardar la variable de isNutricionist true en shared preference
-          await SharedPreferencesHelper.saveData('isNutricionist', "true");
-
-          break;
-        }
-      }
-    }
-    return usuarioEncontrado;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -176,12 +136,45 @@ class _LoginState extends State<Login> {
                         },
                       );
 
-                      bool coincidencia = await revisarCoincidencia();
+                      try{
+                        await User.login(_userNameController.text, _passwordController.text);
                       String isFirstTime =
-                          await SharedPreferencesHelper.loadData(
-                                  "isFirstTime") ??
-                              "true";
-                      if (coincidencia) {
+                      await SharedPreferencesHelper.loadData(
+                        "isFirstTime") ?? "true";
+                      String? userType = await SharedPreferencesHelper.loadData("type");
+                      if (userType == "user"){
+                        await SharedPreferencesHelper.saveData('username', _userNameController.text);
+                        if(isFirstTime == "true"){
+                          await SharedPreferencesHelper.saveData("isFirstTime", "false");
+                          Navigator.pushReplacementNamed(context, AppRoutes.introduction);
+                        } else if(isFirstTime == "false"){
+                          Navigator.pushReplacementNamed(context, AppRoutes.home);
+                        } else {
+                          throw Exception("Failed to load isFirstTime");
+                        }
+                      } else if (userType == "nutritionist") {
+                        await SharedPreferencesHelper.saveData('username', _userNameController.text);
+                          if(isFirstTime == "true"){
+                            await SharedPreferencesHelper.saveData("isFirstTime", "false");
+                            Navigator.pushReplacementNamed(context, AppRoutes.introductionDoctor);
+                          } else if(isFirstTime == "false"){
+                            Navigator.pushReplacementNamed(context, AppRoutes.home);
+                          } else {
+                            throw Exception("Failed to load isFirstTime");
+                          }
+                        } else {
+                          throw Exception("User type not found");
+                        }
+
+                      } catch (e) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('Failed to login')),
+                        );
+                      }
+
+
+
+                      /* if (coincidencia) {
                         if (isFirstTime == "true") {
                           await SharedPreferencesHelper.saveData(
                               "isFirstTime", "false");
@@ -224,7 +217,7 @@ class _LoginState extends State<Login> {
                             );
                           },
                         );
-                      }
+                      } */
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: ColorsConstants.darkGreen,

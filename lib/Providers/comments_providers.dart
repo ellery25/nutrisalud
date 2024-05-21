@@ -1,95 +1,98 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'users_providers.dart';
 
-// Modelo Comentario
-class Comentario {
+
+// Comment Model
+class Comment {
   final String id;
-  final String contenido;
-  final String? foto;
-  final String horas;
-  final String usuarioId;
-  late final String usuario;
-  late final String nombre;
+  final String content;
+  final String? photo;
+  final String timestamp;
+  final String user_id;
 
-  Comentario({
+  Comment({
     required this.id,
-    required this.contenido,
-    this.foto,
-    required this.horas,
-    required this.usuarioId,
+    required this.content,
+    this.photo,
+    required this.timestamp,
+    required this.user_id,
   });
 
-  factory Comentario.fromJson(Map<String, dynamic> json, String id) {
-    return Comentario(
+  factory Comment.fromJson(Map<String, dynamic> json, String id) {
+    return Comment(
       id: id,
-      contenido: json['contenido'],
-      foto: json['foto'],
-      horas: json['horas'],
-      usuarioId: json['usuario'],
+      content: json['content'],
+      photo: json['photo'],
+      timestamp: json['timestamp'],
+      user_id: json['user_id'],
     );
   }
 
-  static const String baseUrl =
-      'https://unilibremovil2-default-rtdb.firebaseio.com/comentarios.json';
 
-  // HTTP: GET
-  static Future<List<Comentario>> getComentarios() async {
-    final response = await http.get(Uri.parse(baseUrl));
+  // HTTP: GET - Bearer token for authorization
+  static Future<List<Comment>> getComments(String token) async {
+    final response = await http.get(Uri.parse('https://flask-jwt-flutter.onrender.com/api/comments'),
+    headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $token',
+      },
+    );
 
-    if (response.statusCode == 200) {
-      final Map<String, dynamic> data = jsonDecode(response.body);
-      List<Comentario> comentarios = [];
+    if(response.statusCode == 200){
+      final List<dynamic> data = jsonDecode(response.body);
 
-      data.forEach((key, value) {
-        comentarios.add(Comentario.fromJson(value, key));
-      });
-
-      // Imprimir comentarios
-      /*
-      for (var comentario in comentarios) {
-        print('ID: ${comentario.id}');
-        print('Contenido: ${comentario.contenido}');
-        print('Foto: ${comentario.foto ?? 'No hay foto'}');
-        print('Horas: ${comentario.horas}');
-        print('Usuario ID: ${comentario.usuarioId}');
-        print('----------------------');
-      }
-      */
-
-      for (var comentario in comentarios) {
-        try {
-          // Obtener el usuario que hizo el comentario
-          final usuario = await Usuario.getUsuario(comentario.usuarioId);
-          comentario.usuario = usuario['usuario'];
-          comentario.nombre = usuario['nombre'];
-        } catch (e) {
-          print(
-              'Error obteniendo usuario para comentario ${comentario.id}: $e');
-        }
+      if(data.isNotEmpty){
+        return data.map((e) => Comment.fromJson(e, e['id'])).toList();
+      } else {
+        throw Exception('No Comments Found');
       }
 
-      return comentarios;
     } else {
-      throw Exception('Error en get de comentarios');
+      throw Exception('Failed to load Comments');
     }
+
   }
 
-  // HTTP: POST
-  static Future<void> postComentario(Map<String, dynamic> comentario) async {
-    await http.post(Uri.parse(baseUrl), body: jsonEncode(comentario));
+  //HTTP: GET by ID - bearer token for authorization
+  static Future<Map<String, dynamic>> getCommentById(String token, String id) async {
+    final response = await http.get(Uri.parse('https://flask-jwt-flutter.onrender.com/api/comments/$id'),
+    headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $token',
+      },
+    );
+
+    if(response.statusCode == 200){
+      final Map<String, dynamic> data = jsonDecode(response.body);
+      return data;
+    } else {
+      throw Exception('Failed to load Comment');
+    }
+
   }
 
-  // HTTP: PUT
-  static Future<void> putComentario(
-      String id, Map<String, dynamic> comentario) async {
-    final url = Uri.parse('$baseUrl/$id');
-    await http.put(url, body: jsonEncode(comentario));
+  // HTTP: POST - Bearer token for authorization
+  static Future<http.Response> postComment(Map<String, dynamic> comment, String token) async {
+    final response = await http.post(Uri.parse('https://flask-jwt-flutter.onrender.com/api/comments'),
+    headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $token',
+      },
+      body: jsonEncode(comment),
+    );
+
+    return response;
+    
+  }
+  
+  // HTTP: DELETE - Bearer token for authorization
+  static Future<void> deleteComment(String id, String token) async {
+    final url = Uri.parse('https://flask-jwt-flutter.onrender.com/api/comments/$id');
+    await http.delete(url, headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $token',
+      },
+    );
   }
 
-  // HTTP: DELETE
-  static Future<void> deleteComentario(String id) async {
-    final url = Uri.parse(id);
-    await http.delete(url);
-  }
 }

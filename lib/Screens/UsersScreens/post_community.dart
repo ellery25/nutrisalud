@@ -2,6 +2,7 @@ import 'package:nutrisalud/Preferences/save_load.dart';
 import 'package:flutter/material.dart';
 import 'package:nutrisalud/Helpers/helpers_export.dart';
 import 'package:nutrisalud/Providers/comments_providers.dart';
+import 'package:http/http.dart' as http;
 
 // TODO: Recargar lista de comentario luego de crear un comentario nuevo
 
@@ -80,56 +81,62 @@ class _PostCommunityState extends State<PostCommunity> {
                   return;
                 }
 
-                // Publicar el comentario
                 try {
-                  // Fecha actual en string
-
+                  String? loadToken =
+                      await SharedPreferencesHelper.loadData('access_token');
                   Map<String, dynamic> nuevoComentario = {
-                    'contenido': _contenidoController.text,
-                    'horas': DateTime.now().toString(),
-                    'usuario':
-                        'https://unilibremovil2-default-rtdb.firebaseio.com/usuarios/$userId.json',
+                    'content': _contenidoController.text,
+                    'photo': '',
+                    'timestamp': DateTime.now().toString(),
+                    'user_id': await SharedPreferencesHelper.loadData('userId'),
                   };
                   print(DateTime.now().toString());
 
-                  await Comentario.postComentario(nuevoComentario);
+                  http.Response response =
+                      await Comment.postComment(nuevoComentario, loadToken!);
 
-                  // Borrar el contenido del campo de texto
-                  _contenidoController.clear();
+                  if (response.statusCode == 201) {
+                    // Borrar el contenido del campo de texto
+                    _contenidoController.clear();
 
-                  if (!context.mounted) return;
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20.0),
-                        ),
-                        title: const Text("Comment added",
-                            style: TextStyle(
-                              fontSize: 18,
-                              color: ColorsConstants.darkGreen,
-                              fontWeight: FontWeight.bold,
-                            )),
-                        actions: [
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: ColorsConstants.darkGreen,
-                            ),
-                            child: const Text("Continuar",
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  color: ColorsConstants.whiteColor,
-                                )),
-                            onPressed: () {
-                              Navigator.pop(context);
-                              Navigator.pop(context);
-                            },
+                    if (!context.mounted) return;
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0),
                           ),
-                        ],
-                      );
-                    },
-                  );
+                          title: const Text("Comment added",
+                              style: TextStyle(
+                                fontSize: 18,
+                                color: ColorsConstants.darkGreen,
+                                fontWeight: FontWeight.bold,
+                              )),
+                          actions: [
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: ColorsConstants.darkGreen,
+                              ),
+                              child: const Text("Continuar",
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    color: ColorsConstants.whiteColor,
+                                  )),
+                              onPressed: () {
+                                Navigator.pop(context);
+                                Navigator.pop(context);
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  } else {
+                    // Manejo de errores
+                    print(
+                        'Error al publicar el comentario: ${response.statusCode}');
+                  }
                 } catch (e) {
                   // Manejo de errores
                   print('Error al publicar el comentario: $e');

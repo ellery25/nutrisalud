@@ -1,88 +1,115 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'nutricionists_providers.dart';
 
-// Modelo ProTip
+// ProTip Model
+
 class ProTip {
   final String id;
-  final String contenido;
-  final String titulo;
-  final String nutricionistaId;
-  late final String foto;
+  final String title;
+  final String content;
+  final String nutritionist_id;
 
   ProTip({
     required this.id,
-    required this.contenido,
-    required this.titulo,
-    required this.nutricionistaId,
+    required this.title,
+    required this.content,
+    required this.nutritionist_id,
   });
 
   factory ProTip.fromJson(Map<String, dynamic> json, String id) {
     return ProTip(
       id: id,
-      contenido: json['contenido'],
-      titulo: json['titulo'],
-      nutricionistaId: json['nutricionista'],
+      title: json['title'],
+      content: json['content'],
+      nutritionist_id: json['nutritionist_id'],
     );
   }
 
-  static const String baseUrl =
-      'https://unilibremovil2-default-rtdb.firebaseio.com/profesionalTips.json';
+  // HTTP: GET - Bearer token for authorization
+  static Future<List<ProTip>> getProTips(String? token) async {
+    final response = await http.get(Uri.parse('https://flask-jwt-flutter.onrender.com/api/professional_tips'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Authorization': 'Bearer $token',
+    });
 
-  // HTTP: GET
-  static Future<List<ProTip>> getProTips() async {
-    final response = await http.get(Uri.parse(baseUrl));
+    if(response.statusCode == 200){
+      final List<dynamic> data = jsonDecode(response.body);
 
-    if (response.statusCode == 200) {
-      final Map<String, dynamic> data = jsonDecode(response.body);
-      List<ProTip> proTips = [];
-
-      data.forEach((key, value) {
-        proTips.add(ProTip.fromJson(value, key));
-      });
-
-      // Imprimir proTips
-      /*
-      for (var proTip in proTips) {
-        print('ID: ${proTip.id}');
-        print('Titulo: ${proTip.titulo}');
-        print('Contenido: ${proTip.contenido}');
-        print('Nutricionista ID: ${proTip.nutricionistaId}');
-        print('----------------------');
-      }
-      */
-
-      for (var proTip in proTips) {
-        try {
-          // Obtener el foto que hizo el proTip
-          final foto =
-              await Nutricionistas.getNutricionista(proTip.nutricionistaId);
-          proTip.foto = foto['foto'];
-        } catch (e) {
-          print('Error obteniendo foto para proTip ${proTip.id}: $e');
-        }
+      if(data.isNotEmpty){
+        return data.map((e) {
+          if (e['id'] != null) {
+            return ProTip.fromJson(e, e['id']);
+          } else {
+            throw Exception('ProTip id is null');
+          }
+        }).toList();
+      } else {
+        throw Exception('No ProTips Found');
       }
 
-      return proTips;
     } else {
-      throw Exception('Error en get de proTips');
+      throw Exception('Failed to load ProTips');
     }
+
   }
 
-  // HTTP: POST
-  static Future<void> postProTip(Map<String, dynamic> proTip) async {
-    await http.post(Uri.parse(baseUrl), body: jsonEncode(proTip));
+  //HTTP: GET by ID
+  static Future<Map<String, dynamic>> getProTipById(String token, String id) async {
+    final response = await http.get(Uri.parse('https://flask-jwt-flutter.onrender.com/api/professional_tips/$id'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Authorization': 'Bearer $token',
+    });
+
+    if(response.statusCode == 200){
+      final Map<String, dynamic> data = jsonDecode(response.body);
+      if(data.isNotEmpty){
+        return data;
+      } else {
+        throw Exception('No ProTip Found');
+      }
+    } else {
+      throw Exception('Failed to load ProTip');
+    }
+
   }
 
-  // HTTP: PUT
-  static Future<void> putProTip(String id, Map<String, dynamic> proTip) async {
-    final url = Uri.parse('$baseUrl/$id');
-    await http.put(url, body: jsonEncode(proTip));
+  // HTTP: POST - Bearer token for authorization
+  static Future<void> postProTip(String token, ProTip proTip) async {
+    final response = await http.post(Uri.parse('https://flask-jwt-flutter.onrender.com/api/professional_tips'),
+    headers: <String, String> {
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Authorization': 'Bearer $token',
+    },
+    body: jsonEncode(<String, dynamic>{
+      'title' : proTip.title,
+      'content' : proTip.content,
+      'nutritionist_id' : proTip.nutritionist_id,
+    }));
+
+    if(response.statusCode != 200){
+      throw Exception('Failed to post ProTip');
+    } else {
+      print('ProTip posted');
+    }
+
   }
 
-  // HTTP: DELETE
-  static Future<void> deleteProTip(String id) async {
-    final url = Uri.parse('$baseUrl/$id');
-    await http.delete(url);
+  // HTTP: DELETE - Bearer token for authorization
+  static Future<void> deleteProTip(String token, String id) async {
+    final response = await http.delete(Uri.parse('https://flask-jwt-flutter.onrender.com/api/professional_tips/$id'),
+    headers: <String, String> {
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Authorization': 'Bearer $token',
+    });
+
+    if(response.statusCode != 200){
+      throw Exception('Failed to delete ProTip');
+    } else {
+      print('ProTip deleted');
+    }
+
   }
+
 }

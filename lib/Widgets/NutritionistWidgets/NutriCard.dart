@@ -8,14 +8,14 @@ class Nutricard extends StatelessWidget {
   final String foto;
   final String nombre;
   final String descripcion;
-  final double calificacion;
+  final String calificacion;
   final String skill_1;
   final String? skill_2;
   final String? skill_3;
   final String? whatsapp;
   final String? instagram;
   final String email;
-  final String webSite;
+  final String? webSite;
 
   const Nutricard(
       {super.key,
@@ -254,7 +254,7 @@ class Nutricard extends StatelessWidget {
                     await launchUrl(Uri.parse('https://$webSite'));
                   },
                   child: Text(
-                    webSite,
+                    webSite!,
                     style: const TextStyle(
                       fontFamily: 'Inter',
                       fontSize: 18,

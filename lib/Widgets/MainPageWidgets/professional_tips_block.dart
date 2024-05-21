@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:nutrisalud/Helpers/helpers_export.dart';
 
 class ProfessionalTipsBlock extends StatelessWidget {
-  final String title;
-  final String tip;
-  final String nutricionistAvatar;
+  final String? title;
+  final String? tip;
+  final String? nutritionistId;
 
   const ProfessionalTipsBlock(
       {super.key,
-      required this.title,
-      required this.tip,
-      required this.nutricionistAvatar});
+      this.title,
+      this.tip,
+      this.nutritionistId});
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +28,7 @@ class ProfessionalTipsBlock extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            title,
+            title.toString(),
             style: const TextStyle(
               color: ColorsConstants.darkGreen,
               fontSize: 18,
@@ -42,7 +42,7 @@ class ProfessionalTipsBlock extends StatelessWidget {
                 child: Container(
                   padding: const EdgeInsets.only(right: 10),
                   child: Text(
-                    tip,
+                    tip.toString(),
                     softWrap: true,
                     style: const TextStyle(
                       color: ColorsConstants.darkGreen,
@@ -50,12 +50,6 @@ class ProfessionalTipsBlock extends StatelessWidget {
                       fontWeight: FontWeight.w300,
                     ),
                   ),
-                ),
-              ),
-              Transform.translate(
-                offset: const Offset(0, -17),
-                child: CircleAvatar(
-                  backgroundImage: AssetImage(nutricionistAvatar),
                 ),
               ),
             ],

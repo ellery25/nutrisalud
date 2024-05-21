@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:nutrisalud/Helpers/helpers_export.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:nutrisalud/Providers/users_providers.dart';
+import '../../Preferences/save_load.dart';
 
 class Register extends StatefulWidget {
   const Register({super.key});
@@ -23,33 +24,24 @@ class _RegisterState extends State<Register> {
   }
 
   Future<bool> validarLogin() async {
-    bool accesoConcedido = false;
+    bool accesoConcedido;
 
-    // Validar que el userName no esté siendo usado
-    List<Usuario> usuarios = await Usuario.getUsuarios();
-    for (var usuario in usuarios) {
-      if (usuario.usuario == _userNameController.text) {
-        print('Usuario ya existe');
-        return false;
-      }
-    }
+    try{
+      Map<String, dynamic> user = await User.createUser({
+      'name': _nameController.text,
+      'username': _userNameController.text,
+      'password': _passwordController.text,
+    });
 
-    // Crear el usuario
-    try {
-      Map<String, dynamic> nuevoUsuario = {
-        'nombre': _nameController.text,
-        'usuario': _userNameController.text,
-        'contrasena': _passwordController.text,
-      };
-
-      await Usuario.postUsuario(nuevoUsuario);
-      print('Usuario creado');
+    if(user.containsKey('error')){
+      accesoConcedido = false;
+    } else {
       accesoConcedido = true;
-    } catch (e) {
+    }
+    } catch (e){
       print('Error al crear usuario: $e');
       accesoConcedido = false;
     }
-
     return accesoConcedido;
   }
 

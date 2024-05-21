@@ -1,5 +1,6 @@
-import 'package:nutrisalud/Widgets/GeneralWidgets/general_blocks.dart';
 import 'package:flutter/material.dart';
+import 'package:nutrisalud/Providers/meals_providers.dart';
+import 'package:nutrisalud/Widgets/GeneralWidgets/general_blocks.dart';
 import 'package:nutrisalud/Widgets/RecommendedFoodWidgets/food_recomendation.dart';
 import 'package:nutrisalud/Helpers/helpers_export.dart';
 import 'package:nutrisalud/Preferences/save_load.dart';
@@ -11,24 +12,34 @@ class RecommendedFood extends StatefulWidget {
 }
 
 class _RecommendedFoodState extends State<RecommendedFood> {
-  String isNutricionist = "false";
+  bool isLoading = true;
+  List<Widget> foodPostsList = [];
 
   @override
   void initState() {
     super.initState();
-    _cargarIsNutricionist();
+    llenarCommunityPostsList();
   }
 
-  _cargarIsNutricionist() async {
-    // Obtener el isNutricionist
-    String? isNutricionist =
-        await SharedPreferencesHelper.loadData('isNutricionist');
-    // Actualizar el estado para reflejar el userId
-    setState(() {
-      this.isNutricionist = isNutricionist!;
-    });
+  Future<void> llenarCommunityPostsList() async {
+    print('Llenando la lista de community posts');
+    try {
+      final List<Meal>? recetas = await Meal.getMeals();
+      if (mounted) {
+        setState(() {
+          // Construye la lista de widgets usando los datos de recetas
 
-    print('isNutricionist: $isNutricionist');
+          isLoading = false;
+        });
+      }
+    } catch (error) {
+      if (mounted) {
+        setState(() {
+          isLoading = false;
+        });
+      }
+      print('Error al cargar las recetas: $error');
+    }
   }
 
   @override
@@ -36,10 +47,6 @@ class _RecommendedFoodState extends State<RecommendedFood> {
     var screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      // Si la variable isNutricionist es false, mostrar el botón flotante
-      //floatingActionButton: isNutricionist == true ? FloatingActionButton(onPressed: () {
-      // Acciones para añadir un profesional tip
-      //},backgroundColor: ColorsConstants.darkGreen,child: const Icon(Icons.add, color: ColorsConstants.whiteColor),): null,
       backgroundColor: ColorsConstants.whiteColor,
       body: SafeArea(
         child: Padding(
@@ -54,38 +61,16 @@ class _RecommendedFoodState extends State<RecommendedFood> {
                   Navigator.popAndPushNamed(context, AppRoutes.home);
                 },
               ),
-              const Expanded(
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      FoodRecomendation(
-                          titulo: "Banana",
-                          timeToEat: "Morning",
-                          descripcion:
-                              "High in potassium and magnesium, bananas can help your body recover from a night of rest and kickstart your day."),
-                      FoodRecomendation(
-                          titulo: "Oatmeal",
-                          timeToEat: "Breakfast",
-                          descripcion:
-                              "Rich in fiber and complex carbohydrates, oatmeal provides sustained energy throughout the morning and helps maintain healthy cholesterol levels."),
-                      FoodRecomendation(
-                          titulo: "Salmon",
-                          timeToEat: "Lunch",
-                          descripcion:
-                              "Packed with omega-3 fatty acids, salmon supports heart health and brain function. It's also a great source of protein for muscle repair and growth."),
-                      FoodRecomendation(
-                          titulo: "Spinach",
-                          timeToEat: "Dinner",
-                          descripcion:
-                              "Loaded with vitamins A, C, and K, as well as iron and calcium, spinach promotes strong bones and a robust immune system. It's a versatile ingredient that can be incorporated into salads, pastas, and stir-fries."),
-                      FoodRecomendation(
-                          titulo: "Greek Yogurt",
-                          timeToEat: "Snack",
-                          descripcion:
-                              "High in protein and probiotics, Greek yogurt supports gut health and helps you feel full and satisfied between meals. It's a nutritious snack option that can be paired with fruit, nuts, or honey for added flavor.")
-                    ],
-                  ),
-                ),
+              Expanded(
+                child: isLoading
+                    ? Center(child: CircularProgressIndicator())
+                    : SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            ...foodPostsList,
+                          ],
+                        ),
+                      ),
               ),
             ],
           ),

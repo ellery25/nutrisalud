@@ -1,13 +1,15 @@
+// ignore: file_names
 import 'package:flutter/material.dart';
-import 'package:nutrisalud/Helpers/helpers_export.dart';
+import 'package:nutrisalud/Helpers/colors_codes.dart';
 
 class SetPageNutricionist extends StatefulWidget {
   const SetPageNutricionist({super.key});
+
   @override
-  State<SetPageNutricionist> createState() => _SetPageNutricionistState();
+  _SetPageNutricionist createState() => _SetPageNutricionist();
 }
 
-class _SetPageNutricionistState extends State<SetPageNutricionist> {
+class _SetPageNutricionist extends State<SetPageNutricionist> {
   // Opción seleccionada por defecto
   bool _isVisible = false;
   bool _isVisible2 = false;
@@ -114,14 +116,7 @@ class _SetPageNutricionistState extends State<SetPageNutricionist> {
                       ),
                     ],
                   ),
-                  _isVisible
-                      ? const Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                              Text('Website'),
-                              TextField(),
-                            ])
-                      : const SizedBox(),
+                  _isVisible ? _buildContainer() : const SizedBox(),
                   const SizedBox(height: 20),
 
                   const Text(
@@ -140,14 +135,7 @@ class _SetPageNutricionistState extends State<SetPageNutricionist> {
                       ),
                     ],
                   ),
-                  _isVisible2
-                      ? const Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                              Text('Username'),
-                              TextField(),
-                            ])
-                      : const SizedBox(),
+                  _isVisible2 ? _buildContainer2() : const SizedBox(),
 
                   const SizedBox(height: 20),
                   Align(
@@ -169,6 +157,28 @@ class _SetPageNutricionistState extends State<SetPageNutricionist> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildContainer() {
+    return Container(
+      child: const Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Text('Website'),
+            TextField(),
+          ]),
+    );
+  }
+
+  Widget _buildContainer2() {
+    return Container(
+      child: const Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Text('Username'),
+            TextField(),
+          ]),
     );
   }
 }

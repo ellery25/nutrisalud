@@ -49,7 +49,8 @@ class _ChooseAccountState extends State<ChooseAccount> {
               InkWell(
                 onTap: () {
                   //Definir tipo de cuenta
-                  Navigator.popAndPushNamed(context, AppRoutes.register);
+                  Navigator.popAndPushNamed(
+                      context, AppRoutes.setPageNutricionist);
                 },
                 splashColor: MaterialStateColor.resolveWith(
                     (states) => ColorsConstants.darkGreen),

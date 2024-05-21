@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nutrisalud/Helpers/helpers_export.dart';
+import 'package:nutrisalud/Providers/meals_providers.dart';
 
 class FoodRecomendation extends StatelessWidget {
   final String titulo;
@@ -10,7 +11,8 @@ class FoodRecomendation extends StatelessWidget {
       {super.key,
       required this.titulo,
       required this.timeToEat,
-      required this.descripcion});
+      required this.descripcion,
+      required Meal meal});
 
   @override
   Widget build(BuildContext context) {

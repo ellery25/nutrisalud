@@ -67,6 +67,7 @@ class _MyAppState extends State<MyApp> {
         AppRoutes.introductionDoctor: (context) => const IntroductionDoctor(),
         AppRoutes.postCommunity: (context) => const PostCommunity(),
         AppRoutes.postProTip: (context) => const PostProTip(),
+        AppRoutes.setPageNutricionist: (context) => const SetPageNutricionist(),
       },
     );
   }

@@ -1,4 +1,3 @@
-
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:nutrisalud/Preferences/save_load.dart';
 import 'package:flutter/material.dart';
@@ -41,10 +40,9 @@ class _MainPageState extends State<MainPage> {
 
   _cargarIsNutricionist() async {
     // Obtener el isNutricionist
-    String? isNutricionist =
-        await SharedPreferencesHelper.loadData('type');
+    String? isNutricionist = await SharedPreferencesHelper.loadData('type');
     // Actualizar el estado para reflejar el userId
-    if(isNutricionist != "user"){
+    if (isNutricionist != "user") {
       setState(() {
         this.isNutricionist = "true";
       });
@@ -68,28 +66,28 @@ class _MainPageState extends State<MainPage> {
     });
 
     try {
-      // Obtener los 
+      // Obtener los
       print('Paso1');
-      String? loadToken = await SharedPreferencesHelper.loadData('access_token');
+      String? loadToken =
+          await SharedPreferencesHelper.loadData('access_token');
       print('Paso2');
-      if(loadToken == null) {
+      if (loadToken == null) {
         throw Exception('No hay token');
       }
       print('Paso3');
-        List<ProTip> proTips = await ProTip.getProTips(loadToken);
+      List<ProTip> proTips = await ProTip.getProTips(loadToken);
       print('Paso4');
-        setState(() {
-          professionalTipsList.addAll(proTips.map((proTip) {
-              return ProfessionalTipsBlock(
-              title: proTip.title,
-              tip: proTip.content,
-              nutritionistId: proTip.nutritionist_id,
-            );
-          }));
+      setState(() {
+        professionalTipsList.addAll(proTips.map((proTip) {
+          return ProfessionalTipsBlock(
+            title: proTip.title,
+            tip: proTip.content,
+            nutritionistId: proTip.nutritionist_id,
+          );
+        }));
 
-          isLoading = false;
-        });
-      
+        isLoading = false;
+      });
 
       // Actualizar el estado con los ProTips obtenidos
     } catch (e) {
@@ -103,9 +101,9 @@ class _MainPageState extends State<MainPage> {
     String? loadToken = await SharedPreferencesHelper.loadData('access_token');
     if (isNutricionist == "true") {
       //Get para nutricionista
-      final nutricionista = await Nutritionist.getNutritionistById(
-          loadToken!,userId);
-
+      final nutricionista =
+          await Nutritionist.getNutritionistById(userId, loadToken!);
+      print(nutricionista['name']);
       setState(() {
         dato1Sesion = nutricionista['name'];
         dato2Sesion = nutricionista['email'];
@@ -113,8 +111,7 @@ class _MainPageState extends State<MainPage> {
     } else {
       //Get para usuario
 
-      final usuario = await User.getUserById(
-          loadToken!, userId);
+      final usuario = await User.getUserById(loadToken!, userId);
       setState(() {
         dato1Sesion = usuario['name'];
         dato2Sesion = usuario['username'];

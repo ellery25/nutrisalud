@@ -1,4 +1,3 @@
-// ignore: file_names
 import 'package:flutter/material.dart';
 import 'package:nutrisalud/Helpers/app_routes.dart';
 import 'package:nutrisalud/Helpers/colors_codes.dart';
@@ -25,19 +24,20 @@ class _SetPageNutricionist extends State<SetPageNutricionist> {
   final TextEditingController _skill1Controller = TextEditingController();
   final TextEditingController _skill2Controller = TextEditingController();
   final TextEditingController _skill3Controller = TextEditingController();
+
   @override
   void dispose() {
     _userNameController.dispose();
     _passwordController.dispose();
     _nameController.dispose();
     _emailController.dispose();
+    _websiteController.dispose();
+    _instagramController.dispose();
+    _whatsappController.dispose();
+    _skill1Controller.dispose();
+    _skill2Controller.dispose();
+    _skill3Controller.dispose();
     super.dispose();
-  }
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
   }
 
   void _toggleVisibility() {
@@ -64,12 +64,12 @@ class _SetPageNutricionist extends State<SetPageNutricionist> {
         'description': 'a',
         'rating': 'a',
         'photo': 'a',
-        'instagram': 'a',
-        'website': 'a',
-        'whatsapp': 'a',
-        'skill1': 'a',
-        'skill2': 'a',
-        'skill3': 'a',
+        'instagram': _instagramController.text,
+        'website': _websiteController.text,
+        'whatsapp': _whatsappController.text,
+        'skill1': _skill1Controller.text,
+        'skill2': _skill2Controller.text,
+        'skill3': _skill3Controller.text,
       });
 
       if (user.containsKey('error')) {
@@ -129,6 +129,7 @@ class _SetPageNutricionist extends State<SetPageNutricionist> {
                   const Text('Password *'),
                   TextFormField(
                     controller: _passwordController,
+                    obscureText: true,
                   ),
 
                   const SizedBox(height: 15),
@@ -153,7 +154,7 @@ class _SetPageNutricionist extends State<SetPageNutricionist> {
                       ),
                     ],
                   ),
-                  _isVisible ? _buildContainer() : const SizedBox(),
+                  _isVisible ? _buildSocialMediaContainer() : const SizedBox(),
                   const SizedBox(height: 20),
 
                   const Text(
@@ -172,7 +173,7 @@ class _SetPageNutricionist extends State<SetPageNutricionist> {
                       ),
                     ],
                   ),
-                  _isVisible2 ? _buildContainer2() : const SizedBox(),
+                  _isVisible2 ? _buildSkillsContainer() : const SizedBox(),
 
                   const SizedBox(height: 20),
                   Align(
@@ -363,36 +364,45 @@ class _SetPageNutricionist extends State<SetPageNutricionist> {
     );
   }
 
-  Widget _buildContainer() {
+  Widget _buildSocialMediaContainer() {
     return Container(
-      child: const Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Text('Website'),
-            SizedBox(height: 10),
-            Text('Instagram'),
-            TextField(),
-            SizedBox(height: 10),
-            Text('Whatsapp'),
-            TextField(),
-          ]),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+        const Text('Website'),
+        TextFormField(
+          controller: _websiteController,
+        ),
+        const SizedBox(height: 10),
+        const Text('Instagram'),
+        TextFormField(
+          controller: _instagramController,
+        ),
+        const SizedBox(height: 10),
+        const Text('Whatsapp'),
+        TextFormField(
+          controller: _whatsappController,
+        ),
+      ]),
     );
   }
 
-  Widget _buildContainer2() {
+  Widget _buildSkillsContainer() {
     return Container(
-      child: const Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Text('Skill 1 *'),
-            TextField(),
-            SizedBox(height: 10),
-            Text('Skill 2'),
-            TextField(),
-            SizedBox(height: 10),
-            Text('Skill 3'),
-            TextField(),
-          ]),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+        const Text('Skill 1 *'),
+        TextFormField(
+          controller: _skill1Controller,
+        ),
+        const SizedBox(height: 10),
+        const Text('Skill 2'),
+        TextFormField(
+          controller: _skill2Controller,
+        ),
+        const SizedBox(height: 10),
+        const Text('Skill 3'),
+        TextFormField(
+          controller: _skill3Controller,
+        ),
+      ]),
     );
   }
 }

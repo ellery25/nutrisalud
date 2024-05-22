@@ -180,6 +180,8 @@ class Meal {
       },
     );
 
+    print(response.body);
+
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseBody = jsonDecode(response.body);
 

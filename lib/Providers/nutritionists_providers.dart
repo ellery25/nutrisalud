@@ -68,7 +68,7 @@ class Nutritionist {
     if (response.statusCode == 200) {
       // Si el servidor devuelve una respuesta OK, parseamos el JSON.
       final List<dynamic> data = jsonDecode(response.body);
-      if(data.isNotEmpty) {
+      if (data.isNotEmpty) {
         return data.map((e) => Nutritionist.fromJson(e, e['id'])).toList();
       } else {
         throw Exception('No nutricionists found');
@@ -80,7 +80,8 @@ class Nutritionist {
   }
 
   //HTTP: GET by ID
-  static Future<Map<String, dynamic>> getNutritionistById(String id, String token) async {
+  static Future<Map<String, dynamic>> getNutritionistById(
+      String id, String token) async {
     final response = await http.get(
       Uri.parse('https://flask-jwt-flutter.onrender.com/api/nutritionists/$id'),
       headers: <String, String>{
@@ -92,7 +93,7 @@ class Nutritionist {
     if (response.statusCode == 200) {
       // Si el servidor devuelve una respuesta OK, parseamos el JSON.
       final Map<String, dynamic> data = jsonDecode(response.body);
-      if(data.isNotEmpty) {
+      if (data.isNotEmpty) {
         return data;
       } else {
         throw Exception('No nutricionist found');
@@ -104,6 +105,8 @@ class Nutritionist {
   }
 
   // HTTP: POST - Without Token
+
+  /*
   static Future<void> createNutritionist(Nutritionist nutritionist) async {
     final response = await http.post(
       Uri.parse('https://flask-jwt-flutter.onrender.com/api/nutritionists'),
@@ -132,11 +135,45 @@ class Nutritionist {
       throw Exception('Failed to create nutricionist');
     }
   }
+*/
+
+// HTTP: POST without token
+  static Future<Map<String, dynamic>> createNutricionist(
+      Map<String, dynamic> nutricionista) async {
+    final response = await http.post(
+      Uri.parse(
+          'https://flask-jwt-flutter.onrender.com/api/nutritionists/register'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(nutricionista),
+    );
+
+    if (response.statusCode == 201) {
+      // Si el servidor devuelve una respuesta OK, parseamos el JSON.
+      final Map<String, dynamic> data = jsonDecode(response.body);
+      if (data.isNotEmpty) {
+        print('user creado');
+        print(response.body);
+        return data;
+      } else {
+        print(response.body);
+        throw Exception('User not created');
+      }
+    } else {
+      // Si la respuesta no es OK, lanzamos un error.
+      print(response.body);
+
+      throw Exception('Failed to create usere');
+    }
+  }
 
   // HTTP: PUT - Bearer token for authorization
-  static Future<void> updateNutricionist(Nutritionist nutritionist, String token) async {
+  static Future<void> updateNutricionist(
+      Nutritionist nutritionist, String token) async {
     final response = await http.put(
-      Uri.parse('https://flask-jwt-flutter.onrender.com/api/nutritionists/${nutritionist.id}'),
+      Uri.parse(
+          'https://flask-jwt-flutter.onrender.com/api/nutritionists/${nutritionist.id}'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         'Authorization': 'Bearer $token',
@@ -179,5 +216,4 @@ class Nutritionist {
       throw Exception('Failed to delete nutricionist');
     }
   }
-
 }

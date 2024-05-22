@@ -72,7 +72,7 @@ class _CommunityState extends State<Community> {
 
       Map<String, dynamic> user = await User.getUserById(loadToken, comentario.user_id);
 
-      return CommunityPost(horas: formattedDate!, contenido: comentario.content, username: user['username'], nombre: user['name'], userIdWidget: comentario.user_id, functionEliminar: () {
+      return CommunityPost(horas: formattedDate!, contenido: comentario.content, username: user['username'], nombre: user['name'], userIdWidget: comentario.user_id, functionEliminar: () async {
         showDialog(
           context: context,
           builder: (BuildContext context) {
@@ -82,30 +82,35 @@ class _CommunityState extends State<Community> {
           }
         );
 
-        Comment.deleteComment(comentario.id, loadToken).then((_){
-          Navigator.of(context).pop();
-          showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                title: const Text('Comment deleted.', style: TextStyle(fontSize: 18, color: ColorsConstants.darkGreen),),
-                actions: [
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: ColorsConstants.darkGreen,
-                    ),
-                    child: const Text("Continuar", style: TextStyle(fontSize: 18, color: ColorsConstants.whiteColor)),
-                    onPressed: (){
-                      Navigator.pop(context);
-                      llenarCommunityPostsList();
-                    },
-                  ),
-                ],
-              );
-            }
-          );
-        });
-
+        Comment.deleteComment(comentario.id, loadToken).then((_) async {
+              Navigator.of(context).pop();
+              showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: const Text(
+                        'Comment deleted.',
+                        style: TextStyle(
+                            fontSize: 18, color: ColorsConstants.darkGreen),
+                      ),
+                      actions: [
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: ColorsConstants.darkGreen,
+                          ),
+                          child: const Text("Continuar",
+                              style: TextStyle(
+                                  fontSize: 18,
+                                  color: ColorsConstants.whiteColor)),
+                          onPressed: () async {
+                            Navigator.pop(context);
+                            await llenarCommunityPostsList();
+                          },
+                        ),
+                      ],
+                    );
+                  });
+            });
 
       });
 
@@ -113,10 +118,10 @@ class _CommunityState extends State<Community> {
 
     List<CommunityPost> posts = await Future.wait(futurePosts);
 
-    setState(() {
-      communityPostsList.addAll(posts);
-      isLoading = false;
-    });
+            setState(() {
+              communityPostsList = posts; // Reemplaza la lista completa en lugar de agregar a ella
+              isLoading = false;
+            });
   }
 
   @override

@@ -26,6 +26,7 @@ class _MyAppState extends State<MyApp> {
 
   void definirRuta() async {
     String? idUsuario = await SharedPreferencesHelper.loadData("userId");
+    //String? idUsuario = "f0170f68-8c0d-4fd2-97b2-4f7b5b0a16ff";
 
     if (idUsuario == null) {
       setState(() {
@@ -36,7 +37,6 @@ class _MyAppState extends State<MyApp> {
         rutaInicial = AppRoutes.home;
       });
     }
-    print(rutaInicial);
   }
 
   @override

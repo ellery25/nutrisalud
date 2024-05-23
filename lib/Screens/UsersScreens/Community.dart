@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:nutrisalud/Providers/users_providers.dart';
 import 'package:nutrisalud/Widgets/CommunityWidgets/community_post.dart';
-import 'package:nutrisalud/Widgets/GeneralWidgets/NavBar.dart';
+import 'package:nutrisalud/Widgets/GeneralWidgets/general_blocks.dart';
 import 'package:nutrisalud/Providers/comments_providers.dart';
 import 'package:nutrisalud/Preferences/save_load.dart';
 import 'package:nutrisalud/Helpers/helpers_export.dart';
 import 'package:intl/intl.dart';
-
-// TODO: Actualizar la lista de comentarios cuando se elimine un comentario
 
 class Community extends StatefulWidget {
   const Community({super.key});
@@ -36,8 +34,6 @@ class _CommunityState extends State<Community> {
     setState(() {
       this.userId = userId!;
     });
-
-    print('userId: $userId');
   }
 
   _cargarIsNutricionist() async {
@@ -59,7 +55,8 @@ class _CommunityState extends State<Community> {
     print('Llenando la lista de community posts');
     final List<Comment> comentarios = await Comment.getComments(loadToken!);
 
-    List<Future<CommunityPost>> futurePosts = comentarios.map((comentario) async {
+    List<Future<CommunityPost>> futurePosts =
+        comentarios.map((comentario) async {
       String? formattedDate;
       try {
         DateFormat inputFormat = DateFormat("EEE, dd MMM yyyy HH:mm:ss 'GMT'");
@@ -70,19 +67,28 @@ class _CommunityState extends State<Community> {
         print('Error parsing date: $e');
       }
 
-      Map<String, dynamic> user = await User.getUserById(loadToken, comentario.user_id);
+      Map<String, dynamic> user =
+          await User.getUserById(loadToken, comentario.user_id);
 
-      return CommunityPost(horas: formattedDate!, contenido: comentario.content, username: user['username'], nombre: user['name'], userIdWidget: comentario.user_id, functionEliminar: () async {
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return const AlertDialog(
-              title: Text('Processing data', style: TextStyle(fontSize: 18, color: ColorsConstants.darkGreen),)
-            );
-          }
-        );
+      return CommunityPost(
+          horas: formattedDate!,
+          contenido: comentario.content,
+          username: user['username'],
+          nombre: user['name'],
+          userIdWidget: comentario.user_id,
+          functionEliminar: () async {
+            showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return const AlertDialog(
+                      title: Text(
+                    'Deleting comment',
+                    style: TextStyle(
+                        fontSize: 18, color: ColorsConstants.darkGreen),
+                  ));
+                });
 
-        Comment.deleteComment(comentario.id, loadToken).then((_) async {
+            Comment.deleteComment(comentario.id, loadToken).then((_) async {
               Navigator.of(context).pop();
               showDialog(
                   context: context,
@@ -111,17 +117,16 @@ class _CommunityState extends State<Community> {
                     );
                   });
             });
-
-      });
-
+          });
     }).toList();
 
     List<CommunityPost> posts = await Future.wait(futurePosts);
 
-            setState(() {
-              communityPostsList = posts; // Reemplaza la lista completa en lugar de agregar a ella
-              isLoading = false;
-            });
+    setState(() {
+      communityPostsList =
+          posts; // Reemplaza la lista completa en lugar de agregar a ella
+      isLoading = false;
+    });
   }
 
   @override
@@ -148,8 +153,13 @@ class _CommunityState extends State<Community> {
               NavBar(
                 backButton: false,
                 title: "Community",
-                backRoute: () {
-                  print("Back Community");
+                backRoute: () {},
+                updateButton: true,
+                updateRoute: () {
+                  setState(() {
+                    isLoading = true;
+                  });
+                  llenarCommunityPostsList();
                 },
               ),
               Expanded(

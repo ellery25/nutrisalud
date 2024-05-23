@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:nutrisalud/Helpers/helpers_export.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:nutrisalud/Providers/users_providers.dart';
-import '../../Preferences/save_load.dart';
 
 class Register extends StatefulWidget {
   const Register({super.key});
@@ -26,19 +25,19 @@ class _RegisterState extends State<Register> {
   Future<bool> validarLogin() async {
     bool accesoConcedido;
 
-    try{
+    try {
       Map<String, dynamic> user = await User.createUser({
-      'name': _nameController.text,
-      'username': _userNameController.text,
-      'password': _passwordController.text,
-    });
+        'name': _nameController.text,
+        'username': _userNameController.text,
+        'password': _passwordController.text,
+      });
 
-    if(user.containsKey('error')){
-      accesoConcedido = false;
-    } else {
-      accesoConcedido = true;
-    }
-    } catch (e){
+      if (user.containsKey('error')) {
+        accesoConcedido = false;
+      } else {
+        accesoConcedido = true;
+      }
+    } catch (e) {
       print('Error al crear usuario: $e');
       accesoConcedido = false;
     }
@@ -52,7 +51,7 @@ class _RegisterState extends State<Register> {
 
     return Scaffold(
       backgroundColor: ColorsConstants.lightGreen,
-      body:SingleChildScrollView(
+      body: SingleChildScrollView(
         child: Column(
           children: [
             AppBar(
@@ -100,10 +99,12 @@ class _RegisterState extends State<Register> {
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(15.0),
-                          borderSide: const BorderSide(color: ColorsConstants.darkGreen),
+                          borderSide: const BorderSide(
+                              color: ColorsConstants.darkGreen),
                         ),
                         labelText: 'Name:',
-                        labelStyle: const TextStyle(color: ColorsConstants.darkGreen),
+                        labelStyle:
+                            const TextStyle(color: ColorsConstants.darkGreen),
                       ),
                     ),
                     const SizedBox(height: 16),
@@ -112,10 +113,12 @@ class _RegisterState extends State<Register> {
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(15.0),
-                          borderSide: const BorderSide(color: ColorsConstants.darkGreen),
+                          borderSide: const BorderSide(
+                              color: ColorsConstants.darkGreen),
                         ),
                         labelText: 'Username:',
-                        labelStyle: const TextStyle(color: ColorsConstants.darkGreen),
+                        labelStyle:
+                            const TextStyle(color: ColorsConstants.darkGreen),
                       ),
                     ),
                     const SizedBox(height: 16),
@@ -125,10 +128,12 @@ class _RegisterState extends State<Register> {
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(15.0),
-                          borderSide: const BorderSide(color: ColorsConstants.darkGreen),
+                          borderSide: const BorderSide(
+                              color: ColorsConstants.darkGreen),
                         ),
                         labelText: 'Password:',
-                        labelStyle: const TextStyle(color: ColorsConstants.darkGreen),
+                        labelStyle:
+                            const TextStyle(color: ColorsConstants.darkGreen),
                       ),
                     ),
                     SizedBox(height: screenHeight * 0.03),
@@ -153,7 +158,7 @@ class _RegisterState extends State<Register> {
                                   ElevatedButton(
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor:
-                                      ColorsConstants.darkGreen,
+                                          ColorsConstants.darkGreen,
                                     ),
                                     child: const Text("Close",
                                         style: TextStyle(
@@ -190,7 +195,7 @@ class _RegisterState extends State<Register> {
                                   ElevatedButton(
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor:
-                                      ColorsConstants.darkGreen,
+                                          ColorsConstants.darkGreen,
                                     ),
                                     child: const Text("Close",
                                         style: TextStyle(
@@ -227,7 +232,7 @@ class _RegisterState extends State<Register> {
                                   ElevatedButton(
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor:
-                                      ColorsConstants.darkGreen,
+                                          ColorsConstants.darkGreen,
                                     ),
                                     child: const Text("Close",
                                         style: TextStyle(
@@ -246,10 +251,15 @@ class _RegisterState extends State<Register> {
                         }
 
                         // Indicador de carga de registro
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('Loading Data', style: TextStyle(color: ColorsConstants.whiteColor),), duration: Duration(seconds: 1), backgroundColor: ColorsConstants.darkGreen,)
-                        );
-
+                        ScaffoldMessenger.of(context)
+                            .showSnackBar(const SnackBar(
+                          content: Text(
+                            'Loading Data',
+                            style: TextStyle(color: ColorsConstants.whiteColor),
+                          ),
+                          duration: Duration(seconds: 1),
+                          backgroundColor: ColorsConstants.darkGreen,
+                        ));
 
                         if (await validarLogin()) {
                           if (!context.mounted) return;
@@ -277,7 +287,7 @@ class _RegisterState extends State<Register> {
                                   ElevatedButton(
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor:
-                                      ColorsConstants.darkGreen,
+                                          ColorsConstants.darkGreen,
                                     ),
                                     child: const Text("Close",
                                         style: TextStyle(
@@ -296,8 +306,8 @@ class _RegisterState extends State<Register> {
                       },
                       style: ElevatedButton.styleFrom(
                           backgroundColor: ColorsConstants.darkGreen,
-                          padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.3)
-                      ),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: screenWidth * 0.3)),
                       child: const Text(
                         'Register',
                         style: TextStyle(color: ColorsConstants.whiteColor),

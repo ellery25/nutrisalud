@@ -68,30 +68,28 @@ class FoodRecomendation extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 10),
-                Text(
+                const Text(
                   'Ingredients:',
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontFamily: 'Inter',
                     fontSize: 17,
                     fontWeight: FontWeight.w600,
                     color: ColorsConstants.darkGreen,
                   ),
                 ),
-                ...meal.strIngredients
-                    .map((ingredient) => Text(
-                          '- ${ingredient.name}: ${ingredient.measure}',
-                          style: const TextStyle(
-                            fontFamily: 'Inter',
-                            fontSize: 15,
-                            fontWeight: FontWeight.w400,
-                            color: ColorsConstants.darkGreen,
-                          ),
-                        ))
-                    .toList(),
+                ...meal.strIngredients.map((ingredient) => Text(
+                      '- ${ingredient.name}: ${ingredient.measure}',
+                      style: const TextStyle(
+                        fontFamily: 'Inter',
+                        fontSize: 15,
+                        fontWeight: FontWeight.w400,
+                        color: ColorsConstants.darkGreen,
+                      ),
+                    )),
                 const SizedBox(height: 10),
-                Text(
+                const Text(
                   'Instructions:',
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontFamily: 'Inter',
                     fontSize: 17,
                     fontWeight: FontWeight.w600,

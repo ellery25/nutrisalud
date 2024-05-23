@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:nutrisalud/Widgets/GeneralWidgets/NavBar.dart';
+import 'package:nutrisalud/Widgets/GeneralWidgets/navbar.dart';
 import 'package:nutrisalud/Widgets/SearchWidgets/recipe_preview.dart';
 import 'package:nutrisalud/Helpers/helpers_export.dart';
 
@@ -26,6 +26,8 @@ class _SearchState extends State<Search> {
                 backRoute: () {
                   Navigator.popAndPushNamed(context, AppRoutes.home);
                 },
+                updateButton: false,
+                updateRoute: () {},
               ),
               const Expanded(
                 child: SingleChildScrollView(

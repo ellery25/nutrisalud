@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:nutrisalud/Helpers/helpers_export.dart';
 import 'package:nutrisalud/Providers/comments_providers.dart';
 import 'package:http/http.dart' as http;
-import 'package:nutrisalud/Screens/UsersScreens/Community.dart';
 
 // TODO: Recargar lista de comentario luego de crear un comentario nuevo
 
@@ -32,7 +31,7 @@ class _PostCommunityState extends State<PostCommunity> {
       this.userId = userId!;
     });
 
-    print('userId: $userId');
+    print('$userId');
   }
 
   @override
@@ -124,7 +123,7 @@ class _PostCommunityState extends State<PostCommunity> {
                                     fontSize: 18,
                                     color: ColorsConstants.whiteColor,
                                   )),
-                              onPressed: ()  async {
+                              onPressed: () async {
                                 Navigator.pop(context);
                                 Navigator.pop(context);
                               },

@@ -4,9 +4,8 @@ import 'package:nutrisalud/Preferences/save_load.dart';
 import 'package:flutter/material.dart';
 import 'package:nutrisalud/Helpers/helpers_export.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:nutrisalud/Providers/meals_providers.dart';
+
 import 'package:nutrisalud/Providers/users_providers.dart';
-import 'package:nutrisalud/Providers/nutritionists_providers.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -19,23 +18,10 @@ class _LoginState extends State<Login> {
   final TextEditingController _passwordController = TextEditingController();
 
   @override
-  void initState() {
-    // TODO: implement initState
-    llenarCommunityPostsList();
-    super.initState();
-  }
-
-  @override
   void dispose() {
     _userNameController.dispose();
     _passwordController.dispose();
     super.dispose();
-  }
-
-  Future<void> llenarCommunityPostsList() async {
-    print('Llenando la lista de community posts');
-
-    final List<Meal>? recetas = await Meal.getMeals();
   }
 
   @override

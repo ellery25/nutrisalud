@@ -44,7 +44,7 @@ class _CommunityPostState extends State<CommunityPost> {
       this.userId = userId!;
     });
 
-    print('userId: $userId');
+    print('$userId');
   }
 
   @override
@@ -125,8 +125,7 @@ class _CommunityPostState extends State<CommunityPost> {
                   ),
                 ),
               ],
-              if (userId ==
-                  widget.userIdWidget) ...[
+              if (userId == widget.userIdWidget) ...[
                 // Boton de borrar
                 Container(
                   alignment: Alignment.bottomRight,

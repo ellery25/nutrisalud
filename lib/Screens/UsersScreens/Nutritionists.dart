@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:nutrisalud/Preferences/save_load.dart';
-import 'package:nutrisalud/Widgets/GeneralWidgets/general_blocks.dart';
 import 'package:page_view_dot_indicator/page_view_dot_indicator.dart';
-import 'package:nutrisalud/Widgets/NutritionistWidgets/NutriCard.dart';
-import 'package:nutrisalud/Helpers/helpers_export.dart';
 import 'package:nutrisalud/Providers/nutritionists_providers.dart';
+import 'package:nutrisalud/Widgets/NutritionistWidgets/nutricard.dart';
+import 'package:nutrisalud/Widgets/GeneralWidgets/general_blocks.dart';
+import 'package:nutrisalud/Helpers/helpers_export.dart';
 
 class Nutricionists extends StatefulWidget {
   const Nutricionists({super.key});
@@ -16,20 +16,7 @@ class _NutricionistsState extends State<Nutricionists> {
   late int selectedPage;
   late final PageController _pageController;
 
-  List<Widget> nutricardsList = [
-    const Nutricard(
-      nombre: "Dr. Marlon José",
-      descripcion:
-          "Nutricionista especializado en dietas personalizadas para mejorar la salud y el rendimiento físico.",
-      calificacion: "4.5",
-      foto: "assets/imgs/dr_1.jpg",
-      skill_1: "Planificación de dietas",
-      email: "melo.jose@example.com",
-      instagram: "melojose_nutri",
-      whatsapp: "+573045360092",
-      webSite: "www.melojose.com",
-    )
-  ];
+  List<Widget> nutricardsList = [];
   int pageCount = 0;
   bool isLoading = true;
 
@@ -43,10 +30,11 @@ class _NutricionistsState extends State<Nutricionists> {
 
   Future<void> loadNutricionistas() async {
     try {
-      String? loadToken = await SharedPreferencesHelper.loadData('access_token');
+      String? loadToken =
+          await SharedPreferencesHelper.loadData('access_token');
       List<Nutritionist> nutricionistas =
           await Nutritionist.getNutricionists(loadToken!);
-          
+
       setState(() {
         nutricardsList = nutricionistas.map((nutricionista) {
           return Nutricard(
@@ -87,6 +75,13 @@ class _NutricionistsState extends State<Nutricionists> {
                 backButton: false,
                 backRoute: () {},
                 title: 'Nutricionists',
+                updateButton: true,
+                updateRoute: () {
+                  setState(() {
+                    isLoading = true;
+                  });
+                  loadNutricionistas();
+                },
               ),
               // Usar un FutureBuilder para mostrar el indicador de carga
               Expanded(

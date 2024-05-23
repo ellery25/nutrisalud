@@ -2,15 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:nutrisalud/Helpers/helpers_export.dart';
 
 class ProfessionalTipsBlock extends StatelessWidget {
+  final String photo;
   final String? title;
   final String? tip;
-  final String? nutritionistId;
 
   const ProfessionalTipsBlock(
-      {super.key,
-      this.title,
-      this.tip,
-      this.nutritionistId});
+      {super.key, this.title, this.tip, required this.photo});
+
+  Map<String, dynamic> toJson() => {
+        'title': title,
+        'tip': tip,
+        'photo': photo,
+      };
+
+  factory ProfessionalTipsBlock.fromJson(Map<String, dynamic> json) {
+    return ProfessionalTipsBlock(
+      title: json['title'],
+      tip: json['tip'],
+      photo: json['photo'],
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,6 +63,17 @@ class ProfessionalTipsBlock extends StatelessWidget {
                   ),
                 ),
               ),
+              Container(
+                width: 50,
+                height: 50,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  image: DecorationImage(
+                    fit: BoxFit.cover,
+                    image: AssetImage(photo),
+                  ),
+                ),
+              )
             ],
           ),
         ],

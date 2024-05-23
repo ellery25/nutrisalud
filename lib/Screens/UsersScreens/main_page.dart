@@ -7,9 +7,9 @@ import 'package:nutrisalud/Helpers/helpers_export.dart';
 import 'package:nutrisalud/Providers/protips_provider.dart';
 import 'package:nutrisalud/Providers/users_providers.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:get_storage/get_storage.dart';
 
 // TODO: Eating time te redirigen a una pagina donde puedes cambiar el la comida y se guarda local
-// TODO: Hacer get de Protips solo la primara vez que si inicializa la pantalla, luego se hace manual con boton de recargar
 // TODO: Hacer el get de Community Posts guardarlos en cache y luego hacerlo manual con boton de recargar
 // TODO: Hacer el get de Nutricionist guardarlos en cache y luego hacerlo manual con boton de recargar
 
@@ -28,14 +28,36 @@ class _MainPageState extends State<MainPage> {
   String dato1Sesion = '';
   String dato2Sesion = '';
 
+  // Datos en cache
+  bool firstTime = GetStorage().read("firstTimeMainPage") ?? true;
+
+  /* GetStorage
+  GetStorage().write('quote', 'GetX is the best');
+  GetStorage().read('quote');
+  GetStorage */
+
   @override
   void initState() {
     super.initState();
+
+    // Load in cache
+    if (firstTime) {
+      llenarProTipsList();
+    } else {
+      isLoading = false;
+
+      // Leer y deserializar los datos almacenados
+      List<dynamic> storedList = GetStorage().read('professionalTipsList');
+      professionalTipsList = storedList
+          .map<Widget>((item) => ProfessionalTipsBlock.fromJson(item))
+          .toList();
+    }
+    // Load in cache
+
     _cargarIsNutricionist();
     _cargarUserId().then((_) {
       buscarInformacionSesion();
     });
-    llenarProTipsList();
   }
 
   _cargarIsNutricionist() async {
@@ -56,8 +78,6 @@ class _MainPageState extends State<MainPage> {
     setState(() {
       this.userId = userId!;
     });
-
-    print('userId: $userId');
   }
 
   Future<void> llenarProTipsList() async {
@@ -66,38 +86,47 @@ class _MainPageState extends State<MainPage> {
     });
 
     try {
-      // Obtener los
-      print('Paso1');
       String? loadToken =
           await SharedPreferencesHelper.loadData('access_token');
-      print('Paso2');
       if (loadToken == null) {
         throw Exception('No hay token');
       }
-      print('Paso3');
-      List<ProTip> proTips = await ProTip.getProTips(loadToken);
-      print('Paso4');
+
+      final List<ProTip> proTips = await ProTip.getProTips(loadToken);
+
+      List<Future<ProfessionalTipsBlock>> futureTips =
+          proTips.map((proTip) async {
+        Map<String, dynamic> nutritionist =
+            await Nutritionist.getNutritionistById(
+          proTip.nutritionist_id,
+          loadToken,
+        );
+
+        return ProfessionalTipsBlock(
+          title: proTip.title,
+          tip: proTip.content,
+          photo: nutritionist['photo'],
+        );
+      }).toList();
+
+      List<ProfessionalTipsBlock> tips = await Future.wait(futureTips);
+
       setState(() {
-        professionalTipsList.addAll(proTips.map((proTip) {
-          return ProfessionalTipsBlock(
-            title: proTip.title,
-            tip: proTip.content,
-            nutritionistId: proTip.nutritionist_id,
-          );
-        }));
-
+        professionalTipsList = tips;
         isLoading = false;
-      });
 
-      // Actualizar el estado con los ProTips obtenidos
+        // Serializar los datos antes de almacenarlos
+        List<Map<String, dynamic>> serializedList =
+            tips.map((tip) => tip.toJson()).toList();
+        GetStorage().write('professionalTipsList', serializedList);
+        GetStorage().write('firstTimeMainPage', false);
+      });
     } catch (e) {
       print('Error al obtener los ProTips: $e');
-      // Manejar el error, si es necesario
     }
   }
 
   Future<void> buscarInformacionSesion() async {
-    print('Buscando información de la sesión');
     String? loadToken = await SharedPreferencesHelper.loadData('access_token');
     if (isNutricionist == "true") {
       //Get para nutricionista
@@ -162,13 +191,6 @@ class _MainPageState extends State<MainPage> {
                               color: ColorsConstants.darkGreen,
                             ),
                           ),
-                          Text(
-                            'Based on your eating habits',
-                            style: TextStyle(
-                              fontSize: 20,
-                              color: ColorsConstants.darkGreen,
-                            ),
-                          ),
                         ],
                       ),
                     ),
@@ -192,14 +214,29 @@ class _MainPageState extends State<MainPage> {
                     Container(
                       margin: const EdgeInsets.symmetric(
                           horizontal: 20, vertical: 7),
-                      child: const Row(
+                      child: Row(
                         children: [
-                          Text(
+                          const Text(
                             'Professional Tips',
                             style: TextStyle(
                               fontSize: 24,
                               fontWeight: FontWeight.bold,
                               color: ColorsConstants.darkGreen,
+                            ),
+                          ),
+                          const Spacer(),
+                          GestureDetector(
+                            onTap: () {
+                              isLoading = true;
+                              llenarProTipsList();
+                            },
+                            child: const Padding(
+                              padding: EdgeInsets.only(right: 10.0),
+                              child: Icon(
+                                Icons.sync,
+                                size: 24,
+                                color: Color(0xff3A5A40),
+                              ),
                             ),
                           ),
                         ],

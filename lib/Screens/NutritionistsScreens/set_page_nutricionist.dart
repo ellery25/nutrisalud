@@ -107,10 +107,10 @@ class _SetPageNutricionist extends State<SetPageNutricionist> {
                         color: ColorsConstants.darkGreen),
                   ),
 
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
-                  Text(
+                  const Text(
                     '* required',
                     style: TextStyle(fontSize: 13),
                   ),
@@ -365,44 +365,40 @@ class _SetPageNutricionist extends State<SetPageNutricionist> {
   }
 
   Widget _buildSocialMediaContainer() {
-    return Container(
-      child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-        const Text('Website'),
-        TextFormField(
-          controller: _websiteController,
-        ),
-        const SizedBox(height: 10),
-        const Text('Instagram'),
-        TextFormField(
-          controller: _instagramController,
-        ),
-        const SizedBox(height: 10),
-        const Text('Whatsapp'),
-        TextFormField(
-          controller: _whatsappController,
-        ),
-      ]),
-    );
+    return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+      const Text('Website'),
+      TextFormField(
+        controller: _websiteController,
+      ),
+      const SizedBox(height: 10),
+      const Text('Instagram'),
+      TextFormField(
+        controller: _instagramController,
+      ),
+      const SizedBox(height: 10),
+      const Text('Whatsapp'),
+      TextFormField(
+        controller: _whatsappController,
+      ),
+    ]);
   }
 
   Widget _buildSkillsContainer() {
-    return Container(
-      child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-        const Text('Skill 1 *'),
-        TextFormField(
-          controller: _skill1Controller,
-        ),
-        const SizedBox(height: 10),
-        const Text('Skill 2'),
-        TextFormField(
-          controller: _skill2Controller,
-        ),
-        const SizedBox(height: 10),
-        const Text('Skill 3'),
-        TextFormField(
-          controller: _skill3Controller,
-        ),
-      ]),
-    );
+    return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+      const Text('Skill 1 *'),
+      TextFormField(
+        controller: _skill1Controller,
+      ),
+      const SizedBox(height: 10),
+      const Text('Skill 2'),
+      TextFormField(
+        controller: _skill2Controller,
+      ),
+      const SizedBox(height: 10),
+      const Text('Skill 3'),
+      TextFormField(
+        controller: _skill3Controller,
+      ),
+    ]);
   }
 }

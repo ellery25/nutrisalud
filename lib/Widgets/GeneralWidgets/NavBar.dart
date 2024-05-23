@@ -2,14 +2,18 @@ import 'package:flutter/material.dart';
 
 class NavBar extends StatelessWidget {
   final bool backButton;
-  final String? title;
   final VoidCallback backRoute;
+  final String? title;
+  final bool updateButton;
+  final VoidCallback updateRoute;
 
   const NavBar({
     super.key,
     required this.backButton,
-    this.title,
     required this.backRoute,
+    this.title,
+    required this.updateButton,
+    required this.updateRoute,
   });
 
   @override
@@ -49,9 +53,6 @@ class NavBar extends StatelessWidget {
               ),
             ),
             const Spacer(),
-            const SizedBox(
-              width: 34,
-            ),
           ] else ...[
             Expanded(
               child: Container(
@@ -73,6 +74,25 @@ class NavBar extends StatelessWidget {
                   ),
                 ),
               ),
+            ),
+          ],
+          if (updateButton == true) ...[
+            GestureDetector(
+              onTap: () {
+                updateRoute();
+              },
+              child: const Padding(
+                padding: EdgeInsets.only(right: 10.0),
+                child: Icon(
+                  Icons.sync,
+                  size: 24,
+                  color: Color(0xff3A5A40),
+                ),
+              ),
+            ),
+          ] else ...[
+            const SizedBox(
+              width: 34,
             ),
           ],
         ],

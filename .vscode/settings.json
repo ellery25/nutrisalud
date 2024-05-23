@@ -1,10 +1,27 @@
 {
-    "cSpell.words": [
-        "contrasena",
-        "nutricionist",
-        "nutricionists",
-        "Nutricionists",
-        "nutrisalud",
-        "whatsapp"
-    ]
+  "cSpell.words": [
+    "contrasena",
+    "nutricionist",
+    "nutricionists",
+    "Nutricionists",
+    "nutrisalud",
+    "whatsapp"
+  ],
+  "sqltools.connections": [
+    {
+      "pgOptions": {
+        "ssl": {
+          "rejectUnauthorized": true
+        }
+      },
+      "previewLimit": 50,
+      "server": "dpg-cp3mb8779t8c73ei0470-a.oregon-postgres.render.com",
+      "port": 5432,
+      "driver": "PostgreSQL",
+      "database": "flask_jwt_flutter",
+      "username": "flask_jwt_flutter_user",
+      "password": "65KRbz2Wr3lgwJ4LSwoeAnApSRadiR3P",
+      "name": "RENDER"
+    }
+  ]
 }

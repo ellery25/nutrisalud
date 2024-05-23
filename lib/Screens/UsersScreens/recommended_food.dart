@@ -18,62 +18,52 @@ class _RecommendedFoodState extends State<RecommendedFood> {
   @override
   void initState() {
     super.initState();
-    llenarCommunityPostsList();
   }
 
   Future<void> llenarCommunityPostsList() async {
     print('Llenando la lista de community posts');
-    try {
-      final List<Meal>? recetas = await Meal.getMeals();
-      if (mounted) {
-        setState(() {
-          // Construye la lista de widgets usando los datos de recetas
 
-          isLoading = false;
-        });
-      }
-    } catch (error) {
-      if (mounted) {
-        setState(() {
-          isLoading = false;
-        });
-      }
-      print('Error al cargar las recetas: $error');
-    }
+    final List<Meal>? recetas = await Meal.getMeals();
   }
 
   @override
   Widget build(BuildContext context) {
     var screenWidth = MediaQuery.of(context).size.width;
 
-    return Scaffold(
-      backgroundColor: ColorsConstants.whiteColor,
-      body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.all(screenWidth * 0.05),
-          child: Column(
-            children: [
-              NavBar(
-                backButton: false,
-                title: "Recommended food",
-                backRoute: () {
-                  print("Back Recommended food");
-                  Navigator.popAndPushNamed(context, AppRoutes.home);
-                },
-              ),
-              Expanded(
-                child: isLoading
-                    ? Center(child: CircularProgressIndicator())
-                    : SingleChildScrollView(
-                        child: Column(
-                          children: [
-                            ...foodPostsList,
-                          ],
-                        ),
-                      ),
-              ),
-            ],
-          ),
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('Food Recommendation'),
+        ),
+        body: FutureBuilder<List<Meal>>(
+          future: Meal.getMeals(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(child: CircularProgressIndicator());
+            } else if (snapshot.hasError) {
+              return Center(child: Text('Error: ${snapshot.error}'));
+            } else {
+              List<Meal>? meals = snapshot.data;
+              if (meals == null || meals.isEmpty) {
+                return Center(child: Text('No meals found'));
+              } else {
+                return ListView.builder(
+                  itemCount: meals.length,
+                  itemBuilder: (context, index) {
+                    return FoodRecomendation(
+                      titulo: meals[index].strMeal,
+                      timeToEat:
+                          'Anytime', // Puedes ajustar esto según tus necesidades
+                      descripcion:
+                          meals[index].strInstructions.substring(0, 50) + '...',
+                      meal: meals[index],
+                    );
+                  },
+                );
+              }
+            }
+          },
         ),
       ),
     );

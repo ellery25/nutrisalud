@@ -6,13 +6,15 @@ class FoodRecomendation extends StatelessWidget {
   final String titulo;
   final String timeToEat;
   final String descripcion;
+  final Meal meal;
 
-  const FoodRecomendation(
-      {super.key,
-      required this.titulo,
-      required this.timeToEat,
-      required this.descripcion,
-      required Meal meal});
+  const FoodRecomendation({
+    super.key,
+    required this.titulo,
+    required this.timeToEat,
+    required this.descripcion,
+    required this.meal,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -65,6 +67,49 @@ class FoodRecomendation extends StatelessWidget {
                     color: ColorsConstants.darkGreen,
                   ),
                 ),
+                const SizedBox(height: 10),
+                Text(
+                  'Ingredients:',
+                  style: const TextStyle(
+                    fontFamily: 'Inter',
+                    fontSize: 17,
+                    fontWeight: FontWeight.w600,
+                    color: ColorsConstants.darkGreen,
+                  ),
+                ),
+                ...meal.strIngredients
+                    .map((ingredient) => Text(
+                          '- ${ingredient.name}: ${ingredient.measure}',
+                          style: const TextStyle(
+                            fontFamily: 'Inter',
+                            fontSize: 15,
+                            fontWeight: FontWeight.w400,
+                            color: ColorsConstants.darkGreen,
+                          ),
+                        ))
+                    .toList(),
+                const SizedBox(height: 10),
+                Text(
+                  'Instructions:',
+                  style: const TextStyle(
+                    fontFamily: 'Inter',
+                    fontSize: 17,
+                    fontWeight: FontWeight.w600,
+                    color: ColorsConstants.darkGreen,
+                  ),
+                ),
+                Text(
+                  meal.strInstructions,
+                  style: const TextStyle(
+                    fontFamily: 'Inter',
+                    fontSize: 15,
+                    fontWeight: FontWeight.w400,
+                    color: ColorsConstants.darkGreen,
+                  ),
+                ),
+                const SizedBox(height: 10),
+                if (meal.strImageSource != null)
+                  Image.network(meal.strImageSource!),
               ],
             ),
           ),

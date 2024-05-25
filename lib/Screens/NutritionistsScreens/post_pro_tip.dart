@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nutrisalud/Helpers/helpers_export.dart';
+import 'package:nutrisalud/Preferences/save_load.dart';
 
 class PostProTip extends StatefulWidget {
   const PostProTip({super.key});
@@ -19,7 +20,13 @@ class _PostProTipState extends State<PostProTip> {
               margin: EdgeInsets.symmetric(
                   horizontal: MediaQuery.of(context).size.width * 0.05),
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () async {
+                  String? loadToken = await SharedPreferencesHelper.loadData('access_token');
+                  String? userId = await SharedPreferencesHelper.loadData('userId');
+
+                  
+
+                },
                 style: ButtonStyle(
                     backgroundColor: MaterialStateColor.resolveWith(
                         (states) => ColorsConstants.darkGreen)),

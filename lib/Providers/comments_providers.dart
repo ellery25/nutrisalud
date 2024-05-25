@@ -70,18 +70,28 @@ class Comment {
   }
 
   // HTTP: POST - Bearer token for authorization
-  static Future<http.Response> postComment(
-      Map<String, dynamic> comment, String token) async {
-    final response = await http.post(
-      Uri.parse('https://flask-jwt-flutter.onrender.com/api/comments'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-        'Authorization': 'Bearer $token',
-      },
-      body: jsonEncode(comment),
-    );
+static Future<http.Response> postComment(
+      String token, Map<String, dynamic> comment) async {
+    try {
+      final response = await http.post(
+        Uri.parse('https://flask-jwt-flutter.onrender.com/api/comments'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': 'Bearer $token',
+        },
+        body: jsonEncode(comment),
+      );
 
-    return response;
+      if (response.statusCode != 200) {
+        print('Server responded with status code ${response.statusCode}');
+        print('Response body: ${response.body}');
+      }
+
+      return response;
+    } catch (e) {
+      print('Failed to post comment: $e');
+      rethrow;
+    }
   }
 
   // HTTP: DELETE - Bearer token for authorization

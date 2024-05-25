@@ -5,7 +5,6 @@ export "UsersScreens/introduction.dart";
 export "./GlobalScreens/Login.dart";
 export "UsersScreens/main_page.dart";
 export "UsersScreens/Nutritionists.dart";
-export "UsersScreens/post_community.dart";
 export "NutritionistsScreens/post_pro_tip.dart";
 export 'UsersScreens/recommended_food.dart';
 export "./GlobalScreens/Register.dart";

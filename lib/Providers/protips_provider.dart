@@ -75,27 +75,29 @@ class ProTip {
 
   }
 
-  // HTTP: POST - Bearer token for authorization
-  static Future<void> postProTip(String token, ProTip proTip) async {
-    final response = await http.post(Uri.parse('https://flask-jwt-flutter.onrender.com/api/professional_tips'),
-    headers: <String, String> {
-      'Content-Type': 'application/json; charset=UTF-8',
-      'Authorization': 'Bearer $token',
-    },
-    body: jsonEncode(<String, dynamic>{
-      'title' : proTip.title,
-      'content' : proTip.content,
-      'nutritionist_id' : proTip.nutritionist_id,
-    }));
 
-    if(response.statusCode != 200){
+  // HTTP: POST - Bearer token for authorization
+    static Future<void> postProTip(
+        String token, String title, String content, String nutritionistId) async {
+      final response = await http.post(
+          Uri.parse(
+              'https://flask-jwt-flutter.onrender.com/api/professional_tips'),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Authorization': 'Bearer $token',
+          },
+          body: jsonEncode(<String, dynamic>{
+            'title': title,
+            'content': content,
+            'nutritionist_id': nutritionistId,
+          }));
+
+      if (response.statusCode < 200 || response.statusCode >= 300) {
       throw Exception('Failed to post ProTip');
     } else {
       print('ProTip posted');
     }
-
-  }
-
+    }
   // HTTP: DELETE - Bearer token for authorization
   static Future<void> deleteProTip(String token, String id) async {
     final response = await http.delete(Uri.parse('https://flask-jwt-flutter.onrender.com/api/professional_tips/$id'),

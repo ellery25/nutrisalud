@@ -16,7 +16,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  String rutaInicial = AppRoutes.welcome;
+  String? rutaInicial;
 
   @override
   void initState() {
@@ -26,9 +26,8 @@ class _MyAppState extends State<MyApp> {
 
   void definirRuta() async {
     String? idUsuario = await SharedPreferencesHelper.loadData("userId");
-    //String? idUsuario = "f0170f68-8c0d-4fd2-97b2-4f7b5b0a16ff";
 
-    if (idUsuario == null) {
+    if (idUsuario == '' || idUsuario == null) {
       setState(() {
         rutaInicial = AppRoutes.welcome;
       });
@@ -37,6 +36,7 @@ class _MyAppState extends State<MyApp> {
         rutaInicial = AppRoutes.home;
       });
     }
+    print(rutaInicial);
   }
 
   @override
@@ -65,7 +65,6 @@ class _MyAppState extends State<MyApp> {
         AppRoutes.register: (context) => const Register(),
         AppRoutes.login: (context) => const Login(),
         AppRoutes.introductionDoctor: (context) => const IntroductionDoctor(),
-        AppRoutes.postCommunity: (context) => const PostCommunity(),
         AppRoutes.postProTip: (context) => const PostProTip(),
         AppRoutes.setPageNutricionist: (context) => const SetPageNutricionist(),
       },

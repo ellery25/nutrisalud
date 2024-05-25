@@ -27,6 +27,8 @@ class _MainPageState extends State<MainPage> {
   List<Widget> professionalTipsList = [];
   String dato1Sesion = '';
   String dato2Sesion = '';
+  final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _contentController = TextEditingController();
 
   // Datos en cache
   bool firstTime = GetStorage().read("firstTimeMainPage") ?? true;
@@ -159,8 +161,93 @@ class _MainPageState extends State<MainPage> {
       floatingActionButton: isNutricionist == "true"
           ? FloatingActionButton(
               onPressed: () {
-                // Acciones para añadir un profesional tip
-                Navigator.pushNamed(context, AppRoutes.postProTip);
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    String title = '';
+                    String content = '';
+
+                    return SizedBox(
+                      height: screenHeight * 0.3,
+                      child: AlertDialog(
+                      title: const Text('Add a ProTip', style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700, color: ColorsConstants.darkGreen),),
+                      content: Column(
+                        children: <Widget>[
+                          TextFormField(
+                            controller: _titleController,
+                            decoration: const InputDecoration(hintText: "Título"),
+                          ),
+                          TextFormField(
+                            controller: _contentController,
+                            maxLines: null,
+                            decoration: const InputDecoration(hintText: "Contenido", border: InputBorder.none),)
+                        ],
+                      ),
+                      actions: <Widget>[
+                        TextButton(
+                          child: const Text('Cancelar'),
+                          onPressed: () {
+                            _contentController.clear();
+                            _titleController.clear();
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                        TextButton(
+                            child: const Text('Añadir'),
+                            onPressed: () async {
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(const SnackBar(
+                                content: Text(
+                                  'Posting ProTip...',
+                                  style: TextStyle(
+                                      color: ColorsConstants.whiteColor),
+                                ),
+                                duration: Duration(seconds: 1),
+                                backgroundColor: ColorsConstants.darkGreen,
+                              ));
+                              try {
+                                String? loadToken =
+                                    await SharedPreferencesHelper.loadData(
+                                        'access_token');
+                                if (loadToken == null) {
+                                  throw Exception('No hay token');
+                                }
+                                await ProTip.postProTip(
+                                    loadToken,
+                                    _titleController.text,
+                                    _contentController.text,
+                                    userId);
+                              } catch (e) {
+                                print('Failed to post ProTip: $e');
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(const SnackBar(
+                                  content: Text(
+                                    'Failed to post ProTip',
+                                    style: TextStyle(
+                                        color: ColorsConstants.whiteColor),
+                                  ),
+                                  duration: Duration(seconds: 1),
+                                  backgroundColor: ColorsConstants.darkGreen,
+                                ));
+
+                              } finally {
+                                Navigator.of(context).pop();
+                                _contentController.clear();
+                                _titleController.clear();
+                              }
+
+                              try {
+                                await llenarProTipsList();
+                              } catch (e) {
+                                print('Failed to load ProTips: $e');
+                              }
+                            },
+                          ),
+                      ],
+                    ),
+                    );
+                  },
+                );
               },
               backgroundColor: ColorsConstants.darkGreen,
               child: const Icon(Icons.add, color: ColorsConstants.whiteColor),
@@ -288,7 +375,7 @@ class _MainPageState extends State<MainPage> {
                 ),
               ),
               Text(
-                "@$dato2Sesion",
+                dato2Sesion,
                 style: const TextStyle(
                   color: ColorsConstants.darkGreen,
                   fontSize: 18,

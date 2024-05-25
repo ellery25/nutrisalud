@@ -13,11 +13,13 @@ class Nutricionists extends StatefulWidget {
 }
 
 class _NutricionistsState extends State<Nutricionists> {
+  // Variables control de paginas
   late int selectedPage;
+  int pageCount = 0;
   late final PageController _pageController;
 
+  // Variables de nutricards
   List<Widget> nutricardsList = [];
-  int pageCount = 0;
   bool isLoading = true;
 
   @override

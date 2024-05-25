@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:nutrisalud/Providers/users_providers.dart';
 import 'package:nutrisalud/Widgets/CommunityWidgets/community_post.dart';
 import 'package:nutrisalud/Widgets/GeneralWidgets/general_blocks.dart';
@@ -14,11 +15,20 @@ class Community extends StatefulWidget {
 }
 
 class _CommunityState extends State<Community> {
-  List<Widget> communityPostsList = [];
-  bool isLoading = true;
+  // Controladores de texto
+  final TextEditingController _commentController = TextEditingController();
+
+  // Variables de session
   String userId = '';
   String isNutricionist = "false";
-  final TextEditingController _commentController = TextEditingController();
+
+  // Variables for community posts
+  List<Widget> communityPostsList = [];
+  bool isLoading = true;
+
+  // Datos en cache
+  bool firstTime = GetStorage().read("firstTimeCommunityPage") ?? true;
+  //GetStorage().remove('communityPostsList');
 
   @override
   void initState() {
@@ -134,62 +144,83 @@ class _CommunityState extends State<Community> {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
 
-    return RefreshIndicator(onRefresh: ()async { await llenarCommunityPostsList();}, child: Scaffold(
-      // Si la variable isNutricionist es false, mostrar el botón flotante
-      floatingActionButton: isNutricionist == "false"
-          ? FloatingActionButton(
-              onPressed: () {
-                showDialog(context: context, builder: (BuildContext context) {
-                  return SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.5,
-                    child: AlertDialog(
-                      title: const Text('Add a comment', style: TextStyle(
+    return RefreshIndicator(
+        onRefresh: () async {
+          await llenarCommunityPostsList();
+        },
+        child: Scaffold(
+          // Si la variable isNutricionist es false, mostrar el botón flotante
+          floatingActionButton: isNutricionist == "false"
+              ? FloatingActionButton(
+                  onPressed: () {
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.5,
+                            child: AlertDialog(
+                              title: const Text('Add a comment',
+                                  style: TextStyle(
                                       fontSize: 24,
                                       fontWeight: FontWeight.w700,
                                       color: ColorsConstants.darkGreen)),
-                      content: Column(
-                        children: <Widget>[
-                          TextFormField(
-                            controller: _commentController,
-                            maxLines: null,
-                            decoration: const InputDecoration(
-                              hintText: 'Write your comment here',
-                              border: InputBorder.none
-                            ),
-                          )
-                        ],
-                      ),
-                      actions: <Widget>[
-                        TextButton(onPressed: () {
-                          _commentController.clear();
-                          Navigator.of(context).pop();
-                        }, child: const Text('Cancel', style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w700,
-                                      color: ColorsConstants.darkGreen))),
-                        TextButton(child: const Text('Comment' ,style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w700,
-                                      color: ColorsConstants.darkGreen)), onPressed: () async {
-                          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                            content: Text('Adding comment...', style: TextStyle(color: ColorsConstants.whiteColor),),
-                            duration: Duration(seconds: 1),
-                            backgroundColor: ColorsConstants.darkGreen,
-                          
-                          ));
-                          try {
-                            String? loadToken = await SharedPreferencesHelper.loadData('access_token');
-                            if(loadToken == null || loadToken == ''){
-                              throw Exception('Token not found');
-                            }
-                            await Comment.postComment(loadToken, <String, dynamic>{
-                              'content': _commentController.text,
-                              'photo': '',
-                              'timestamp': DateTime.now().toString(),
-                              'user_id': userId
-                            });
-                          } catch (e) {
-                            print('Failed to post comment: $e');
+                              content: Column(
+                                children: <Widget>[
+                                  TextFormField(
+                                    controller: _commentController,
+                                    maxLines: null,
+                                    decoration: const InputDecoration(
+                                        hintText: 'Write your comment here',
+                                        border: InputBorder.none),
+                                  )
+                                ],
+                              ),
+                              actions: <Widget>[
+                                TextButton(
+                                    onPressed: () {
+                                      _commentController.clear();
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: const Text('Cancel',
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w700,
+                                            color: ColorsConstants.darkGreen))),
+                                TextButton(
+                                  child: const Text('Comment',
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w700,
+                                          color: ColorsConstants.darkGreen)),
+                                  onPressed: () async {
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(const SnackBar(
+                                      content: Text(
+                                        'Adding comment...',
+                                        style: TextStyle(
+                                            color: ColorsConstants.whiteColor),
+                                      ),
+                                      duration: Duration(seconds: 1),
+                                      backgroundColor:
+                                          ColorsConstants.darkGreen,
+                                    ));
+                                    try {
+                                      String? loadToken =
+                                          await SharedPreferencesHelper
+                                              .loadData('access_token');
+                                      if (loadToken == null ||
+                                          loadToken == '') {
+                                        throw Exception('Token not found');
+                                      }
+                                      await Comment.postComment(
+                                          loadToken, <String, dynamic>{
+                                        'content': _commentController.text,
+                                        'photo': '',
+                                        'timestamp': DateTime.now().toString(),
+                                        'user_id': userId
+                                      });
+                                    } catch (e) {
+                                      print('Failed to post comment: $e');
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(const SnackBar(
                                         content: Text(
@@ -202,63 +233,65 @@ class _CommunityState extends State<Community> {
                                         backgroundColor:
                                             ColorsConstants.darkGreen,
                                       ));
-                          } finally {
-                            Navigator.of(context).pop();
-                            _commentController.clear();
-                          }
-                          
-                          try {
-                            await llenarCommunityPostsList();
-                          } catch (e) {
-                            print('Failed to load community posts: $e');
-                          }
+                                    } finally {
+                                      Navigator.of(context).pop();
+                                      _commentController.clear();
+                                    }
 
-                        },)
-                      ],
-                    ),
-                  );
-                });
-              },
-              backgroundColor: ColorsConstants.darkGreen,
-              child: const Icon(Icons.add, color: ColorsConstants.whiteColor),
-            )
-          : null,
-      backgroundColor: ColorsConstants.whiteColor,
-      body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.all(screenWidth * 0.05),
-          child: Column(
-            children: [
-              NavBar(
-                backButton: false,
-                title: "Community",
-                backRoute: () {},
-                updateButton: false,
-                updateRoute: () {
-                  setState(() {
-                    isLoading = true;
-                  });
-                  llenarCommunityPostsList();
-                },
+                                    try {
+                                      await llenarCommunityPostsList();
+                                    } catch (e) {
+                                      print(
+                                          'Failed to load community posts: $e');
+                                    }
+                                  },
+                                )
+                              ],
+                            ),
+                          );
+                        });
+                  },
+                  backgroundColor: ColorsConstants.darkGreen,
+                  child:
+                      const Icon(Icons.add, color: ColorsConstants.whiteColor),
+                )
+              : null,
+          backgroundColor: ColorsConstants.whiteColor,
+          body: SafeArea(
+            child: Padding(
+              padding: EdgeInsets.all(screenWidth * 0.05),
+              child: Column(
+                children: [
+                  NavBar(
+                    backButton: false,
+                    title: "Community",
+                    backRoute: () {},
+                    updateButton: false,
+                    updateRoute: () {
+                      setState(() {
+                        isLoading = true;
+                      });
+                      llenarCommunityPostsList();
+                    },
+                  ),
+                  Expanded(
+                    child: isLoading
+                        ? const Center(
+                            child: CircularProgressIndicator(
+                                color: ColorsConstants.darkGreen),
+                          )
+                        : SingleChildScrollView(
+                            child: Column(
+                              children: [
+                                ...communityPostsList,
+                              ],
+                            ),
+                          ),
+                  ),
+                ],
               ),
-              Expanded(
-                child: isLoading
-                    ? const Center(
-                        child: CircularProgressIndicator(
-                            color: ColorsConstants.darkGreen),
-                      )
-                    : SingleChildScrollView(
-                        child: Column(
-                          children: [
-                            ...communityPostsList,
-                          ],
-                        ),
-                      ),
-              ),
-            ],
+            ),
           ),
-        ),
-      ),
-    ));
+        ));
   }
 }

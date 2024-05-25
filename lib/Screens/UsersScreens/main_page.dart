@@ -9,7 +9,7 @@ import 'package:nutrisalud/Providers/users_providers.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:get_storage/get_storage.dart';
 
-// TODO: Eating time te redirigen a una pagina donde puedes cambiar el la comida y se guarda local
+// TODO: Darle alguna funcion a EatingTimeBlock
 // TODO: Hacer el get de Community Posts guardarlos en cache y luego hacerlo manual con boton de recargar
 // TODO: Hacer el get de Nutricionist guardarlos en cache y luego hacerlo manual con boton de recargar
 
@@ -21,48 +21,52 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  String isNutricionist = "false";
-  String userId = '';
-  bool isLoading = true;
-  List<Widget> professionalTipsList = [];
-  String dato1Sesion = '';
-  String dato2Sesion = '';
+  // Controladores de texto
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _contentController = TextEditingController();
 
-  // Datos en cache
-  bool firstTime = GetStorage().read("firstTimeMainPage") ?? true;
+  // Variables de session
+  String isNutricionist = "false";
+  String userId = '';
 
-  /* GetStorage
-  GetStorage().write('quote', 'GetX is the best');
-  GetStorage().read('quote');
-  GetStorage */
+  // Variables de ProTips
+  List<Widget> professionalTipsList = [];
+  bool isLoading = true;
+
+  // Variables de datos de sesión
+  String dato1Sesion = '';
+  String dato2Sesion = '';
+
+  // Datos en cache
+  bool firstTime = true;
 
   @override
   void initState() {
     super.initState();
 
-    // Load in cache
-    if (firstTime) {
-      llenarProTipsList();
-    } else {
-      isLoading = false;
+    // ↓ Load in cache ↓
+    cargarFirstTimeMainPage().then((_) {
+      if (firstTime) {
+        cargarProTipsList();
+      } else {
+        isLoading = false;
 
-      // Leer y deserializar los datos almacenados
-      List<dynamic> storedList = GetStorage().read('professionalTipsList');
-      professionalTipsList = storedList
-          .map<Widget>((item) => ProfessionalTipsBlock.fromJson(item))
-          .toList();
-    }
-    // Load in cache
+        // Leer y deserializar los datos almacenados
+        List<dynamic> storedList = GetStorage().read('professionalTipsList');
+        professionalTipsList = storedList
+            .map<Widget>((item) => ProfessionalTipsBlock.fromJson(item))
+            .toList();
+      }
+    });
+    // ↑ Load in cache ↑
 
-    _cargarIsNutricionist();
-    _cargarUserId().then((_) {
+    cargarIsNutricionist();
+    cargarUserId().then((_) {
       buscarInformacionSesion();
     });
   }
 
-  _cargarIsNutricionist() async {
+  cargarIsNutricionist() async {
     // Obtener el isNutricionist
     String? isNutricionist = await SharedPreferencesHelper.loadData('type');
     // Actualizar el estado para reflejar el userId
@@ -73,7 +77,7 @@ class _MainPageState extends State<MainPage> {
     }
   }
 
-  _cargarUserId() async {
+  cargarUserId() async {
     // Obtener el userId
     String? userId = await SharedPreferencesHelper.loadData('userId');
     // Actualizar el estado para reflejar el userId
@@ -82,7 +86,16 @@ class _MainPageState extends State<MainPage> {
     });
   }
 
-  Future<void> llenarProTipsList() async {
+  cargarFirstTimeMainPage() async {
+    // Obtener el firstTime
+    bool? firstTime = GetStorage().read('firstTimeMainPage') ?? true;
+    // Actualizar el estado para reflejar firstTime
+    setState(() {
+      this.firstTime = firstTime;
+    });
+  }
+
+  Future<void> cargarProTipsList() async {
     setState(() {
       isLoading = true;
     });
@@ -164,35 +177,42 @@ class _MainPageState extends State<MainPage> {
                 showDialog(
                   context: context,
                   builder: (BuildContext context) {
-                    String title = '';
-                    String content = '';
-
                     return SizedBox(
                       height: screenHeight * 0.3,
                       child: AlertDialog(
-                      title: const Text('Add a ProTip', style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700, color: ColorsConstants.darkGreen),),
-                      content: Column(
-                        children: <Widget>[
-                          TextFormField(
-                            controller: _titleController,
-                            decoration: const InputDecoration(hintText: "Título"),
-                          ),
-                          TextFormField(
-                            controller: _contentController,
-                            maxLines: null,
-                            decoration: const InputDecoration(hintText: "Contenido", border: InputBorder.none),)
-                        ],
-                      ),
-                      actions: <Widget>[
-                        TextButton(
-                          child: const Text('Cancelar'),
-                          onPressed: () {
-                            _contentController.clear();
-                            _titleController.clear();
-                            Navigator.of(context).pop();
-                          },
+                        title: const Text(
+                          'Add a ProTip',
+                          style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.w700,
+                              color: ColorsConstants.darkGreen),
                         ),
-                        TextButton(
+                        content: Column(
+                          children: <Widget>[
+                            TextFormField(
+                              controller: _titleController,
+                              decoration:
+                                  const InputDecoration(hintText: "Título"),
+                            ),
+                            TextFormField(
+                              controller: _contentController,
+                              maxLines: null,
+                              decoration: const InputDecoration(
+                                  hintText: "Contenido",
+                                  border: InputBorder.none),
+                            )
+                          ],
+                        ),
+                        actions: <Widget>[
+                          TextButton(
+                            child: const Text('Cancelar'),
+                            onPressed: () {
+                              _contentController.clear();
+                              _titleController.clear();
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                          TextButton(
                             child: const Text('Añadir'),
                             onPressed: () async {
                               ScaffoldMessenger.of(context)
@@ -229,7 +249,6 @@ class _MainPageState extends State<MainPage> {
                                   duration: Duration(seconds: 1),
                                   backgroundColor: ColorsConstants.darkGreen,
                                 ));
-
                               } finally {
                                 Navigator.of(context).pop();
                                 _contentController.clear();
@@ -237,14 +256,14 @@ class _MainPageState extends State<MainPage> {
                               }
 
                               try {
-                                await llenarProTipsList();
+                                await cargarProTipsList();
                               } catch (e) {
                                 print('Failed to load ProTips: $e');
                               }
                             },
                           ),
-                      ],
-                    ),
+                        ],
+                      ),
                     );
                   },
                 );
@@ -315,7 +334,7 @@ class _MainPageState extends State<MainPage> {
                           GestureDetector(
                             onTap: () {
                               isLoading = true;
-                              llenarProTipsList();
+                              cargarProTipsList();
                             },
                             child: const Padding(
                               padding: EdgeInsets.only(right: 10.0),
@@ -421,7 +440,22 @@ class _MainPageState extends State<MainPage> {
                     ),
                     ElevatedButton(
                       onPressed: () async {
+                        // Delete Session data
                         await SharedPreferencesHelper.saveData('userId', "");
+                        await SharedPreferencesHelper.saveData(
+                            'access_token', "");
+
+                        // Delete Cache
+                        //MainPage
+                        GetStorage().remove('firstTimeMainPage');
+                        GetStorage().remove('professionalTipsList');
+                        //Nutricionists
+                        GetStorage().remove('firstTimeNutritionistsPage');
+                        GetStorage().remove('nutricardsList');
+                        //Community
+                        GetStorage().remove('firstTimeCommunityPage');
+                        GetStorage().remove('communityPostsList');
+
                         if (!context.mounted) return;
                         Navigator.pushReplacementNamed(
                             currentContext, AppRoutes.welcome);

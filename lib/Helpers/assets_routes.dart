@@ -11,4 +11,5 @@ class AssetsRoutes {
   static const String commentSvg = 'assets/svgs/comment.svg';
   static const String editSvg = 'assets/svgs/edit.svg';
   static const String githubSvg = 'assets/svgs/github.svg';
+  static const String immageSvg = 'assets/svgs/bx-image.svg';
 }

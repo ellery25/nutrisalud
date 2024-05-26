@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:nutrisalud/Helpers/helpers_export.dart';
 import 'package:nutrisalud/Preferences/save_load.dart';
@@ -5,7 +7,7 @@ import 'package:get/get.dart';
 
 class CommunityPost extends StatefulWidget {
   final String contenido;
-  final String? foto;
+  final Uint8List? foto;
   final String horas;
   final String nombre;
   final String username;
@@ -99,36 +101,29 @@ class _CommunityPostState extends State<CommunityPost> {
                   ],
                 ),
               ),
-              Text(
-                widget.contenido,
-                style: const TextStyle(
-                  fontFamily: 'Inter',
-                  fontSize: 15,
-                  fontWeight: FontWeight.w400,
-                  color: ColorsConstants.darkGreen,
+              Container(
+                margin: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height * 0.01),
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  widget.contenido,
+                  style: const TextStyle(
+                    fontFamily: 'Inter',
+                    fontSize: 15,
+                    fontWeight: FontWeight.w400,
+                    color: ColorsConstants.darkGreen,
+                  ),
                 ),
               ),
               if (widget.foto != null) ...[
-                Padding(
-                  padding: const EdgeInsets.only(top: 10.0),
-                  child: Container(
-                    width: screenWidth * 0.80,
-                    height: 150,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5.0),
-                      color: Colors.white,
-                      border: Border.all(color: ColorsConstants.darkGreen),
-                    ),
-                    child: Center(
-                      child: Image.asset(widget.foto!),
-                    ),
-                  ),
-                ),
+                Container(
+                  width: screenWidth * 0.8,
+                  child: Image.memory(widget.foto!, height: 300, fit: BoxFit.fitWidth,),
+                )
               ],
               if (userId == widget.userIdWidget) ...[
                 // Boton de borrar
                 Container(
-                  alignment: Alignment.bottomRight,
+                  alignment: Alignment.bottomLeft,
                   child: IconButton(
                       onPressed: () {
                         // Delete del comentario

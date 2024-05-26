@@ -1,18 +1,24 @@
+// Importaciones de dependencias
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
 import 'package:flutter_svg/svg.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
+
+// Importaciones de los providers
 import 'package:nutrisalud/Providers/users_providers.dart';
-import 'package:nutrisalud/Widgets/CommunityWidgets/community_post.dart';
-import 'package:nutrisalud/Widgets/GeneralWidgets/general_blocks.dart';
 import 'package:nutrisalud/Providers/comments_providers.dart';
+
+// Importaciones de helpers
 import 'package:nutrisalud/Preferences/save_load.dart';
 import 'package:nutrisalud/Helpers/helpers_export.dart';
-import 'package:intl/intl.dart';
+
+// Importaciones de widgets
+import 'package:nutrisalud/Widgets/CommunityWidgets/community_post.dart';
+import 'package:nutrisalud/Widgets/GeneralWidgets/general_blocks.dart';
 
 class Community extends StatefulWidget {
   const Community({super.key});
@@ -89,11 +95,11 @@ class _CommunityState extends State<Community> {
           await User.getUserById(loadToken, comentario.user_id);
 
       Uint8List imageBytes;
-      
+
       if (comentario.photo != null && comentario.photo != '') {
-        try{
+        try {
           imageBytes = base64Decode(comentario.photo!);
-          print('Image bytes: $imageBytes');
+          // print('Image bytes: $imageBytes');
           return CommunityPost(
               horas: formattedDate!,
               foto: imageBytes,
@@ -146,8 +152,8 @@ class _CommunityState extends State<Community> {
         } catch (e) {
           print('Error decoding image: $e');
         }
-      } 
-      
+      }
+
       return CommunityPost(
           horas: formattedDate!,
           contenido: comentario.content,

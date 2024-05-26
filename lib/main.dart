@@ -16,27 +16,24 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  String? rutaInicial;
+  late Future<String?> rutaInicial;
 
   @override
   void initState() {
-    definirRuta();
     super.initState();
+    rutaInicial = definirRuta();
   }
 
-  void definirRuta() async {
+  Future<String?> definirRuta() async {
     String? idUsuario = await SharedPreferencesHelper.loadData("userId");
 
     if (idUsuario == '' || idUsuario == null) {
-      setState(() {
-        rutaInicial = AppRoutes.welcome;
-      });
+      print("No hay usuario logueado");
+      return AppRoutes.welcome;
     } else {
-      setState(() {
-        rutaInicial = AppRoutes.home;
-      });
+      print("Hay usuario logueado");
+      return AppRoutes.home;
     }
-    print(rutaInicial);
   }
 
   @override
@@ -46,26 +43,40 @@ class _MyAppState extends State<MyApp> {
           .copyWith(statusBarColor: ColorsConstants.whiteColor),
     );
 
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Nutrisalud',
-      theme: ThemeData(
-        colorScheme:
-            ColorScheme.fromSeed(seedColor: ColorsConstants.whiteColor),
-        useMaterial3: true,
-      ),
-      initialRoute: rutaInicial,
-      routes: {
-        AppRoutes.home: (context) => const NutrisaludBtBar(),
-        AppRoutes.nutricionist: (context) => const Nutricionists(),
-        AppRoutes.search: (context) => const Search(),
-        AppRoutes.welcome: (context) => const WelcomeScreen(),
-        AppRoutes.introduction: (context) => const Introduction(),
-        AppRoutes.chooseAccount: (context) => const ChooseAccount(),
-        AppRoutes.register: (context) => const Register(),
-        AppRoutes.login: (context) => const Login(),
-        AppRoutes.introductionDoctor: (context) => const IntroductionDoctor(),
-        AppRoutes.setPageNutricionist: (context) => const SetPageNutricionist(),
+    return FutureBuilder<String?>(
+      future: rutaInicial,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasError) {
+          return const Center(child: Text("Error loading initial route"));
+        } else {
+          final rutaInicial = snapshot.data;
+          return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            title: 'Nutrisalud',
+            theme: ThemeData(
+              colorScheme:
+                  ColorScheme.fromSeed(seedColor: ColorsConstants.whiteColor),
+              useMaterial3: true,
+            ),
+            initialRoute: rutaInicial,
+            routes: {
+              AppRoutes.home: (context) => const NutrisaludBtBar(),
+              AppRoutes.nutricionist: (context) => const Nutricionists(),
+              AppRoutes.search: (context) => const Search(),
+              AppRoutes.welcome: (context) => const WelcomeScreen(),
+              AppRoutes.introduction: (context) => const Introduction(),
+              AppRoutes.chooseAccount: (context) => const ChooseAccount(),
+              AppRoutes.register: (context) => const Register(),
+              AppRoutes.login: (context) => const Login(),
+              AppRoutes.introductionDoctor: (context) =>
+                  const IntroductionDoctor(),
+              AppRoutes.setPageNutricionist: (context) =>
+                  const SetPageNutricionist(),
+            },
+          );
+        }
       },
     );
   }

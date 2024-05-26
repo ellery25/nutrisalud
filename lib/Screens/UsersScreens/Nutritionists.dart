@@ -24,10 +24,10 @@ class _NutricionistsState extends State<Nutricionists> {
 
   @override
   void initState() {
+    super.initState();
     selectedPage = 0;
     _pageController = PageController(initialPage: selectedPage);
     loadNutricionistas();
-    super.initState();
   }
 
   Future<void> loadNutricionistas() async {

@@ -102,7 +102,8 @@ class _CommunityPostState extends State<CommunityPost> {
                 ),
               ),
               Container(
-                margin: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height * 0.01),
+                margin: EdgeInsets.symmetric(
+                    vertical: MediaQuery.of(context).size.height * 0.01),
                 alignment: Alignment.centerLeft,
                 child: Text(
                   widget.contenido,
@@ -117,7 +118,15 @@ class _CommunityPostState extends State<CommunityPost> {
               if (widget.foto != null) ...[
                 Container(
                   width: screenWidth * 0.8,
-                  child: Image.memory(widget.foto!, height: 300, fit: BoxFit.fitWidth,),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  clipBehavior: Clip.hardEdge,
+                  child: Image.memory(
+                    widget.foto!,
+                    height: 300,
+                    fit: BoxFit.fitWidth,
+                  ),
                 )
               ],
               if (userId == widget.userIdWidget) ...[

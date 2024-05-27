@@ -5,12 +5,11 @@ import 'package:nutrisalud/Providers/nutritionists_providers.dart';
 
 class SetPageNutricionist extends StatefulWidget {
   const SetPageNutricionist({super.key});
-
   @override
-  _SetPageNutricionist createState() => _SetPageNutricionist();
+  State<SetPageNutricionist> createState() => _SetPageNutricionistState();
 }
 
-class _SetPageNutricionist extends State<SetPageNutricionist> {
+class _SetPageNutricionistState extends State<SetPageNutricionist> {
   // Opción seleccionada por defecto
   bool _isVisible = false;
   bool _isVisible2 = false;

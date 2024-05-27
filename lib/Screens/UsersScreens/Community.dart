@@ -41,7 +41,6 @@ class _CommunityState extends State<Community> {
 
   // Datos en cache
   bool firstTime = GetStorage().read("firstTimeCommunityPage") ?? true;
-  //GetStorage().remove('communityPostsList');
 
   @override
   void initState() {

@@ -2,6 +2,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:nutrisalud/Preferences/save_load.dart';
 import 'package:flutter/material.dart';
 import 'package:nutrisalud/Providers/nutritionists_providers.dart';
+import 'package:nutrisalud/Providers/validate_jwt.dart';
 import 'package:nutrisalud/Widgets/MainPageWidgets/main_page_blocks.dart';
 import 'package:nutrisalud/Helpers/helpers_export.dart';
 import 'package:nutrisalud/Providers/protips_provider.dart';
@@ -44,6 +45,10 @@ class _MainPageState extends State<MainPage> {
   void initState() {
     super.initState();
 
+    // ↓ Validate JWT ↓
+    validateJWT();
+    // ↑ Validate JWT ↑
+
     // ↓ Load in cache ↓
     cargarFirstTimeMainPage().then((_) {
       if (firstTime) {
@@ -64,6 +69,26 @@ class _MainPageState extends State<MainPage> {
     cargarUserId().then((_) {
       buscarInformacionSesion();
     });
+  }
+
+  validateJWT() async {
+    // Obtener el token
+    String? loadToken = await SharedPreferencesHelper.loadData('access_token');
+    if (loadToken == null) {
+      // Si no hay token, redirigir a la pantalla de bienvenida
+      print('No hay token');
+      Navigator.pushReplacementNamed(context, AppRoutes.welcome);
+    } else {
+      // Validar el token
+      if (await ValidateJWT.getValidateJWT(loadToken)) {
+        // Si el token es válido, continuar
+        print('Token válido');
+      } else {
+        // Si el token no es válido, redirigir a la pantalla de bienvenida
+        print('Token inválido');
+        Navigator.pushReplacementNamed(context, AppRoutes.welcome);
+      }
+    }
   }
 
   cargarIsNutricionist() async {

@@ -7,6 +7,7 @@ export "UsersScreens/main_page.dart";
 export "UsersScreens/nutritionists.dart";
 export 'UsersScreens/recommended_food.dart';
 export "./GlobalScreens/register.dart";
-export "UsersScreens/search.dart";
 export "NutritionistsScreens/set_page_nutricionist.dart";
 export "GlobalScreens/welcome.dart";
+export 'UsersScreens/searching_delegate.dart';
+export '../Widgets/SearchWidgets/recipe_details.dart';

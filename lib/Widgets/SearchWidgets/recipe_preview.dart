@@ -2,152 +2,92 @@ import 'package:flutter/material.dart';
 import 'package:nutrisalud/Helpers/helpers_export.dart';
 
 class RecipePreview extends StatelessWidget {
-  final String foto;
-  final String nombre;
-  final String descripcion;
-  final double calorias;
-  final double proteinas;
-  final double peso;
+  final String idmeal;
+  final String nameRecipe;
+  final String imageRecipe;
+  final String category;
+  final String area;
+  final VoidCallback onTap;
 
-  const RecipePreview({
-    super.key,
-    required this.foto,
-    required this.nombre,
-    required this.descripcion,
-    required this.calorias,
-    required this.proteinas,
-    required this.peso,
-  });
+  const RecipePreview(
+      {super.key,
+      required this.idmeal,
+      required this.nameRecipe,
+      required this.imageRecipe,
+      required this.category,
+      required this.area,
+      required this.onTap});
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
-
-    return Container(
-      decoration: const BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(10.0)),
-        color: ColorsConstants.lightGreen,
-      ),
-      height: screenHeight * 0.45,
-      width: screenWidth * 0.80,
-      child: Padding(
-        padding: EdgeInsets.all(screenWidth * 0.05),
-        child: Center(
-          child: Column(
-            children: [
-              Container(
-                width: 120,
-                height: 120,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  image: DecorationImage(
-                    image: AssetImage(foto),
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
-              const Spacer(),
-              Text(
-                nombre,
+    final double width = MediaQuery.of(context).size.width;
+    final double height = MediaQuery.of(context).size.height;
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        margin: EdgeInsets.symmetric(
+            vertical: height * 0.02, horizontal: width * 0.12),
+        alignment: Alignment.center,
+        width: width * 0.8,
+        padding: EdgeInsets.symmetric(
+            vertical: height * 0.02, horizontal: width * 0.03),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(15),
+            color: ColorsConstants.darkGreen),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(height: height * 0.01),
+            Container(
+              alignment: Alignment.center,
+              child: Text(
+                nameRecipe,
                 style: const TextStyle(
-                  fontFamily: 'Inter',
-                  fontSize: 28,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.white,
-                ),
-              ),
-              Text(
-                descripcion,
+                    color: ColorsConstants.whiteColor,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    fontStyle: FontStyle.italic),
                 textAlign: TextAlign.center,
-                style: const TextStyle(
-                  fontFamily: 'Inter',
-                  fontSize: 15,
-                  fontWeight: FontWeight.w200,
-                  color: Colors.white,
-                ),
               ),
-              const Spacer(),
-              Row(
-                children: [
-                  Column(
-                    children: <Widget>[
-                      const Text(
-                        "Calories",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontFamily: 'Inter',
-                          fontSize: 15,
-                          fontWeight: FontWeight.w800,
-                          color: Colors.white,
-                        ),
-                      ),
-                      Text(
-                        '$calorias cals',
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                          fontFamily: 'Inter',
-                          fontSize: 15,
-                          fontWeight: FontWeight.w200,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const Spacer(),
-                  Column(
-                    children: <Widget>[
-                      const Text(
-                        "Proteins",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontFamily: 'Inter',
-                          fontSize: 15,
-                          fontWeight: FontWeight.w800,
-                          color: Colors.white,
-                        ),
-                      ),
-                      Text(
-                        '$proteinas g',
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                          fontFamily: 'Inter',
-                          fontSize: 15,
-                          fontWeight: FontWeight.w200,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const Spacer(),
-                  Column(
-                    children: <Widget>[
-                      const Text(
-                        "Weight",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontFamily: 'Inter',
-                          fontSize: 15,
-                          fontWeight: FontWeight.w800,
-                          color: Colors.white,
-                        ),
-                      ),
-                      Text(
-                        '$peso g',
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                          fontFamily: 'Inter',
-                          fontSize: 15,
-                          fontWeight: FontWeight.w200,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ],
-                  ),
+            ),
+            SizedBox(height: height * 0.01),
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+              clipBehavior: Clip.hardEdge,
+              child: Opacity(
+                opacity: 0.7,
+                child: Image.network(imageRecipe,
+                    height: 280, fit: BoxFit.fitWidth)),
+            ),
+            SizedBox(height: height * 0.015),
+            Text("$area Food",
+                style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                    color: ColorsConstants.whiteColor)),
+            SizedBox(height: height * 0.01),
+            RichText(
+              text: TextSpan(
+                style: DefaultTextStyle.of(context).style,
+                children: <TextSpan>[
+                  const TextSpan(
+                      text: 'Category: ',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 17,
+                          color: ColorsConstants.whiteColor)),
+                  TextSpan(
+                      text: category,
+                      style: const TextStyle(
+                          fontWeight: FontWeight.normal,
+                          fontSize: 16,
+                          color: ColorsConstants.whiteColor)),
                 ],
-              )
-            ],
-          ),
+              ),
+            ),
+          ],
         ),
       ),
     );

@@ -377,7 +377,7 @@ class _CommunityState extends State<Community> {
                     backButton: false,
                     title: "Community",
                     backRoute: () {},
-                    updateButton: false,
+                    updateButton: true,
                     updateRoute: () {
                       setState(() {
                         isLoading = true;

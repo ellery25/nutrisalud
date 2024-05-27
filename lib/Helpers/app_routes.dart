@@ -11,4 +11,5 @@ class AppRoutes {
   static const String postCommunity = '/postCommunity';
   static const String postProTip = '/postProTip';
   static const String setPageNutricionist = '/set_page_nutricionist';
+  static const String recipeDetails = '/recipeDetails';
 }

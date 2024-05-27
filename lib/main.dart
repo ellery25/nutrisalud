@@ -64,7 +64,6 @@ class _MyAppState extends State<MyApp> {
             routes: {
               AppRoutes.home: (context) => const NutrisaludBtBar(),
               AppRoutes.nutricionist: (context) => const Nutricionists(),
-              AppRoutes.search: (context) => const Search(),
               AppRoutes.welcome: (context) => const WelcomeScreen(),
               AppRoutes.introduction: (context) => const Introduction(),
               AppRoutes.chooseAccount: (context) => const ChooseAccount(),

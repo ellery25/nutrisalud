@@ -22,73 +22,137 @@ class RecipePreview extends StatelessWidget {
   Widget build(BuildContext context) {
     final double width = MediaQuery.of(context).size.width;
     final double height = MediaQuery.of(context).size.height;
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        margin: EdgeInsets.symmetric(
-            vertical: height * 0.02, horizontal: width * 0.12),
-        alignment: Alignment.center,
-        width: width * 0.8,
-        padding: EdgeInsets.symmetric(
-            vertical: height * 0.02, horizontal: width * 0.03),
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(15),
-            color: ColorsConstants.darkGreen),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(height: height * 0.01),
-            Container(
-              alignment: Alignment.center,
-              child: Text(
-                nameRecipe,
-                style: const TextStyle(
-                    color: ColorsConstants.whiteColor,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    fontStyle: FontStyle.italic),
-                textAlign: TextAlign.center,
+    return Container(
+      margin: EdgeInsets.symmetric(
+          vertical: height * 0.02, horizontal: width * 0.12),
+      alignment: Alignment.center,
+      width: width * 0.8,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(15),
+          color: ColorsConstants.lightGreen),
+      child: Column(
+        children: [
+          Container(
+            width: width * 0.8,
+            decoration: BoxDecoration(
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(15.0),
+                topRight: Radius.circular(15.0),
               ),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.5),
+                  spreadRadius: 2,
+                  blurRadius: 5,
+                  offset: const Offset(0, 2),
+                ),
+              ],
             ),
-            SizedBox(height: height * 0.01),
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10.0),
+            clipBehavior: Clip.hardEdge,
+            child: Image.network(imageRecipe, fit: BoxFit.cover),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              nameRecipe,
+              style: const TextStyle(
+                color: ColorsConstants.whiteColor,
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
               ),
-              clipBehavior: Clip.hardEdge,
-              child: Opacity(
-                opacity: 0.7,
-                child: Image.network(imageRecipe,
-                    height: 280, fit: BoxFit.fitWidth)),
+              textAlign: TextAlign.center,
             ),
-            SizedBox(height: height * 0.015),
-            Text("$area Food",
-                style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18,
-                    color: ColorsConstants.whiteColor)),
-            SizedBox(height: height * 0.01),
-            RichText(
-              text: TextSpan(
-                style: DefaultTextStyle.of(context).style,
-                children: <TextSpan>[
-                  const TextSpan(
-                      text: 'Category: ',
+          ),
+          Row(
+            children: [
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 2.0, horizontal: 12.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      'Origin: ',
                       style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 17,
-                          color: ColorsConstants.whiteColor)),
-                  TextSpan(
-                      text: category,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                        color: ColorsConstants.whiteColor,
+                      ),
+                    ),
+                    Text(
+                      area,
                       style: const TextStyle(
-                          fontWeight: FontWeight.normal,
-                          fontSize: 16,
-                          color: ColorsConstants.whiteColor)),
-                ],
+                        fontSize: 20,
+                        color: ColorsConstants.whiteColor,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 2.0, horizontal: 12.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      'Category: ',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                        color: ColorsConstants.whiteColor,
+                      ),
+                    ),
+                    Text(
+                      category,
+                      style: const TextStyle(
+                        fontSize: 20,
+                        color: ColorsConstants.whiteColor,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          GestureDetector(
+            onTap: onTap,
+            child: Container(
+              margin: const EdgeInsets.symmetric(vertical: 20),
+              width: (width * 0.8) - 50,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  color: ColorsConstants.whiteColor),
+              child: const Center(
+                child: Padding(
+                  padding: EdgeInsets.all(5.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Details ',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 22,
+                          color: ColorsConstants.darkGreen,
+                        ),
+                      ),
+                      Icon(
+                        Icons.open_in_new,
+                        color: ColorsConstants.darkGreen,
+                        size: 22,
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

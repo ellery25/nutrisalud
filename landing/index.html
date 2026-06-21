@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NutriSalud — Your Personal Nutrition Companion | Healthy Eating &amp; Gut Health App</title>
+  <meta name="description" content="NutriSalud helps you discover meals, understand your digestion, and build lasting healthy habits. Smart meal discovery, food journal, IBS-friendly guides and nutrition goals — free.">
+  <meta name="keywords" content="nutrition app, healthy eating, gut health, IBS friendly recipes, food journal, meal discovery, digestive health, nutrition goals, NutriSalud">
+  <link rel="canonical" href="https://nutrisalud.app/">
+  <meta name="theme-color" content="#3E7C3A">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="NutriSalud">
+  <meta property="og:title" content="NutriSalud — Your Personal Nutrition Companion">
+  <meta property="og:description" content="Discover meals, understand your digestion, and build habits that last.">
+  <meta property="og:url" content="https://nutrisalud.app/">
+  <meta property="og:locale" content="en_US">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="NutriSalud — Your Personal Nutrition Companion">
+  <meta name="twitter:description" content="Discover meals, understand your digestion, and build habits that last.">
+
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "MobileApplication",
+    "name": "NutriSalud",
+    "alternateName": "NutriSalud — Your Personal Nutrition Companion",
+    "description": "Discover meals, understand your digestion, and build habits that last. Smart meal discovery, digestive health education, food journal, nutrition goals and reminders.",
+    "operatingSystem": "Android",
+    "applicationCategory": "HealthApplication",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "url": "https://nutrisalud.app/",
+    "sameAs": ["https://github.com/ellery25/nutrisalud"]
+  }
+  </script>
+
+  <style>
+    :root {
+      --green: #3E7C3A;
+      --green-dark: #2C5E2E;
+      --green-soft: #A3C9A0;
+      --bg: #FAFAF7;
+      --ink: #1C1F1C;
+      --accent: #E8A04C;
+      --radius: 16px;
+      --shadow: 0 4px 20px rgba(28, 31, 28, 0.08);
+      --shadow-lg: 0 12px 40px rgba(28, 31, 28, 0.12);
+      --maxw: 1140px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 84px;
+    }
+
+    body {
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    img, svg { display: block; max-width: 100%; }
+
+    a { color: var(--green-dark); }
+
+    :focus-visible {
+      outline: 3px solid var(--accent);
+      outline-offset: 3px;
+      border-radius: 4px;
+    }
+
+    .container {
+      max-width: var(--maxw);
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .skip-link {
+      position: absolute;
+      left: -9999px;
+      top: 0;
+      background: var(--green-dark);
+      color: #fff;
+      padding: 12px 20px;
+      border-radius: 0 0 12px 0;
+      z-index: 200;
+      text-decoration: none;
+    }
+    .skip-link:focus { left: 0; }
+
+    /* ===== Header ===== */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(250, 250, 247, 0.92);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(62, 124, 58, 0.12);
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      min-height: 68px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--ink);
+      font-weight: 800;
+      font-size: 1.2rem;
+      letter-spacing: -0.02em;
+    }
+    .brand .logo-mark { flex: none; }
+    .brand span em { font-style: normal; color: var(--green); }
+
+    .nav-toggle {
+      display: none;
+      background: none;
+      border: 2px solid var(--green);
+      border-radius: 12px;
+      padding: 8px 10px;
+      cursor: pointer;
+      color: var(--green-dark);
+    }
+    .nav-toggle svg { width: 22px; height: 22px; }
+    .nav-toggle .icon-close { display: none; }
+    .nav-toggle[aria-expanded="true"] .icon-burger { display: none; }
+    .nav-toggle[aria-expanded="true"] .icon-close { display: block; }
+
+    .site-nav {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+    .site-nav a {
+      text-decoration: none;
+      color: var(--ink);
+      font-weight: 500;
+      font-size: 0.95rem;
+      padding: 6px 2px;
+      border-bottom: 2px solid transparent;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .site-nav a:hover { color: var(--green); border-bottom-color: var(--green-soft); }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 12px 24px;
+      border-radius: var(--radius);
+      font-weight: 600;
+      font-size: 0.95rem;
+      text-decoration: none;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+    }
+    .btn:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
+    .btn-primary { background: var(--green); color: #fff; }
+    .btn-primary:hover { background: var(--green-dark); }
+    .btn-secondary {
+      background: transparent;
+      color: var(--green-dark);
+      border-color: var(--green);
+    }
+    .btn-secondary:hover { background: rgba(163, 201, 160, 0.18); }
+    .site-nav .btn { padding: 10px 20px; }
+
+    /* ===== Hero ===== */
+    .hero {
+      padding: 72px 0 88px;
+      background:
+        radial-gradient(1100px 480px at 85% -10%, rgba(163, 201, 160, 0.30), transparent 65%),
+        radial-gradient(800px 420px at -10% 110%, rgba(232, 160, 76, 0.12), transparent 60%);
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 56px;
+      align-items: center;
+    }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(62, 124, 58, 0.10);
+      color: var(--green-dark);
+      font-weight: 600;
+      font-size: 0.82rem;
+      padding: 6px 14px;
+      border-radius: 999px;
+      margin-bottom: 20px;
+      letter-spacing: 0.02em;
+    }
+    .hero h1 {
+      font-size: clamp(2rem, 4.5vw, 3.1rem);
+      line-height: 1.12;
+      letter-spacing: -0.03em;
+      font-weight: 800;
+      margin-bottom: 18px;
+    }
+    .hero h1 .accent { color: var(--green); }
+    .hero .subhead {
+      font-size: clamp(1.05rem, 2vw, 1.25rem);
+      color: #4A524A;
+      max-width: 34ch;
+      margin-bottom: 32px;
+    }
+    .hero-ctas { display: flex; flex-wrap: wrap; gap: 14px; margin-bottom: 32px; }
+    .hero-trust {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+      color: #4A524A;
+      font-size: 0.88rem;
+    }
+    .hero-trust li { list-style: none; display: flex; align-items: center; gap: 7px; }
+    .hero-trust svg { width: 16px; height: 16px; flex: none; }
+
+    /* ===== Phone mockups (pure CSS) ===== */
+    .phone {
+      width: 280px;
+      border-radius: 36px;
+      background: #1C1F1C;
+      padding: 12px;
+      box-shadow: var(--shadow-lg);
+      margin: 0 auto;
+    }
+    .phone-screen {
+      background: var(--bg);
+      border-radius: 26px;
+      overflow: hidden;
+      min-height: 520px;
+      display: flex;
+      flex-direction: column;
+    }
+    .phone-notch {
+      width: 90px;
+      height: 22px;
+      background: #1C1F1C;
+      border-radius: 0 0 14px 14px;
+      margin: 0 auto;
+    }
+    .screen-body { padding: 16px 16px 20px; flex: 1; display: flex; flex-direction: column; gap: 14px; }
+
+    .app-greeting { display: flex; align-items: center; justify-content: space-between; }
+    .app-greeting .hello { font-size: 0.95rem; font-weight: 700; }
+    .app-greeting .sub { font-size: 0.7rem; color: #6B746B; }
+    .avatar {
+      width: 34px; height: 34px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--green-soft), var(--green));
+      flex: none;
+    }
+
+    .goal-card {
+      background: #fff;
+      border-radius: 14px;
+      padding: 14px;
+      box-shadow: 0 2px 10px rgba(28,31,28,0.06);
+    }
+    .goal-card h3 { font-size: 0.78rem; margin-bottom: 10px; }
+    .progress-row { margin-bottom: 9px; }
+    .progress-row:last-child { margin-bottom: 0; }
+    .progress-label {
+      display: flex; justify-content: space-between;
+      font-size: 0.62rem; color: #5A635A; margin-bottom: 4px; font-weight: 500;
+    }
+    .progress-track {
+      height: 7px; background: #ECEFEA; border-radius: 999px; overflow: hidden;
+    }
+    .progress-fill { height: 100%; border-radius: 999px; background: var(--green); }
+    .progress-fill.warm { background: var(--accent); }
+    .progress-fill.soft { background: var(--green-soft); }
+
+    .meal-card {
+      display: flex; align-items: center; gap: 11px;
+      background: #fff; border-radius: 14px; padding: 11px;
+      box-shadow: 0 2px 10px rgba(28,31,28,0.06);
+    }
+    .meal-thumb {
+      width: 46px; height: 46px; border-radius: 11px; flex: none;
+    }
+    .meal-thumb.t1 { background: linear-gradient(135deg, #A3C9A0, #3E7C3A); }
+    .meal-thumb.t2 { background: linear-gradient(135deg, #E8A04C, #C97B2D); }
+    .meal-thumb.t3 { background: linear-gradient(135deg, #7FB07B, #2C5E2E); }
+    .meal-info .name { font-size: 0.72rem; font-weight: 700; }
+    .meal-info .meta { font-size: 0.6rem; color: #6B746B; }
+    .meal-tag {
+      margin-left: auto; font-size: 0.55rem; font-weight: 700;
+      color: var(--green-dark); background: rgba(163,201,160,0.35);
+      padding: 3px 8px; border-radius: 999px; white-space: nowrap;
+    }
+
+    .app-navbar {
+      margin-top: auto;
+      display: flex; justify-content: space-around;
+      background: #fff; padding: 10px 6px 12px;
+      border-top: 1px solid #ECEFEA;
+    }
+    .app-navbar i {
+      width: 22px; height: 6px; border-radius: 999px; background: #D5DCD4;
+    }
+    .app-navbar i.active { background: var(--green); }
+
+    .section-title-sm { font-size: 0.85rem; font-weight: 800; }
+
+    /* Discover screen */
+    .search-bar {
+      background: #fff; border-radius: 999px; padding: 9px 14px;
+      display: flex; align-items: center; gap: 8px;
+      box-shadow: 0 2px 10px rgba(28,31,28,0.06);
+      font-size: 0.65rem; color: #8A938A;
+    }
+    .search-bar svg { width: 13px; height: 13px; flex: none; }
+    .chip-row { display: flex; gap: 6px; flex-wrap: wrap; }
+    .chip {
+      font-size: 0.58rem; font-weight: 600; padding: 5px 11px;
+      border-radius: 999px; background: #fff; color: #5A635A;
+      box-shadow: 0 1px 5px rgba(28,31,28,0.05);
+    }
+    .chip.active { background: var(--green); color: #fff; }
+    .discover-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .discover-card {
+      background: #fff; border-radius: 14px; overflow: hidden;
+      box-shadow: 0 2px 10px rgba(28,31,28,0.06);
+    }
+    .discover-img { height: 62px; }
+    .discover-img.d1 { background: linear-gradient(135deg, #A3C9A0, #4F8F4B); }
+    .discover-img.d2 { background: linear-gradient(135deg, #E8A04C, #D08134); }
+    .discover-img.d3 { background: linear-gradient(135deg, #6FA56B, #2C5E2E); }
+    .discover-img.d4 { background: linear-gradient(135deg, #CDE3CB, #7FB07B); }
+    .discover-card .pad { padding: 8px 9px; }
+    .discover-card .name { font-size: 0.62rem; font-weight: 700; }
+    .discover-card .meta { font-size: 0.55rem; color: #6B746B; }
+
+    /* Journal screen */
+    .chart-card {
+      background: #fff; border-radius: 14px; padding: 14px;
+      box-shadow: 0 2px 10px rgba(28,31,28,0.06);
+    }
+    .chart-card h3 { font-size: 0.72rem; margin-bottom: 12px; }
+    .bar-chart {
+      display: flex; align-items: flex-end; justify-content: space-between;
+      height: 92px; gap: 7px;
+    }
+    .bar-col { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 5px; height: 100%; justify-content: flex-end; }
+    .bar {
+      width: 100%; max-width: 22px; border-radius: 6px 6px 3px 3px;
+      background: var(--green-soft);
+    }
+    .bar.hi { background: var(--green); }
+    .bar.warm { background: var(--accent); }
+    .bar-col .day { font-size: 0.52rem; color: #8A938A; font-weight: 600; }
+
+    .journal-entry {
+      display: flex; gap: 10px; align-items: flex-start;
+      background: #fff; border-radius: 14px; padding: 11px;
+      box-shadow: 0 2px 10px rgba(28,31,28,0.06);
+    }
+    .journal-dot { width: 9px; height: 9px; border-radius: 50%; margin-top: 4px; flex: none; }
+    .journal-dot.ok { background: var(--green); }
+    .journal-dot.warn { background: var(--accent); }
+    .journal-entry .what { font-size: 0.68rem; font-weight: 700; }
+    .journal-entry .note { font-size: 0.58rem; color: #6B746B; }
+
+    /* Learn screen */
+    .article-card {
+      background: #fff; border-radius: 14px; overflow: hidden;
+      box-shadow: 0 2px 10px rgba(28,31,28,0.06);
+    }
+    .article-banner { height: 56px; }
+    .article-banner.a1 { background: linear-gradient(120deg, #3E7C3A, #A3C9A0); }
+    .article-banner.a2 { background: linear-gradient(120deg, #E8A04C, #F0C18A); }
+    .article-banner.a3 { background: linear-gradient(120deg, #2C5E2E, #6FA56B); }
+    .article-card .pad { padding: 9px 11px 11px; }
+    .article-card .cat {
+      font-size: 0.52rem; font-weight: 800; letter-spacing: 0.06em;
+      text-transform: uppercase; color: var(--green);
+    }
+    .article-card .headline { font-size: 0.68rem; font-weight: 700; line-height: 1.35; }
+    .article-card .read { font-size: 0.55rem; color: #8A938A; }
+
+    /* ===== Generic sections ===== */
+    section { padding: 88px 0; }
+    .section-head { max-width: 640px; margin: 0 auto 56px; text-align: center; }
+    .section-head .kicker {
+      color: var(--green); font-weight: 700; font-size: 0.85rem;
+      text-transform: uppercase; letter-spacing: 0.10em;
+      display: block; margin-bottom: 10px;
+    }
+    .section-head h2 {
+      font-size: clamp(1.6rem, 3.2vw, 2.3rem);
+      letter-spacing: -0.02em; line-height: 1.2; margin-bottom: 14px;
+    }
+    .section-head p { color: #4A524A; font-size: 1.05rem; }
+
+    /* Features */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .feature-card {
+      background: #fff;
+      border-radius: var(--radius);
+      padding: 30px 26px;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(62, 124, 58, 0.07);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .feature-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+    .feature-icon {
+      width: 52px; height: 52px; border-radius: 14px;
+      background: rgba(163, 201, 160, 0.28);
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 18px;
+    }
+    .feature-icon svg { width: 26px; height: 26px; }
+    .feature-card h3 { font-size: 1.08rem; margin-bottom: 8px; letter-spacing: -0.01em; }
+    .feature-card p { color: #4A524A; font-size: 0.93rem; }
+
+    /* Screenshots strip */
+    .screens { background: linear-gradient(180deg, rgba(163,201,160,0.14), rgba(163,201,160,0.02)); }
+    .screens-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 40px;
+      align-items: start;
+    }
+    .screen-item .phone { width: 250px; }
+    .screen-item .phone-screen { min-height: 470px; }
+    .screen-item figcaption {
+      text-align: center; margin-top: 20px;
+    }
+    .screen-item figcaption strong { display: block; font-size: 1rem; }
+    .screen-item figcaption span { color: #4A524A; font-size: 0.88rem; }
+
+    /* Benefits */
+    .benefits-list { max-width: 760px; margin: 0 auto; display: grid; gap: 20px; }
+    .benefit-row {
+      display: flex; gap: 22px; align-items: flex-start;
+      background: #fff; border-radius: var(--radius);
+      padding: 26px 28px; box-shadow: var(--shadow);
+      border: 1px solid rgba(62, 124, 58, 0.07);
+    }
+    .benefit-num {
+      flex: none;
+      width: 46px; height: 46px; border-radius: 50%;
+      background: var(--green); color: #fff;
+      font-weight: 800; font-size: 1.1rem;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .benefit-row:nth-child(even) .benefit-num { background: var(--accent); }
+    .benefit-row h3 { font-size: 1.08rem; margin-bottom: 4px; }
+    .benefit-row p { color: #4A524A; font-size: 0.94rem; }
+
+    /* FAQ */
+    .faq-list { max-width: 720px; margin: 0 auto; display: grid; gap: 14px; }
+    .faq-item {
+      background: #fff; border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(62, 124, 58, 0.07);
+      overflow: hidden;
+    }
+    .faq-item summary {
+      list-style: none;
+      cursor: pointer;
+      padding: 20px 24px;
+      font-weight: 600;
+      font-size: 1rem;
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    }
+    .faq-item summary::-webkit-details-marker { display: none; }
+    .faq-item summary .chev {
+      flex: none; width: 22px; height: 22px;
+      transition: transform 0.2s ease;
+      color: var(--green);
+    }
+    .faq-item[open] summary .chev { transform: rotate(180deg); }
+    .faq-item .faq-body {
+      padding: 0 24px 22px;
+      color: #4A524A; font-size: 0.94rem;
+    }
+
+    /* Contact */
+    .contact-card {
+      max-width: 640px; margin: 0 auto;
+      background: linear-gradient(135deg, var(--green-dark), var(--green));
+      color: #fff;
+      border-radius: 24px;
+      padding: 52px 40px;
+      text-align: center;
+      box-shadow: var(--shadow-lg);
+    }
+    .contact-card h2 { font-size: clamp(1.5rem, 3vw, 2rem); margin-bottom: 12px; letter-spacing: -0.02em; }
+    .contact-card p { color: rgba(255,255,255,0.88); margin-bottom: 28px; }
+    .contact-actions { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; }
+    .contact-actions .btn-light {
+      background: #fff; color: var(--green-dark);
+    }
+    .contact-actions .btn-outline-light {
+      background: transparent; color: #fff; border-color: rgba(255,255,255,0.7);
+    }
+    .contact-actions .btn-outline-light:hover { background: rgba(255,255,255,0.12); }
+    .contact-actions .btn svg { width: 18px; height: 18px; flex: none; }
+
+    /* Download */
+    .download { text-align: center; }
+    .store-badges {
+      display: flex; flex-wrap: wrap; gap: 18px; justify-content: center;
+      margin-bottom: 16px;
+    }
+    .store-badge {
+      display: inline-flex; align-items: center; gap: 14px;
+      background: var(--ink); color: #fff;
+      border-radius: var(--radius);
+      padding: 13px 26px;
+      text-align: left;
+      text-decoration: none;
+      min-width: 210px;
+      position: relative;
+      opacity: 0.85;
+      cursor: not-allowed;
+    }
+    .store-badge svg { width: 30px; height: 30px; flex: none; }
+    .store-badge .lines small {
+      display: block; font-size: 0.65rem; text-transform: uppercase;
+      letter-spacing: 0.08em; color: rgba(255,255,255,0.7);
+    }
+    .store-badge .lines strong { font-size: 1.12rem; font-weight: 700; letter-spacing: -0.01em; }
+    .store-badge .soon {
+      position: absolute; top: -10px; right: -8px;
+      background: var(--accent); color: var(--ink);
+      font-size: 0.62rem; font-weight: 800;
+      padding: 4px 10px; border-radius: 999px;
+      letter-spacing: 0.04em; text-transform: uppercase;
+    }
+    .download .note { color: #4A524A; font-size: 0.9rem; }
+
+    /* Footer */
+    .site-footer {
+      background: var(--green-dark);
+      color: rgba(255,255,255,0.85);
+      padding: 56px 0 36px;
+    }
+    .footer-inner {
+      display: flex; flex-wrap: wrap; gap: 28px;
+      align-items: flex-start; justify-content: space-between;
+    }
+    .footer-brand { display: flex; align-items: center; gap: 10px; color: #fff; font-weight: 800; font-size: 1.15rem; }
+    .footer-brand .tagline { display: block; font-size: 0.85rem; font-weight: 400; color: rgba(255,255,255,0.75); }
+    .footer-meta { text-align: right; font-size: 0.85rem; }
+    .footer-meta .disclaimer {
+      display: block; margin-top: 8px;
+      color: var(--green-soft); font-style: italic;
+    }
+
+    /* ===== Reduced motion ===== */
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after {
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+      }
+    }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 960px) {
+      .hero-grid { grid-template-columns: 1fr; gap: 48px; text-align: center; }
+      .hero .subhead { margin-left: auto; margin-right: auto; }
+      .hero-ctas, .hero-trust { justify-content: center; }
+      .features-grid { grid-template-columns: repeat(2, 1fr); }
+      .screens-grid { grid-template-columns: 1fr; gap: 48px; }
+    }
+
+    @media (max-width: 720px) {
+      section { padding: 64px 0; }
+      .hero { padding: 48px 0 64px; }
+
+      .nav-toggle { display: inline-flex; align-items: center; }
+      .site-nav {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 4px;
+        background: var(--bg);
+        border-bottom: 1px solid rgba(62, 124, 58, 0.15);
+        box-shadow: var(--shadow-lg);
+        padding: 12px 24px 20px;
+        display: none;
+      }
+      .site-nav.open { display: flex; }
+      .site-nav a { padding: 12px 4px; font-size: 1.05rem; border-bottom: 1px solid rgba(62,124,58,0.08); }
+      .site-nav .btn { margin-top: 10px; justify-content: center; }
+
+      .features-grid { grid-template-columns: 1fr; }
+      .benefit-row { padding: 22px 20px; gap: 16px; }
+      .footer-inner { flex-direction: column; }
+      .footer-meta { text-align: left; }
+    }
+
+    @media (max-width: 400px) {
+      .phone { width: 240px; }
+      .phone-screen { min-height: 460px; }
+      .store-badge { min-width: 100%; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <!-- ===== Header ===== -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="#top" aria-label="NutriSalud home">
+        <svg class="logo-mark" width="36" height="36" viewBox="0 0 48 48" fill="none" role="img" aria-hidden="true">
+          <circle cx="24" cy="24" r="22" fill="#3E7C3A"/>
+          <path d="M33.5 13.5C25 14 18.5 18 16.5 25.5c-1.4 5.2.6 8.8 1.2 9.7.3-3.7 1.6-8.5 5.2-12.4-2.4 4.4-3.7 9.1-3.5 13 1.6.8 4.7 1.4 8-.3 6.2-3.2 7-13.5 6.1-22z" fill="#FAFAF7"/>
+          <path d="M17.7 35.2c-1.8 1.5-2.9 3.3-3.4 4.7" stroke="#FAFAF7" stroke-width="2.4" stroke-linecap="round"/>
+        </svg>
+        <span>Nutri<em>Salud</em></span>
+      </a>
+
+      <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="siteNav" aria-label="Toggle navigation menu">
+        <svg class="icon-burger" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true">
+          <path d="M4 7h16M4 12h16M4 17h16"/>
+        </svg>
+        <svg class="icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true">
+          <path d="M6 6l12 12M18 6L6 18"/>
+        </svg>
+      </button>
+
+      <nav class="site-nav" id="siteNav" aria-label="Main navigation">
+        <a href="#features">Features</a>
+        <a href="#benefits">Benefits</a>
+        <a href="#faq">FAQ</a>
+        <a href="#contact">Contact</a>
+        <a class="btn btn-primary" href="#download">Get the app</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- ===== Hero ===== -->
+    <section class="hero" id="top" aria-labelledby="hero-title">
+      <div class="container hero-grid">
+        <div>
+          <p class="eyebrow">Eat well. Feel better. Every day.</p>
+          <h1 id="hero-title">NutriSalud — Your Personal <span class="accent">Nutrition Companion</span></h1>
+          <p class="subhead">Discover meals, understand your digestion, and build habits that last.</p>
+          <div class="hero-ctas">
+            <a class="btn btn-primary" href="#download">Download</a>
+            <a class="btn btn-secondary" href="#features">Explore features</a>
+          </div>
+          <ul class="hero-trust">
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="#3E7C3A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+              Free to use
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="#3E7C3A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+              Private by default
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="#3E7C3A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+              IBS-friendly guidance
+            </li>
+          </ul>
+        </div>
+
+        <!-- Hero phone mockup: app home screen -->
+        <div class="phone" role="img" aria-label="Illustration of the NutriSalud app home screen with goal progress bars and suggested meals">
+          <div class="phone-screen">
+            <div class="phone-notch"></div>
+            <div class="screen-body">
+              <div class="app-greeting">
+                <div>
+                  <p class="hello">Good morning, Sofia 🌱</p>
+                  <p class="sub">Thursday · 3 goals on track</p>
+                </div>
+                <div class="avatar"></div>
+              </div>
+
+              <div class="goal-card">
+                <h3>Today&#8217;s goals</h3>
+                <div class="progress-row">
+                  <div class="progress-label"><span>Vegetables</span><span>4 / 5 servings</span></div>
+                  <div class="progress-track"><div class="progress-fill" style="width: 80%"></div></div>
+                </div>
+                <div class="progress-row">
+                  <div class="progress-label"><span>Water</span><span>1.5 / 2 L</span></div>
+                  <div class="progress-track"><div class="progress-fill soft" style="width: 75%"></div></div>
+                </div>
+                <div class="progress-row">
+                  <div class="progress-label"><span>Mindful meals</span><span>2 / 3</span></div>
+                  <div class="progress-track"><div class="progress-fill warm" style="width: 66%"></div></div>
+                </div>
+              </div>
+
+              <p class="section-title-sm">Suggested for you</p>
+
+              <div class="meal-card">
+                <div class="meal-thumb t1"></div>
+                <div class="meal-info">
+                  <p class="name">Quinoa Garden Bowl</p>
+                  <p class="meta">25 min · 420 kcal</p>
+                </div>
+                <span class="meal-tag">Low FODMAP</span>
+              </div>
+              <div class="meal-card">
+                <div class="meal-thumb t2"></div>
+                <div class="meal-info">
+                  <p class="name">Ginger Carrot Soup</p>
+                  <p class="meta">30 min · 280 kcal</p>
+                </div>
+                <span class="meal-tag">Gut friendly</span>
+              </div>
+              <div class="meal-card">
+                <div class="meal-thumb t3"></div>
+                <div class="meal-info">
+                  <p class="name">Herbed Salmon &amp; Rice</p>
+                  <p class="meta">35 min · 510 kcal</p>
+                </div>
+                <span class="meal-tag">High protein</span>
+              </div>
+
+              <div class="app-navbar"><i class="active"></i><i></i><i></i><i></i></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Features ===== -->
+    <section id="features" aria-labelledby="features-title">
+      <div class="container">
+        <div class="section-head">
+          <span class="kicker">Features</span>
+          <h2 id="features-title">Everything you need for a healthier relationship with food</h2>
+          <p>Six tools that work together — from finding tonight&#8217;s dinner to understanding how it makes you feel.</p>
+        </div>
+
+        <div class="features-grid">
+          <article class="feature-card">
+            <div class="feature-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#3E7C3A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/>
+              </svg>
+            </div>
+            <h3>Smart Meal Discovery</h3>
+            <p>Search thousands of recipes by name, ingredient or category.</p>
+          </article>
+
+          <article class="feature-card">
+            <div class="feature-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#3E7C3A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M12 21s-7-4.6-9.3-9A5.5 5.5 0 0 1 12 6.2 5.5 5.5 0 0 1 21.3 12C19 16.4 12 21 12 21z"/><path d="M5 12h4l2-3 2 5 2-2h4"/>
+              </svg>
+            </div>
+            <h3>Digestive Health Center</h3>
+            <p>IBS-friendly guides and gut-health education.</p>
+          </article>
+
+          <article class="feature-card">
+            <div class="feature-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#3E7C3A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5v14z"/><path d="M4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5"/><path d="M9 8h7M9 12h5"/>
+              </svg>
+            </div>
+            <h3>Recipe Center</h3>
+            <p>Step-by-step instructions, ingredients and video tutorials.</p>
+          </article>
+
+          <article class="feature-card">
+            <div class="feature-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#3E7C3A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z"/>
+              </svg>
+            </div>
+            <h3>Food Journal</h3>
+            <p>Track meals, symptoms and reactions to spot patterns.</p>
+          </article>
+
+          <article class="feature-card">
+            <div class="feature-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#3E7C3A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2" fill="#3E7C3A"/>
+              </svg>
+            </div>
+            <h3>Nutrition Goals</h3>
+            <p>Daily habits, streaks and weekly reports.</p>
+          </article>
+
+          <article class="feature-card">
+            <div class="feature-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#3E7C3A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/>
+              </svg>
+            </div>
+            <h3>Smart Reminders</h3>
+            <p>Meal, hydration and habit notifications.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Screenshots strip ===== -->
+    <section class="screens" aria-labelledby="screens-title">
+      <div class="container">
+        <div class="section-head">
+          <span class="kicker">A look inside</span>
+          <h2 id="screens-title">Designed to feel calm, clear and encouraging</h2>
+        </div>
+
+        <div class="screens-grid">
+          <!-- Discover -->
+          <figure class="screen-item">
+            <div class="phone" role="img" aria-label="Illustration of the Discover screen with a recipe search bar, filter chips and a grid of recipe cards">
+              <div class="phone-screen">
+                <div class="phone-notch"></div>
+                <div class="screen-body">
+                  <p class="section-title-sm">Discover</p>
+                  <div class="search-bar">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="#8A938A" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg>
+                    Search recipes, ingredients…
+                  </div>
+                  <div class="chip-row">
+                    <span class="chip active">All</span><span class="chip">Breakfast</span><span class="chip">Vegan</span><span class="chip">Low FODMAP</span>
+                  </div>
+                  <div class="discover-grid">
+                    <div class="discover-card"><div class="discover-img d1"></div><div class="pad"><p class="name">Green Power Bowl</p><p class="meta">20 min</p></div></div>
+                    <div class="discover-card"><div class="discover-img d2"></div><div class="pad"><p class="name">Pumpkin Curry</p><p class="meta">35 min</p></div></div>
+                    <div class="discover-card"><div class="discover-img d3"></div><div class="pad"><p class="name">Spinach Omelette</p><p class="meta">12 min</p></div></div>
+                    <div class="discover-card"><div class="discover-img d4"></div><div class="pad"><p class="name">Oat Berry Crumble</p><p class="meta">28 min</p></div></div>
+                  </div>
+                  <div class="app-navbar"><i></i><i class="active"></i><i></i><i></i></div>
+                </div>
+              </div>
+            </div>
+            <figcaption>
+              <strong>Discover</strong>
+              <span>Browse and filter thousands of recipes in seconds.</span>
+            </figcaption>
+          </figure>
+
+          <!-- Journal -->
+          <figure class="screen-item">
+            <div class="phone" role="img" aria-label="Illustration of the Journal screen with a weekly wellbeing bar chart and recent meal entries">
+              <div class="phone-screen">
+                <div class="phone-notch"></div>
+                <div class="screen-body">
+                  <p class="section-title-sm">Journal</p>
+                  <div class="chart-card">
+                    <h3>This week&#8217;s wellbeing</h3>
+                    <div class="bar-chart">
+                      <div class="bar-col"><div class="bar hi" style="height: 70%"></div><span class="day">M</span></div>
+                      <div class="bar-col"><div class="bar" style="height: 50%"></div><span class="day">T</span></div>
+                      <div class="bar-col"><div class="bar warm" style="height: 35%"></div><span class="day">W</span></div>
+                      <div class="bar-col"><div class="bar hi" style="height: 85%"></div><span class="day">T</span></div>
+                      <div class="bar-col"><div class="bar" style="height: 60%"></div><span class="day">F</span></div>
+                      <div class="bar-col"><div class="bar hi" style="height: 90%"></div><span class="day">S</span></div>
+                      <div class="bar-col"><div class="bar" style="height: 55%"></div><span class="day">S</span></div>
+                    </div>
+                  </div>
+                  <div class="journal-entry">
+                    <span class="journal-dot ok"></span>
+                    <div><p class="what">Lunch · Lentil salad</p><p class="note">Felt great, steady energy all afternoon.</p></div>
+                  </div>
+                  <div class="journal-entry">
+                    <span class="journal-dot warn"></span>
+                    <div><p class="what">Snack · Iced latte</p><p class="note">Mild bloating ~1h after. Watching dairy.</p></div>
+                  </div>
+                  <div class="journal-entry">
+                    <span class="journal-dot ok"></span>
+                    <div><p class="what">Dinner · Baked salmon</p><p class="note">No symptoms. Slept well.</p></div>
+                  </div>
+                  <div class="app-navbar"><i></i><i></i><i class="active"></i><i></i></div>
+                </div>
+              </div>
+            </div>
+            <figcaption>
+              <strong>Journal</strong>
+              <span>Log meals and symptoms, then see the patterns emerge.</span>
+            </figcaption>
+          </figure>
+
+          <!-- Learn -->
+          <figure class="screen-item">
+            <div class="phone" role="img" aria-label="Illustration of the Learn screen with educational gut-health article cards">
+              <div class="phone-screen">
+                <div class="phone-notch"></div>
+                <div class="screen-body">
+                  <p class="section-title-sm">Learn</p>
+                  <div class="article-card">
+                    <div class="article-banner a1"></div>
+                    <div class="pad">
+                      <p class="cat">Gut health</p>
+                      <p class="headline">A gentle introduction to the low-FODMAP approach</p>
+                      <p class="read">6 min read</p>
+                    </div>
+                  </div>
+                  <div class="article-card">
+                    <div class="article-banner a2"></div>
+                    <div class="pad">
+                      <p class="cat">Habits</p>
+                      <p class="headline">Why eating slowly changes how you digest</p>
+                      <p class="read">4 min read</p>
+                    </div>
+                  </div>
+                  <div class="article-card">
+                    <div class="article-banner a3"></div>
+                    <div class="pad">
+                      <p class="cat">Nutrition basics</p>
+                      <p class="headline">Fiber 101: soluble vs. insoluble, explained simply</p>
+                      <p class="read">5 min read</p>
+                    </div>
+                  </div>
+                  <div class="app-navbar"><i></i><i></i><i></i><i class="active"></i></div>
+                </div>
+              </div>
+            </div>
+            <figcaption>
+              <strong>Learn</strong>
+              <span>Evidence-aligned articles on digestion and nutrition.</span>
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Benefits ===== -->
+    <section id="benefits" aria-labelledby="benefits-title">
+      <div class="container">
+        <div class="section-head">
+          <span class="kicker">Why NutriSalud</span>
+          <h2 id="benefits-title">Built around you — not around ads or paywalls</h2>
+        </div>
+
+        <ol class="benefits-list">
+          <li class="benefit-row">
+            <span class="benefit-num" aria-hidden="true">1</span>
+            <div>
+              <h3>Personalized to how you feel</h3>
+              <p>Your journal connects what you eat with how your body responds, so suggestions get smarter about you — not an average user.</p>
+            </div>
+          </li>
+          <li class="benefit-row">
+            <span class="benefit-num" aria-hidden="true">2</span>
+            <div>
+              <h3>Built on free open food data</h3>
+              <p>Recipes and ingredient data come from open, public databases — transparent sources you can check yourself.</p>
+            </div>
+          </li>
+          <li class="benefit-row">
+            <span class="benefit-num" aria-hidden="true">3</span>
+            <div>
+              <h3>Private by default — your journal stays on your device</h3>
+              <p>Symptoms and meals are sensitive. NutriSalud keeps your journal local, with no account required to start.</p>
+            </div>
+          </li>
+          <li class="benefit-row">
+            <span class="benefit-num" aria-hidden="true">4</span>
+            <div>
+              <h3>Backed by educational, evidence-aligned content</h3>
+              <p>Guides are written to reflect mainstream dietary guidance — clearly marked as education, never a diagnosis.</p>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ===== FAQ ===== -->
+    <section id="faq" aria-labelledby="faq-title">
+      <div class="container">
+        <div class="section-head">
+          <span class="kicker">FAQ</span>
+          <h2 id="faq-title">Questions, answered</h2>
+        </div>
+
+        <div class="faq-list">
+          <details class="faq-item">
+            <summary>
+              Is NutriSalud free?
+              <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+            </summary>
+            <div class="faq-body">
+              <p>Yes. NutriSalud is free to download and use. The core experience — meal discovery, the food journal, goals and educational content — has no paywall.</p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary>
+              Is this medical advice?
+              <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+            </summary>
+            <div class="faq-body">
+              <p>No. NutriSalud is educational. It can help you notice patterns and learn about nutrition, but it does not diagnose or treat any condition. Always consult a qualified healthcare professional about symptoms or dietary changes.</p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary>
+              Where do the recipes come from?
+              <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+            </summary>
+            <div class="faq-body">
+              <p>Recipes are sourced from TheMealDB, a free public recipe database, including ingredients, step-by-step instructions and video tutorials where available.</p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary>
+              Does it work offline?
+              <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+            </summary>
+            <div class="faq-body">
+              <p>Partly. Your saved favorites and your food journal work fully offline. Searching for new recipes requires an internet connection.</p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary>
+              Which platforms are supported?
+              <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+            </summary>
+            <div class="faq-body">
+              <p>NutriSalud is launching on Android first. An iOS version is planned — follow the project on GitHub for updates.</p>
+            </div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Contact ===== -->
+    <section id="contact" aria-labelledby="contact-title">
+      <div class="container">
+        <div class="contact-card">
+          <h2 id="contact-title">Say hello 👋</h2>
+          <p>Questions, feedback or ideas? We read everything — and the project is open on GitHub.</p>
+          <div class="contact-actions">
+            <a class="btn btn-light" href="mailto:hello@nutrisalud.app">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="3"/><path d="M2 7l10 7L22 7"/></svg>
+              hello@nutrisalud.app
+            </a>
+            <a class="btn btn-outline-light" href="https://github.com/ellery25/nutrisalud" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.55 0-.27-.01-1.17-.02-2.12-3.2.7-3.88-1.36-3.88-1.36-.52-1.33-1.28-1.68-1.28-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.19 1.76 1.19 1.03 1.76 2.69 1.25 3.35.96.1-.75.4-1.25.72-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.18-3.09-.12-.29-.51-1.46.11-3.05 0 0 .96-.31 3.16 1.18a11 11 0 0 1 5.76 0c2.2-1.49 3.16-1.18 3.16-1.18.62 1.59.23 2.76.11 3.05.74.81 1.18 1.83 1.18 3.09 0 4.42-2.7 5.39-5.27 5.67.41.36.78 1.06.78 2.14 0 1.55-.02 2.79-.02 3.17 0 .31.21.67.8.55A11.51 11.51 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/></svg>
+              github.com/ellery25/nutrisalud
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Download ===== -->
+    <section id="download" class="download" aria-labelledby="download-title">
+      <div class="container">
+        <div class="section-head">
+          <span class="kicker">Download</span>
+          <h2 id="download-title">Get NutriSalud on your phone</h2>
+          <p>We&#8217;re putting the finishing touches on the store releases.</p>
+        </div>
+
+        <div class="store-badges">
+          <a class="store-badge" href="#download" aria-disabled="true" role="link">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.05 12.54c-.03-2.55 2.08-3.77 2.17-3.83-1.18-1.73-3.02-1.97-3.68-2-1.56-.16-3.05.92-3.84.92-.79 0-2.02-.9-3.32-.87-1.7.03-3.28 1-4.16 2.53-1.78 3.08-.45 7.63 1.28 10.13.84 1.22 1.85 2.59 3.17 2.54 1.27-.05 1.75-.82 3.29-.82 1.54 0 1.97.82 3.32.8 1.37-.03 2.24-1.24 3.07-2.47.97-1.42 1.37-2.79 1.39-2.86-.03-.01-2.66-1.02-2.69-4.07zM14.5 4.96c.7-.85 1.17-2.03 1.04-3.21-1.01.04-2.23.67-2.95 1.52-.65.75-1.22 1.95-1.07 3.1 1.13.09 2.28-.57 2.98-1.41z"/></svg>
+            <span class="lines"><small>Download on the</small><strong>App Store</strong></span>
+            <span class="soon">Coming soon</span>
+          </a>
+
+          <a class="store-badge" href="#download" aria-disabled="true" role="link">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3.6 1.8c-.35.37-.55.94-.55 1.68v17.07c0 .74.2 1.31.56 1.67l.09.08L13.26 12.7v-.21L3.7 1.72l-.1.08zm12.86 7.7l-3.2 3.2v.21l3.2 3.2.07-.04 3.79-2.15c1.08-.61 1.08-1.62 0-2.24l-3.79-2.15-.07-.03zm-.08 6.65L13.05 12.8 3.7 22.3c.36.38.95.42 1.62.05l11.06-6.2zM5.32 1.65c-.67-.38-1.26-.33-1.62.05l9.35 9.5 3.33-3.36-11.06-6.19z"/></svg>
+            <span class="lines"><small>Get it on</small><strong>Google Play</strong></span>
+            <span class="soon">Coming soon</span>
+          </a>
+        </div>
+
+        <p class="note">Android first — iOS is on the roadmap. Star the <a href="https://github.com/ellery25/nutrisalud" rel="noopener">GitHub repo</a> to follow progress.</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== Footer ===== -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <svg width="34" height="34" viewBox="0 0 48 48" fill="none" role="img" aria-hidden="true">
+          <circle cx="24" cy="24" r="22" fill="#FAFAF7"/>
+          <path d="M33.5 13.5C25 14 18.5 18 16.5 25.5c-1.4 5.2.6 8.8 1.2 9.7.3-3.7 1.6-8.5 5.2-12.4-2.4 4.4-3.7 9.1-3.5 13 1.6.8 4.7 1.4 8-.3 6.2-3.2 7-13.5 6.1-22z" fill="#2C5E2E"/>
+          <path d="M17.7 35.2c-1.8 1.5-2.9 3.3-3.4 4.7" stroke="#2C5E2E" stroke-width="2.4" stroke-linecap="round"/>
+        </svg>
+        <span>
+          NutriSalud
+          <span class="tagline">Your personal nutrition companion.</span>
+        </span>
+      </div>
+      <div class="footer-meta">
+        <p>&copy; 2026 NutriSalud. All rights reserved.</p>
+        <span class="disclaimer">Educational content — not a substitute for professional medical advice.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      var toggle = document.getElementById('navToggle');
+      var nav = document.getElementById('siteNav');
+
+      toggle.addEventListener('click', function () {
+        var open = nav.classList.toggle('open');
+        toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+
+      // Close the mobile menu when a nav link is chosen
+      nav.addEventListener('click', function (e) {
+        if (e.target.closest('a')) {
+          nav.classList.remove('open');
+          toggle.setAttribute('aria-expanded', 'false');
+        }
+      });
+
+      // Close on Escape for keyboard users
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && nav.classList.contains('open')) {
+          nav.classList.remove('open');
+          toggle.setAttribute('aria-expanded', 'false');
+          toggle.focus();
+        }
+      });
+
+      // "Coming soon" store badges: prevent navigation
+      document.querySelectorAll('.store-badge[aria-disabled="true"]').forEach(function (badge) {
+        badge.addEventListener('click', function (e) { e.preventDefault(); });
+      });
+    })();
+  </script>
+</body>
+</html>

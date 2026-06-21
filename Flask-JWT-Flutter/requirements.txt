@@ -1,0 +1,22 @@
+# Core framework
+Flask>=3.0,<4
+flask-sqlalchemy>=3.1,<4
+Flask-Migrate>=4.0,<5
+flask-jwt-extended>=4.6,<5
+Flask-Cors>=4.0,<7
+Flask-Limiter>=3.8,<4
+
+# Validation / serialization
+marshmallow>=3.21,<4
+
+# Database drivers
+psycopg2-binary>=2.9,<3
+
+# Production server
+gunicorn>=22,<24
+
+# Configuration
+python-dotenv>=1.0,<2
+
+# Push notifications
+firebase-admin>=6.0,<7
